@@ -1,36 +1,67 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { CustomSidenavComponent } from './components/custom-sidenav/custom-sidenav.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSidenavModule,
+    CustomSidenavComponent,
+  ],
   template: `
-    <!--The content below is only a placeholder and can be replaced.-->
-    <div style="text-align:center" class="content">
-      <h1>
-        Welcome to {{title}}!
-      </h1>
-      <span style="display: block">{{ title }} app is running!</span>
-      <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-    </div>
-    <h2>Here are some links to help you start: </h2>
-    <ul>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-      </li>
-    </ul>
-    <router-outlet></router-outlet>
+    <mat-toolbar class="mat-elevation-z3">
+      <button mat-icon-button (click)="collapsed.set(!collapsed())">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </mat-toolbar>
+    <mat-sidenav-container>
+      <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">
+        <app-custom-sidenav [collapsed]="collapsed()"></app-custom-sidenav>
+      </mat-sidenav>
+      <mat-sidenav-content class="content" [style.margin-left]="sidenavWidth()">
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
   `,
-  styles: [],
+  styles: [
+    `
+      mat-toolbar {
+        position: relative;
+        z-index: 5;
+      }
+      .content {
+        padding: 24px;
+      }
+      mat-sidenav-container {
+        height: calc(100vh - 64px);
+      }
+      mat-sidenav,
+      mat-sidenav-content {
+        transition: all 500ms ease-in-out;
+      }
+    `,
+  ],
 })
 export class AppComponent {
   title = 'folio-designers';
+  collapsed = signal(false);
+
+  // Method to toggle the collapsed state
+  toggleSidenav() {
+    this.collapsed.set(!this.collapsed());
+  }
+
+  // Computed property to determine the sidenav width based on collapsed state
+  sidenavWidth = computed(() => (this.collapsed() ? '65px' : '250px'));
 }
