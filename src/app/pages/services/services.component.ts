@@ -2,10 +2,17 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-services',
   standalone: true,
   imports: [CommonModule],
-  template: ` <p>dashboard works!</p> `,
-  styles: [],
+  template: `
+    <p>
+      services works!
+    </p>
+  `,
+  styles: [
+  ]
 })
-export class DashboardComponent {}
+export class ServicesComponent {
+
+}

@@ -2,10 +2,17 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-invalid-page',
   standalone: true,
   imports: [CommonModule],
-  template: ` <p>dashboard works!</p> `,
-  styles: [],
+  template: `
+    <p>
+      invalid-page works!
+    </p>
+  `,
+  styles: [
+  ]
 })
-export class DashboardComponent {}
+export class InvalidPageComponent {
+
+}

@@ -8,6 +8,7 @@ export type MenuItem = {
   icon: string;
   label: string;
   route: string;
+  smallScreenOnly?: boolean;
 };
 
 @Component({
@@ -37,7 +38,7 @@ export type MenuItem = {
       <a
         mat-list-item
         class="menu-item"
-        *ngFor="let item of menuItems()"
+        *ngFor="let item of filteredMenuItems()"
         [routerLink]="item.route"
         routerLinkActive="selected-menu-item"
         #rla="routerLinkActive"
@@ -115,7 +116,49 @@ export class CustomSidenavComponent {
       label: 'Daily Feed',
       route: 'feed',
     },
+    {
+      icon: 'handshake',
+      label: 'Services',
+      route: 'services',
+    },
+    {
+      icon: 'settings',
+      label: 'Settings',
+      route: 'services',
+    },
+    {
+      icon: 'help',
+      label: 'Help',
+      route: 'help',
+    },
+    {
+      icon: 'info',
+      label: 'About Us',
+      route: 'about',
+      smallScreenOnly: true,
+    },
+    {
+      icon: 'chat',
+      label: 'Contact Us',
+      route: 'contact',
+      smallScreenOnly: true,
+    },
   ]);
 
   profilePicSize = computed(() => (this.sideNavCollapsed() ? '32' : '100'));
+
+  filteredMenuItems = computed(() =>
+    this.menuItems().filter(
+      (item) => !item.smallScreenOnly || this.isSmallScreen()
+    )
+  );
+
+  isSmallScreen() {
+    return window.matchMedia('(max-width: 768px)').matches;
+  }
+
+  constructor() {
+    // Update filtered items whenever the screen is resized
+    window.addEventListener('resize', () => this.filteredMenuItems());
+  }
 }
