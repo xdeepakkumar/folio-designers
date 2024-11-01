@@ -124,7 +124,7 @@ export class CustomSidenavComponent {
     {
       icon: 'settings',
       label: 'Settings',
-      route: 'services',
+      route: 'settings',
     },
     {
       icon: 'help',
