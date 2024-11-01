@@ -107,14 +107,14 @@ export class CustomSidenavComponent {
 
   menuItems = signal<MenuItem[]>([
     {
-      icon: 'dashboard',
-      label: 'Dashboard',
-      route: 'dashboard',
-    },
-    {
       icon: 'feed',
       label: 'Daily Feed',
       route: 'feed',
+    },
+    {
+      icon: 'dashboard',
+      label: 'Your Portfolio',
+      route: 'dashboard',
     },
     {
       icon: 'handshake',
@@ -125,11 +125,6 @@ export class CustomSidenavComponent {
       icon: 'settings',
       label: 'Settings',
       route: 'settings',
-    },
-    {
-      icon: 'help',
-      label: 'Help',
-      route: 'help',
     },
     {
       icon: 'info',
