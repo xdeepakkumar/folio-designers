@@ -5,7 +5,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { FormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,232 +33,63 @@ import { FormsModule } from '@angular/forms';
           <ng-template matStepLabel>
             <span>Personal Info</span>
           </ng-template>
-          <form #form1="ngForm" (ngSubmit)="onSubmit(form1)">
-            <mat-card class="personal-info-card">
-              <mat-card-header>
-                <mat-card-title>Personal Information</mat-card-title>
-              </mat-card-header>
-              <mat-card-content>
-                <div class="name-inputs">
-                  <mat-form-field appearance="fill" class="first-name">
-                    <mat-label>First Name</mat-label>
-                    <input
-                      matInput
-                      name="firstName"
-                      required
-                      ngModel
-                      #firstName="ngModel"
-                      placeholder="First Name"
-                    />
-                    <mat-icon matSuffix>person</mat-icon>
-                    <mat-error
-                      *ngIf="
-                        firstName.invalid &&
-                        (firstName.dirty || firstName.touched)
-                      "
-                    >
-                      Required
-                    </mat-error>
-                  </mat-form-field>
 
-                  <mat-form-field appearance="fill" class="last-name">
-                    <mat-label>Last Name</mat-label>
-                    <input
-                      matInput
-                      name="lastName"
-                      required
-                      ngModel
-                      #lastName="ngModel"
-                      placeholder="Last Name"
-                    />
-                    <mat-icon matSuffix>person</mat-icon>
-                    <mat-error
-                      *ngIf="
-                        lastName.invalid && (lastName.dirty || lastName.touched)
-                      "
-                    >
-                      Required
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-                <mat-form-field appearance="fill">
-                  <mat-label>Mobile Number</mat-label>
-                  <input
-                    matInput
-                    name="mobileNumber"
-                    required
-                    ngModel
-                    #mobileNumber="ngModel"
-                    placeholder="Mobile Number"
-                    type="tel"
-                  />
-                  <mat-icon matSuffix>phone</mat-icon>
-                  <mat-error
-                    *ngIf="
-                      mobileNumber.invalid &&
-                      (mobileNumber.dirty || mobileNumber.touched)
-                    "
-                  >
-                    Required
-                  </mat-error>
-                </mat-form-field>
-
-                <mat-form-field appearance="fill">
-                  <mat-label>Email</mat-label>
-                  <input
-                    matInput
-                    name="email"
-                    required
-                    ngModel
-                    #email="ngModel"
-                    placeholder="Email"
-                    type="email"
-                  />
-                  <mat-icon matSuffix>email</mat-icon>
-                  <mat-error
-                    *ngIf="email.invalid && (email.dirty || email.touched)"
-                  >
-                    Required
-                  </mat-error>
-                </mat-form-field>
-
-                <div class="social-media-inputs">
-                  <mat-form-field appearance="fill">
-                    <mat-label>LinkedIn</mat-label>
-                    <input
-                      matInput
-                      name="linkedin"
-                      ngModel
-                      placeholder="LinkedIn URL"
-                    />
-                    <mat-icon matSuffix>link</mat-icon>
-                  </mat-form-field>
-
-                  <mat-form-field appearance="fill">
-                    <mat-label>Twitter</mat-label>
-                    <input
-                      matInput
-                      name="twitter"
-                      ngModel
-                      placeholder="Twitter URL"
-                    />
-                    <mat-icon matSuffix>link</mat-icon>
-                  </mat-form-field>
-                </div>
-              </mat-card-content>
-            </mat-card>
-
-            <div class="button-container">
-              <button mat-raised-button color="primary" matStepperNext>
-                Next
-              </button>
-            </div>
-          </form>
+          <div class="button-container">
+            <button
+              mat-raised-button
+              disabled
+              color="secondary"
+              matStepperPrevious
+            >
+              Back
+            </button>
+            <button mat-raised-button color="primary" matStepperNext>
+              Next
+            </button>
+          </div>
         </mat-step>
 
         <mat-step>
           <ng-template matStepLabel>
             <span>Skills & Experience</span>
           </ng-template>
-          <form #form2="ngForm" (ngSubmit)="onSubmit(form2)">
-            <mat-form-field appearance="outline">
-              <mat-label>Email</mat-label>
-              <input
-                matInput
-                name="input2"
-                required
-                ngModel
-                #input2="ngModel"
-                placeholder="Enter your email"
-                type="email"
-              />
-              <mat-icon matSuffix>email</mat-icon>
-              <mat-error
-                *ngIf="input2.invalid && (input2.dirty || input2.touched)"
-              >
-                Input is required
-              </mat-error>
-              <mat-hint>Enter a valid email address.</mat-hint>
-            </mat-form-field>
-            <div class="button-container">
-              <button mat-raised-button color="secondary" matStepperPrevious>
-                Back
-              </button>
-              <button mat-raised-button color="primary" matStepperNext>
-                Next
-              </button>
-            </div>
-          </form>
+          <div class="button-container">
+            <button mat-raised-button color="secondary" matStepperPrevious>
+              Back
+            </button>
+            <button mat-raised-button color="primary" matStepperNext>
+              Next
+            </button>
+          </div>
         </mat-step>
 
         <mat-step>
           <ng-template matStepLabel>
             <span>Education & Certifications</span>
           </ng-template>
-          <form #form3="ngForm" (ngSubmit)="onSubmit(form3)">
-            <mat-form-field appearance="outline">
-              <mat-label>Portfolio Link</mat-label>
-              <input
-                matInput
-                name="input3"
-                required
-                ngModel
-                #input3="ngModel"
-                placeholder="Enter your portfolio URL"
-              />
-              <mat-icon matSuffix>link</mat-icon>
-              <mat-error
-                *ngIf="input3.invalid && (input3.dirty || input3.touched)"
-              >
-                Input is required
-              </mat-error>
-              <mat-hint>Enter the link to your portfolio.</mat-hint>
-            </mat-form-field>
-            <div class="button-container">
-              <button mat-raised-button color="secondary" matStepperPrevious>
-                Back
-              </button>
-              <button mat-raised-button color="primary" matStepperNext>
-                Next
-              </button>
-            </div>
-          </form>
+
+          <div class="button-container">
+            <button mat-raised-button color="secondary" matStepperPrevious>
+              Back
+            </button>
+            <button mat-raised-button color="primary" matStepperNext>
+              Next
+            </button>
+          </div>
         </mat-step>
 
         <mat-step>
           <ng-template matStepLabel>
             <span>Additional Info</span>
           </ng-template>
-          <form #form4="ngForm" (ngSubmit)="onSubmit(form4)">
-            <mat-form-field appearance="outline">
-              <mat-label>Experience</mat-label>
-              <textarea
-                matInput
-                name="input4"
-                required
-                ngModel
-                #input4="ngModel"
-                placeholder="Describe your work experience"
-                rows="3"
-              ></textarea>
-              <mat-icon matSuffix>work</mat-icon>
-              <mat-error
-                *ngIf="input4.invalid && (input4.dirty || input4.touched)"
-              >
-                Input is required
-              </mat-error>
-              <mat-hint>Share your work experience here.</mat-hint>
-            </mat-form-field>
-            <div class="button-container">
-              <button mat-raised-button color="secondary" matStepperPrevious>
-                Back
-              </button>
-              <button mat-raised-button color="primary" matStepperNext>
-                Next
-              </button>
-            </div>
-          </form>
+          <div class="button-container">
+            <button mat-raised-button color="secondary" matStepperPrevious>
+              Back
+            </button>
+            <button mat-raised-button color="primary" matStepperNext>
+              Next
+            </button>
+          </div>
         </mat-step>
 
         <mat-step>
@@ -270,17 +107,6 @@ import { FormsModule } from '@angular/forms';
           </div>
         </mat-step>
       </mat-horizontal-stepper>
-
-      <!-- Full-Width Card to Display Data -->
-      <mat-card class="full-width-card">
-        <mat-card-header>
-          <mat-card-title>Data Display</mat-card-title>
-          <mat-card-subtitle>Summary of Inputs</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p>Hello</p>
-        </mat-card-content>
-      </mat-card>
     </div>
   `,
   styles: [
@@ -467,6 +293,66 @@ import { FormsModule } from '@angular/forms';
 export class DashboardComponent {
   finish() {
     console.log('Finished!');
+  }
+  skills: FormArray;
+  experiences: FormArray;
+  skillOptions: string[] = [
+    'JavaScript',
+    'Angular',
+    'React',
+    'Node.js',
+    'Python',
+  ];
+
+  constructor(private fb: FormBuilder) {
+    this.skills = this.fb.array([this.createSkill()]);
+    this.experiences = this.fb.array([this.createExperience()]);
+  }
+
+  ngOnInit() {
+    // Initialization logic if needed
+  }
+
+  createSkill(): FormGroup {
+    return this.fb.group({
+      skill: ['', Validators.required],
+    });
+  }
+
+  createExperience(): FormGroup {
+    return this.fb.group({
+      experience: ['', Validators.required],
+    });
+  }
+
+  addSkill(): void {
+    this.skills.push(this.createSkill());
+  }
+
+  removeSkill(index: number): void {
+    this.skills.removeAt(index);
+  }
+
+  addExperience(): void {
+    this.experiences.push(this.createExperience());
+  }
+
+  removeExperience(index: number): void {
+    this.experiences.removeAt(index);
+  }
+
+  isSkillInvalid(index: number): boolean {
+    return (
+      this.skills.at(index).invalid &&
+      (this.skills.at(index).dirty || this.skills.at(index).touched)
+    );
+  }
+
+  isExperienceInvalid(index: number): boolean {
+    return (
+      this.experiences.at(index).invalid &&
+      (this.experiences.at(index).dirty || this.experiences.at(index).touched)
+    );
   }
 
   onSubmit(form: any) {
