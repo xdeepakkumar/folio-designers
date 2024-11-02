@@ -12,6 +12,7 @@ import {
   FormsModule,
   Validators,
 } from '@angular/forms';
+import { PersonalInfoComponent } from '../../components/personal-info/personal-info.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,6 +25,7 @@ import {
     MatIconModule,
     MatCardModule,
     FormsModule,
+    PersonalInfoComponent,
   ],
   template: `
     <div class="container">
@@ -33,6 +35,8 @@ import {
           <ng-template matStepLabel>
             <span>Personal Info</span>
           </ng-template>
+
+          <app-personal-info></app-personal-info>
 
           <div class="button-container">
             <button
@@ -123,15 +127,6 @@ import {
         font-size: 1.8em;
       }
 
-      mat-form-field {
-        margin-top: 8px;
-        width: 100%;
-      }
-
-      mat-icon {
-        margin-right: 8px;
-      }
-
       .button-container {
         display: flex;
         justify-content: space-between;
@@ -186,44 +181,6 @@ import {
         }
       }
 
-      /* personal details **/
-      .personal-info-card {
-        margin: 16px auto; /* Center the card with margin auto */
-        border-radius: 8px; /* Rounded corners */
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-        max-width: 80%; /* Limit width to 80% of the screen */
-      }
-
-      .name-inputs {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 16px; /* Space below the name inputs */
-      }
-
-      .name-inputs mat-form-field {
-        flex: 1;
-        margin-right: 8px; /* Space between first and last name fields */
-      }
-
-      .name-inputs mat-form-field:last-child {
-        margin-right: 0; /* No right margin for the last field */
-      }
-
-      .social-media-inputs {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 16px; /* Space above social media inputs */
-      }
-
-      .social-media-inputs mat-form-field {
-        flex: 1;
-        margin-right: 8px; /* Space between LinkedIn and Twitter fields */
-      }
-
-      .social-media-inputs mat-form-field:last-child {
-        margin-right: 0; /* No right margin for the last field */
-      }
-
       /* Responsive adjustments */
       @media (max-width: 768px) {
         .name-inputs,
@@ -235,56 +192,6 @@ import {
         .social-media-inputs mat-form-field {
           margin-right: 0; /* Remove right margin in column layout */
           margin-bottom: 16px; /* Space between stacked fields */
-        }
-      }
-
-      mat-form-field {
-        width: 100%; /* Full width for inputs */
-      }
-
-      mat-icon {
-        margin-right: 8px; /* Space between icon and input */
-      }
-
-      /* Additional styling for smaller appearance */
-      mat-form-field {
-        min-width: 150px; /* Minimum width for inputs */
-      }
-
-      button {
-        min-width: 70px; /* Consistent button width */
-        height: 36px; /* Button height */
-        font-size: 0.9em; /* Font size for buttons */
-      }
-
-      mat-form-field {
-        width: 100%; /* Full width for inputs */
-      }
-
-      mat-icon {
-        margin-right: 8px; /* Space between icon and input */
-      }
-      /* Responsive adjustments */
-      @media (max-width: 768px) {
-        .name-inputs {
-          flex-direction: column; /* Stack on smaller screens */
-        }
-
-        .name-inputs mat-form-field {
-          margin-right: 0; /* Remove right margin in column layout */
-          margin-bottom: 16px; /* Add space between stacked fields */
-        }
-      }
-
-      /* Responsive adjustments */
-      @media (max-width: 768px) {
-        .name-inputs {
-          flex-direction: column; /* Stack on smaller screens */
-        }
-
-        .name-inputs mat-form-field {
-          margin-right: 0; /* Remove right margin in column layout */
-          margin-bottom: 16px; /* Add space between stacked fields */
         }
       }
     `,
