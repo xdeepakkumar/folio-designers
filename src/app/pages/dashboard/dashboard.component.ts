@@ -28,24 +28,121 @@ import { FormsModule } from '@angular/forms';
             <span>Personal Info</span>
           </ng-template>
           <form #form1="ngForm" (ngSubmit)="onSubmit(form1)">
-            <mat-form-field appearance="outline">
-              <mat-label>Full Name</mat-label>
-              <input
-                matInput
-                name="input1"
-                required
-                ngModel
-                #input1="ngModel"
-                placeholder="Enter your full name"
-              />
-              <mat-icon matSuffix>person</mat-icon>
-              <mat-error
-                *ngIf="input1.invalid && (input1.dirty || input1.touched)"
-              >
-                Input is required
-              </mat-error>
-              <mat-hint>Enter your full name.</mat-hint>
-            </mat-form-field>
+            <mat-card class="personal-info-card">
+              <mat-card-header>
+                <mat-card-title>Personal Information</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="name-inputs">
+                  <mat-form-field appearance="fill" class="first-name">
+                    <mat-label>First Name</mat-label>
+                    <input
+                      matInput
+                      name="firstName"
+                      required
+                      ngModel
+                      #firstName="ngModel"
+                      placeholder="First Name"
+                    />
+                    <mat-icon matSuffix>person</mat-icon>
+                    <mat-error
+                      *ngIf="
+                        firstName.invalid &&
+                        (firstName.dirty || firstName.touched)
+                      "
+                    >
+                      Required
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill" class="last-name">
+                    <mat-label>Last Name</mat-label>
+                    <input
+                      matInput
+                      name="lastName"
+                      required
+                      ngModel
+                      #lastName="ngModel"
+                      placeholder="Last Name"
+                    />
+                    <mat-icon matSuffix>person</mat-icon>
+                    <mat-error
+                      *ngIf="
+                        lastName.invalid && (lastName.dirty || lastName.touched)
+                      "
+                    >
+                      Required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <mat-form-field appearance="fill">
+                  <mat-label>Mobile Number</mat-label>
+                  <input
+                    matInput
+                    name="mobileNumber"
+                    required
+                    ngModel
+                    #mobileNumber="ngModel"
+                    placeholder="Mobile Number"
+                    type="tel"
+                  />
+                  <mat-icon matSuffix>phone</mat-icon>
+                  <mat-error
+                    *ngIf="
+                      mobileNumber.invalid &&
+                      (mobileNumber.dirty || mobileNumber.touched)
+                    "
+                  >
+                    Required
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                  <mat-label>Email</mat-label>
+                  <input
+                    matInput
+                    name="email"
+                    required
+                    ngModel
+                    #email="ngModel"
+                    placeholder="Email"
+                    type="email"
+                  />
+                  <mat-icon matSuffix>email</mat-icon>
+                  <mat-error
+                    *ngIf="email.invalid && (email.dirty || email.touched)"
+                  >
+                    Required
+                  </mat-error>
+                </mat-form-field>
+
+                <div class="social-media-inputs">
+                  <mat-form-field appearance="fill">
+                    <mat-label>LinkedIn</mat-label>
+                    <input
+                      matInput
+                      name="linkedin"
+                      ngModel
+                      placeholder="LinkedIn URL"
+                    />
+                    <mat-icon matSuffix>link</mat-icon>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Twitter</mat-label>
+                    <input
+                      matInput
+                      name="twitter"
+                      ngModel
+                      placeholder="Twitter URL"
+                    />
+                    <mat-icon matSuffix>link</mat-icon>
+                  </mat-form-field>
+                </div>
+              </mat-card-content>
+            </mat-card>
+
             <div class="button-container">
               <button mat-raised-button color="primary" matStepperNext>
                 Next
@@ -113,7 +210,9 @@ import { FormsModule } from '@angular/forms';
               <mat-hint>Enter the link to your portfolio.</mat-hint>
             </mat-form-field>
             <div class="button-container">
-              <button mat-button matStepperPrevious>Back</button>
+              <button mat-raised-button color="secondary" matStepperPrevious>
+                Back
+              </button>
               <button mat-raised-button color="primary" matStepperNext>
                 Next
               </button>
@@ -146,9 +245,11 @@ import { FormsModule } from '@angular/forms';
               <mat-hint>Share your work experience here.</mat-hint>
             </mat-form-field>
             <div class="button-container">
-              <button mat-button matStepperPrevious>Back</button>
+              <button mat-raised-button color="secondary" matStepperPrevious>
+                Back
+              </button>
               <button mat-raised-button color="primary" matStepperNext>
-                Preview
+                Next
               </button>
             </div>
           </form>
@@ -159,13 +260,11 @@ import { FormsModule } from '@angular/forms';
             <span>Preview</span>
           </ng-template>
           <p>Preview your inputs:</p>
-          <p *ngIf="input1?.value">Full Name: {{ input1.value }}</p>
-          <p *ngIf="input2?.value">Email: {{ input2.value }}</p>
-          <p *ngIf="input3?.value">Portfolio Link: {{ input3.value }}</p>
-          <p *ngIf="input4?.value">Experience: {{ input4.value }}</p>
           <div class="button-container">
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-raised-button color="accent" (click)="finish()">
+            <button mat-raised-button color="secondary" matStepperPrevious>
+              Back
+            </button>
+            <button mat-raised-button color="accent" matStepperNext>
               Finish
             </button>
           </div>
@@ -179,10 +278,7 @@ import { FormsModule } from '@angular/forms';
           <mat-card-subtitle>Summary of Inputs</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <p *ngIf="input1?.value">Full Name: {{ input1.value }}</p>
-          <p *ngIf="input2?.value">Email: {{ input2.value }}</p>
-          <p *ngIf="input3?.value">Portfolio Link: {{ input3.value }}</p>
-          <p *ngIf="input4?.value">Experience: {{ input4.value }}</p>
+          <p>Hello</p>
         </mat-card-content>
       </mat-card>
     </div>
@@ -193,6 +289,7 @@ import { FormsModule } from '@angular/forms';
         max-width: 100%;
         margin: 0 auto;
         padding: 16px;
+        margin-bottom: 10%;
       }
 
       h2 {
@@ -260,6 +357,108 @@ import { FormsModule } from '@angular/forms';
 
         mat-card-header {
           text-align: center;
+        }
+      }
+
+      /* personal details **/
+      .personal-info-card {
+        margin: 16px auto; /* Center the card with margin auto */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        max-width: 80%; /* Limit width to 80% of the screen */
+      }
+
+      .name-inputs {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 16px; /* Space below the name inputs */
+      }
+
+      .name-inputs mat-form-field {
+        flex: 1;
+        margin-right: 8px; /* Space between first and last name fields */
+      }
+
+      .name-inputs mat-form-field:last-child {
+        margin-right: 0; /* No right margin for the last field */
+      }
+
+      .social-media-inputs {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 16px; /* Space above social media inputs */
+      }
+
+      .social-media-inputs mat-form-field {
+        flex: 1;
+        margin-right: 8px; /* Space between LinkedIn and Twitter fields */
+      }
+
+      .social-media-inputs mat-form-field:last-child {
+        margin-right: 0; /* No right margin for the last field */
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .name-inputs,
+        .social-media-inputs {
+          flex-direction: column; /* Stack on smaller screens */
+        }
+
+        .name-inputs mat-form-field,
+        .social-media-inputs mat-form-field {
+          margin-right: 0; /* Remove right margin in column layout */
+          margin-bottom: 16px; /* Space between stacked fields */
+        }
+      }
+
+      mat-form-field {
+        width: 100%; /* Full width for inputs */
+      }
+
+      mat-icon {
+        margin-right: 8px; /* Space between icon and input */
+      }
+
+      /* Additional styling for smaller appearance */
+      mat-form-field {
+        min-width: 150px; /* Minimum width for inputs */
+      }
+
+      button {
+        min-width: 70px; /* Consistent button width */
+        height: 36px; /* Button height */
+        font-size: 0.9em; /* Font size for buttons */
+      }
+
+      mat-form-field {
+        width: 100%; /* Full width for inputs */
+      }
+
+      mat-icon {
+        margin-right: 8px; /* Space between icon and input */
+      }
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .name-inputs {
+          flex-direction: column; /* Stack on smaller screens */
+        }
+
+        .name-inputs mat-form-field {
+          margin-right: 0; /* Remove right margin in column layout */
+          margin-bottom: 16px; /* Add space between stacked fields */
+        }
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .name-inputs {
+          flex-direction: column; /* Stack on smaller screens */
+        }
+
+        .name-inputs mat-form-field {
+          margin-right: 0; /* Remove right margin in column layout */
+          margin-bottom: 16px; /* Add space between stacked fields */
         }
       }
     `,
