@@ -13,6 +13,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { PersonalInfoComponent } from '../../components/personal-info/personal-info.component';
+import { SkillAndExperienceComponent } from '../../components/skill-and-experience/skill-and-experience.component';
+import { EducationAndCertificationsComponent } from '../../components/education-and-certifications/education-and-certifications.component';
+import { AdditionalInfoComponent } from '../../components/additional-info/additional-info.component';
+import { PerviewComponent } from '../../components/perview/perview.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,6 +30,10 @@ import { PersonalInfoComponent } from '../../components/personal-info/personal-i
     MatCardModule,
     FormsModule,
     PersonalInfoComponent,
+    SkillAndExperienceComponent,
+    EducationAndCertificationsComponent,
+    AdditionalInfoComponent,
+    PerviewComponent,
   ],
   template: `
     <div class="container">
@@ -57,6 +65,7 @@ import { PersonalInfoComponent } from '../../components/personal-info/personal-i
           <ng-template matStepLabel>
             <span>Skills & Experience</span>
           </ng-template>
+          <app-skill-and-experience></app-skill-and-experience>
           <div class="button-container">
             <button mat-raised-button color="secondary" matStepperPrevious>
               Back
@@ -71,7 +80,7 @@ import { PersonalInfoComponent } from '../../components/personal-info/personal-i
           <ng-template matStepLabel>
             <span>Education & Certifications</span>
           </ng-template>
-
+          <app-education-and-certifications></app-education-and-certifications>
           <div class="button-container">
             <button mat-raised-button color="secondary" matStepperPrevious>
               Back
@@ -86,6 +95,7 @@ import { PersonalInfoComponent } from '../../components/personal-info/personal-i
           <ng-template matStepLabel>
             <span>Additional Info</span>
           </ng-template>
+          <app-additional-info></app-additional-info>
           <div class="button-container">
             <button mat-raised-button color="secondary" matStepperPrevious>
               Back
@@ -100,7 +110,7 @@ import { PersonalInfoComponent } from '../../components/personal-info/personal-i
           <ng-template matStepLabel>
             <span>Preview</span>
           </ng-template>
-          <p>Preview your inputs:</p>
+          <app-perview></app-perview>
           <div class="button-container">
             <button mat-raised-button color="secondary" matStepperPrevious>
               Back
