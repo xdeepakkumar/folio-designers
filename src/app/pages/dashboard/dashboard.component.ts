@@ -43,9 +43,7 @@ import { PerviewComponent } from '../../components/perview/perview.component';
           <ng-template matStepLabel>
             <span>Personal Info</span>
           </ng-template>
-
           <app-personal-info></app-personal-info>
-
           <div class="button-container">
             <button
               mat-raised-button
