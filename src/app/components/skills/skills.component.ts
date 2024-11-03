@@ -9,9 +9,9 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'app-skill-and-experience',
+  selector: 'app-skills',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule], // Include ReactiveFormsModule here
   template: `
     <div class="container-lg py-5">
       <div
@@ -20,7 +20,7 @@ import {
       >
         <div class="card-body p-4">
           <h4 class="card-title mb-4 text-center text-primary">
-            <b>Add Your Experience</b>
+            <b>Add Your Skills</b>
           </h4>
           <hr />
 
@@ -33,28 +33,16 @@ import {
               >
                 <div class="card-body p-4">
                   <h5 class="card-subtitle mb-3 text-secondary">
-                    Experience {{ i + 1 }}
+                    Skill {{ i + 1 }}
                   </h5>
                   <div class="row g-3">
                     <div class="col-12">
-                      <label class="form-label fw-semibold">Skill Set</label>
+                      <label class="form-label fw-semibold">Skill</label>
                       <input
                         type="text"
                         formControlName="skillName"
                         class="form-control border-secondary-subtle"
                         placeholder="e.g., JavaScript, Python"
-                        required
-                      />
-                    </div>
-                    <div class="col-12">
-                      <label class="form-label fw-semibold"
-                        >Organization Name</label
-                      >
-                      <input
-                        type="text"
-                        formControlName="organizationName"
-                        class="form-control border-secondary-subtle"
-                        placeholder="e.g., Google, Meta"
                         required
                       />
                     </div>
@@ -80,7 +68,7 @@ import {
                         class="form-select border-secondary-subtle"
                         required
                       >
-                        <option value="" disabled selected>Choose...</option>
+                        <option disabled selected>Choose...</option>
                         <option>Beginner</option>
                         <option>Intermediate</option>
                         <option>Advanced</option>
@@ -103,7 +91,7 @@ import {
                         class="btn btn-outline-danger btn-sm mt-3"
                         (click)="removeSkill(i)"
                       >
-                        Remove Experience
+                        Remove Skill
                       </button>
                     </div>
                   </div>
@@ -117,7 +105,7 @@ import {
                 class="btn btn-primary btn-sm mt-4"
                 (click)="addSkill()"
               >
-                Add Another Experience
+                Add Another Skill
               </button>
             </div>
           </form>
@@ -167,7 +155,7 @@ import {
     `,
   ],
 })
-export class SkillAndExperienceComponent {
+export class SkillsComponent {
   skillsForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
@@ -188,7 +176,6 @@ export class SkillAndExperienceComponent {
   addSkill(): void {
     const skillGroup = this.fb.group({
       skillName: ['', Validators.required],
-      organizationName: ['', Validators.required], // Added organization name
       yearsOfExperience: ['', [Validators.required, Validators.min(0)]],
       proficiency: ['', Validators.required],
       description: ['', Validators.required],
