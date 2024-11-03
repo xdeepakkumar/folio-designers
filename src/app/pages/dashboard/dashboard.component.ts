@@ -17,7 +17,7 @@ import { SkillAndExperienceComponent } from '../../components/skill-and-experien
 import { EducationAndCertificationsComponent } from '../../components/education-and-certifications/education-and-certifications.component';
 import { AdditionalInfoComponent } from '../../components/additional-info/additional-info.component';
 import { PerviewComponent } from '../../components/perview/perview.component';
-import { SkillsComponent } from "../../components/skills/skills.component";
+import { SkillsComponent } from '../../components/skills/skills.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,8 +35,8 @@ import { SkillsComponent } from "../../components/skills/skills.component";
     EducationAndCertificationsComponent,
     AdditionalInfoComponent,
     PerviewComponent,
-    SkillsComponent
-],
+    SkillsComponent,
+  ],
   template: `
     <div class="container">
       <h2>Create Portfolio</h2>
@@ -63,39 +63,24 @@ import { SkillsComponent } from "../../components/skills/skills.component";
 
         <mat-step>
           <ng-template matStepLabel>
-            <span>Skills</span>
-          </ng-template>
-          <app-skills></app-skills>
-          <div class="button-container">
-            <button mat-raised-button color="secondary" matStepperPrevious>
-              Back
-            </button>
-            <button mat-raised-button color="primary" matStepperNext>
-              Next
-            </button>
-          </div>
-        </mat-step>
-
-        <mat-step>
-          <ng-template matStepLabel>
-            <span>Experience</span>
-          </ng-template>
-          <app-skill-and-experience></app-skill-and-experience>
-          <div class="button-container">
-            <button mat-raised-button color="secondary" matStepperPrevious>
-              Back
-            </button>
-            <button mat-raised-button color="primary" matStepperNext>
-              Next
-            </button>
-          </div>
-        </mat-step>
-
-        <mat-step>
-          <ng-template matStepLabel>
             <span>Education & Certifications</span>
           </ng-template>
           <app-education-and-certifications></app-education-and-certifications>
+          <div class="button-container">
+            <button mat-raised-button color="secondary" matStepperPrevious>
+              Back
+            </button>
+            <button mat-raised-button color="primary" matStepperNext>
+              Next
+            </button>
+          </div>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>
+            <span>Skills & Experience</span>
+          </ng-template>
+          <app-skill-and-experience></app-skill-and-experience>
           <div class="button-container">
             <button mat-raised-button color="secondary" matStepperPrevious>
               Back

@@ -14,189 +14,199 @@ import {
   imports: [CommonModule, ReactiveFormsModule],
   template: `
     <div class="container-lg py-5">
-      <!-- Education Section -->
-      <div
-        class="card mx-auto shadow-lg border-0 mb-4"
-        style="max-width: 800px; border-radius: 12px;"
-      >
-        <div class="card-body p-4">
-          <h4 class="card-title mb-4 text-center text-primary">
-            <b>Add Your Education</b>
-          </h4>
-          <hr />
-          <form [formGroup]="educationAndCertificationsForm">
-            <div formArrayName="educations">
-              <div
-                *ngFor="let education of educations.controls; let i = index"
-                [formGroupName]="i"
-                class="card mb-3 border-0 shadow-sm"
-              >
-                <div class="card-body p-4">
-                  <h6 class="card-subtitle mb-3 text-secondary">
-                    Education {{ i + 1 }}
-                  </h6>
-                  <div class="row g-3">
-                    <div class="col-12">
-                      <label class="form-label fw-semibold">Degree</label>
-                      <input
-                        type="text"
-                        formControlName="degree"
-                        class="form-control border-secondary-subtle"
-                        placeholder="e.g., B.Sc., M.Tech"
-                        required
-                      />
-                    </div>
-                    <div class="col-12">
-                      <label class="form-label fw-semibold">Institution</label>
-                      <input
-                        type="text"
-                        formControlName="institution"
-                        class="form-control border-secondary-subtle"
-                        placeholder="e.g., Harvard, MIT"
-                        required
-                      />
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label fw-semibold"
-                        >Year of Graduation</label
-                      >
-                      <input
-                        type="number"
-                        formControlName="graduationYear"
-                        class="form-control border-secondary-subtle"
-                        placeholder="e.g., 2020"
-                        min="1900"
-                        max="2100"
-                        required
-                      />
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label fw-semibold">Grade</label>
-                      <input
-                        type="text"
-                        formControlName="grade"
-                        class="form-control border-secondary-subtle"
-                        placeholder="e.g., A, 3.5/4"
-                        required
-                      />
-                    </div>
-                    <div class="col-12 text-end">
-                      <button
-                        type="button"
-                        class="btn btn-outline-danger btn-sm mt-3"
-                        (click)="removeEducation(i)"
-                      >
-                        Remove Education
-                      </button>
+      <div class="row">
+        <!-- Education Section -->
+        <div class="col-lg-6 mb-4">
+          <div
+            class="card mx-auto shadow-lg border-0"
+            style="border-radius: 12px;"
+          >
+            <div class="card-body p-4">
+              <h4 class="card-title mb-4 text-center text-primary">
+                <b>Add Your Education</b>
+              </h4>
+              <hr />
+              <form [formGroup]="educationAndCertificationsForm">
+                <div formArrayName="educations">
+                  <div
+                    *ngFor="let education of educations.controls; let i = index"
+                    [formGroupName]="i"
+                    class="card mb-3 border-0 shadow-sm"
+                  >
+                    <div class="card-body p-4">
+                      <h6 class="card-subtitle mb-3 text-secondary">
+                        Education {{ i + 1 }}
+                      </h6>
+                      <div class="row g-3">
+                        <div class="col-12">
+                          <label class="form-label fw-semibold">Degree</label>
+                          <input
+                            type="text"
+                            formControlName="degree"
+                            class="form-control border-secondary-subtle"
+                            placeholder="e.g., B.Sc., M.Tech"
+                            required
+                          />
+                        </div>
+                        <div class="col-12">
+                          <label class="form-label fw-semibold"
+                            >Institution</label
+                          >
+                          <input
+                            type="text"
+                            formControlName="institution"
+                            class="form-control border-secondary-subtle"
+                            placeholder="e.g., Harvard, MIT"
+                            required
+                          />
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-label fw-semibold"
+                            >Year of Graduation</label
+                          >
+                          <input
+                            type="number"
+                            formControlName="graduationYear"
+                            class="form-control border-secondary-subtle"
+                            placeholder="e.g., 2020"
+                            min="1900"
+                            max="2100"
+                            required
+                          />
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-label fw-semibold">Grade</label>
+                          <input
+                            type="text"
+                            formControlName="grade"
+                            class="form-control border-secondary-subtle"
+                            placeholder="e.g., A, 3.5/4"
+                            required
+                          />
+                        </div>
+                        <div class="col-12 text-end">
+                          <button
+                            type="button"
+                            class="btn btn-outline-danger btn-sm mt-3"
+                            (click)="removeEducation(i)"
+                          >
+                            Remove Education
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+                <div class="text-center">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm mt-4"
+                    (click)="addEducation()"
+                  >
+                    Add Another Education
+                  </button>
+                </div>
+              </form>
             </div>
-            <div class="text-center">
-              <button
-                type="button"
-                class="btn btn-primary btn-sm mt-4"
-                (click)="addEducation()"
-              >
-                Add Another Education
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
-      </div>
 
-      <!-- Certifications Section -->
-      <div
-        class="card mx-auto shadow-lg border-0"
-        style="max-width: 800px; border-radius: 12px;"
-      >
-        <div class="card-body p-4">
-          <h4 class="card-title mb-4 text-center text-primary">
-            <b>Add Your Certifications</b>
-          </h4>
-          <hr />
-          <form [formGroup]="educationAndCertificationsForm">
-            <div formArrayName="certifications">
-              <div
-                *ngFor="
-                  let certification of certifications.controls;
-                  let i = index
-                "
-                [formGroupName]="i"
-                class="card mb-3 border-0 shadow-sm"
-              >
-                <div class="card-body p-4">
-                  <h6 class="card-subtitle mb-3 text-secondary">
-                    Certification {{ i + 1 }}
-                  </h6>
-                  <div class="row g-3">
-                    <div class="col-12">
-                      <label class="form-label fw-semibold"
-                        >Certification Name</label
-                      >
-                      <input
-                        type="text"
-                        formControlName="certificationName"
-                        class="form-control border-secondary-subtle"
-                        placeholder="e.g., AWS Certified Solutions Architect"
-                        required
-                      />
-                    </div>
-                    <div class="col-12">
-                      <label class="form-label fw-semibold"
-                        >Issuing Organization</label
-                      >
-                      <input
-                        type="text"
-                        formControlName="issuingOrganization"
-                        class="form-control border-secondary-subtle"
-                        placeholder="e.g., Amazon, Google"
-                        required
-                      />
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label fw-semibold">Date Issued</label>
-                      <input
-                        type="date"
-                        formControlName="dateIssued"
-                        class="form-control border-secondary-subtle"
-                        required
-                      />
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label fw-semibold"
-                        >Expiration Date</label
-                      >
-                      <input
-                        type="date"
-                        formControlName="expirationDate"
-                        class="form-control border-secondary-subtle"
-                      />
-                    </div>
-                    <div class="col-12 text-end">
-                      <button
-                        type="button"
-                        class="btn btn-outline-danger btn-sm mt-3"
-                        (click)="removeCertification(i)"
-                      >
-                        Remove Certification
-                      </button>
+        <!-- Certifications Section -->
+        <div class="col-lg-6 mb-4">
+          <div
+            class="card mx-auto shadow-lg border-0"
+            style="border-radius: 12px;"
+          >
+            <div class="card-body p-4">
+              <h4 class="card-title mb-4 text-center text-primary">
+                <b>Add Your Certifications</b>
+              </h4>
+              <hr />
+              <form [formGroup]="educationAndCertificationsForm">
+                <div formArrayName="certifications">
+                  <div
+                    *ngFor="
+                      let certification of certifications.controls;
+                      let i = index
+                    "
+                    [formGroupName]="i"
+                    class="card mb-3 border-0 shadow-sm"
+                  >
+                    <div class="card-body p-4">
+                      <h6 class="card-subtitle mb-3 text-secondary">
+                        Certification {{ i + 1 }}
+                      </h6>
+                      <div class="row g-3">
+                        <div class="col-12">
+                          <label class="form-label fw-semibold"
+                            >Certification Name</label
+                          >
+                          <input
+                            type="text"
+                            formControlName="certificationName"
+                            class="form-control border-secondary-subtle"
+                            placeholder="e.g., AWS Certified Solutions Architect"
+                            required
+                          />
+                        </div>
+                        <div class="col-12">
+                          <label class="form-label fw-semibold"
+                            >Issuing Organization</label
+                          >
+                          <input
+                            type="text"
+                            formControlName="issuingOrganization"
+                            class="form-control border-secondary-subtle"
+                            placeholder="e.g., Amazon, Google"
+                            required
+                          />
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-label fw-semibold"
+                            >Date Issued</label
+                          >
+                          <input
+                            type="date"
+                            formControlName="dateIssued"
+                            class="form-control border-secondary-subtle"
+                            required
+                          />
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-label fw-semibold"
+                            >Expiration Date</label
+                          >
+                          <input
+                            type="date"
+                            formControlName="expirationDate"
+                            class="form-control border-secondary-subtle"
+                          />
+                        </div>
+                        <div class="col-12 text-end">
+                          <button
+                            type="button"
+                            class="btn btn-outline-danger btn-sm mt-3"
+                            (click)="removeCertification(i)"
+                          >
+                            Remove Certification
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+                <div class="text-center">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm mt-4"
+                    (click)="addCertification()"
+                  >
+                    Add Another Certification
+                  </button>
+                </div>
+              </form>
             </div>
-            <div class="text-center">
-              <button
-                type="button"
-                class="btn btn-primary btn-sm mt-4"
-                (click)="addCertification()"
-              >
-                Add Another Certification
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
