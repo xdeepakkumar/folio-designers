@@ -14,88 +14,92 @@ import {
   standalone: true,
   imports: [CommonModule, MatCardModule, MatButtonModule, ReactiveFormsModule],
   template: `
-    <div class="container my-5">
-      <h2 class="text-center mat-h2 mb-4">About Us</h2>
-      <p class="text-center text-muted mb-4">
-        We are committed to providing the best services for our clients.
-      </p>
-      <div class="row">
-        <div class="col-md-6 mb-4">
-          <mat-card class="about-card">
-            <mat-card-header>
-              <mat-card-title>Our Mission</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <p>
-                Our mission is to deliver high-quality products and services
-                that meet the needs of our clients and contribute to their
-                success.
-              </p>
-            </mat-card-content>
-          </mat-card>
-        </div>
-        <div class="col-md-6 mb-4">
-          <mat-card class="about-card">
-            <mat-card-header>
-              <mat-card-title>Our Vision</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <p>
-                We envision a world where our innovative solutions empower
-                businesses to thrive and achieve their full potential.
-              </p>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </div>
+    <mat-card>
+      <mat-card-content>
+        <div class="container my-5">
+          <h2 class="text-center mat-h2 mb-4">About Us</h2>
+          <p class="text-center text-muted mb-4">
+            We are committed to providing the best services for our clients.
+          </p>
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <mat-card class="about-card">
+                <mat-card-header>
+                  <mat-card-title>Our Mission</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <p>
+                    Our mission is to deliver high-quality products and services
+                    that meet the needs of our clients and contribute to their
+                    success.
+                  </p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+            <div class="col-md-6 mb-4">
+              <mat-card class="about-card">
+                <mat-card-header>
+                  <mat-card-title>Our Vision</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <p>
+                    We envision a world where our innovative solutions empower
+                    businesses to thrive and achieve their full potential.
+                  </p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
 
-      <div class="text-center">
-        <mat-card class="contact-card mt-5">
-          <mat-card-header class="text-center">
-            <mat-card-title class="mat-h2 mb-4">Contact Us</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-              <div class="form-group mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="name"
-                  placeholder="Your Name"
-                  required
-                />
-              </div>
-              <div class="form-group mb-3">
-                <input
-                  type="email"
-                  class="form-control"
-                  formControlName="email"
-                  placeholder="Your Email"
-                  required
-                />
-              </div>
-              <div class="form-group mb-3">
-                <textarea
-                  class="form-control"
-                  formControlName="message"
-                  rows="4"
-                  placeholder="Your Message"
-                  required
-                ></textarea>
-              </div>
-              <button
-                mat-raised-button
-                color="primary"
-                type="submit"
-                [disabled]="contactForm.invalid"
-              >
-                Send Message
-              </button>
-            </form>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
+          <div class="text-center">
+            <mat-card class="contact-card mt-5">
+              <mat-card-header class="text-center">
+                <mat-card-title class="mat-h2 mb-4">Contact Us</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+                  <div class="form-group mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="name"
+                      placeholder="Your Name"
+                      required
+                    />
+                  </div>
+                  <div class="form-group mb-3">
+                    <input
+                      type="email"
+                      class="form-control"
+                      formControlName="email"
+                      placeholder="Your Email"
+                      required
+                    />
+                  </div>
+                  <div class="form-group mb-3">
+                    <textarea
+                      class="form-control"
+                      formControlName="message"
+                      rows="4"
+                      placeholder="Your Message"
+                      required
+                    ></textarea>
+                  </div>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    type="submit"
+                    [disabled]="contactForm.invalid"
+                  >
+                    Send Message
+                  </button>
+                </form>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   `,
   styles: [
     `

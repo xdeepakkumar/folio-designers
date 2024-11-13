@@ -14,60 +14,64 @@ import {
   standalone: true,
   imports: [CommonModule, MatCardModule, MatButtonModule, ReactiveFormsModule],
   template: `
-    <div class="container my-5">
-      <h2 class="text-center mat-h2 mb-4">Contact Us</h2>
-      <p class="text-center text-muted mb-4">
-        We'd love to hear from you! Please fill out the form below to get in
-        touch.
-      </p>
+    <mat-card>
+      <mat-card-content>
+        <div class="container my-5">
+          <h2 class="text-center mat-h2 mb-4">Contact Us</h2>
+          <p class="text-center text-muted mb-4">
+            We'd love to hear from you! Please fill out the form below to get in
+            touch.
+          </p>
 
-      <div class="text-center">
-        <mat-card class="contact-card mt-4">
-          <mat-card-header>
-            <mat-card-title class="mb-3">Get in Touch</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-              <div class="form-group mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="name"
-                  placeholder="Your Name"
-                  required
-                />
-              </div>
-              <div class="form-group mb-3">
-                <input
-                  type="email"
-                  class="form-control"
-                  formControlName="email"
-                  placeholder="Your Email"
-                  required
-                />
-              </div>
-              <div class="form-group mb-3">
-                <textarea
-                  class="form-control"
-                  formControlName="message"
-                  rows="4"
-                  placeholder="Your Message"
-                  required
-                ></textarea>
-              </div>
-              <button
-                mat-raised-button
-                color="primary"
-                type="submit"
-                [disabled]="contactForm.invalid"
-              >
-                Send Message
-              </button>
-            </form>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
+          <div class="text-center">
+            <mat-card class="contact-card mt-4">
+              <mat-card-header>
+                <mat-card-title class="mb-3">Get in Touch</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+                  <div class="form-group mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="name"
+                      placeholder="Your Name"
+                      required
+                    />
+                  </div>
+                  <div class="form-group mb-3">
+                    <input
+                      type="email"
+                      class="form-control"
+                      formControlName="email"
+                      placeholder="Your Email"
+                      required
+                    />
+                  </div>
+                  <div class="form-group mb-3">
+                    <textarea
+                      class="form-control"
+                      formControlName="message"
+                      rows="4"
+                      placeholder="Your Message"
+                      required
+                    ></textarea>
+                  </div>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    type="submit"
+                    [disabled]="contactForm.invalid"
+                  >
+                    Send Message
+                  </button>
+                </form>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   `,
   styles: [
     `

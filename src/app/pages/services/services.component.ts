@@ -18,67 +18,71 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
   ],
   template: `
-    <div class="container my-5">
-      <h2 class="text-center mb-4 mat-h2">Our Premium Services</h2>
-      <h5 class="text-center mat-h5 text-muted mb-5">
-        Select a service and let us handle the rest
-      </h5>
+    <mat-card>
+      <mat-card-content>
+        <div class="container my-5">
+          <h2 class="text-center mb-4 mat-h2">Our Premium Services</h2>
+          <h5 class="text-center mat-h5 text-muted mb-5">
+            Select a service and let us handle the rest
+          </h5>
 
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <mat-card class="service-selection shadow-lg">
-            <mat-card-content>
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/5395/5395993.png"
-                alt="Service Icon"
-                class="service-icon"
-              />
-              <mat-form-field appearance="fill" class="w-100 mt-3">
-                <mat-label>Select Service</mat-label>
-                <mat-select [(value)]="selectedService">
-                  <mat-option
-                    *ngFor="let service of services"
-                    [value]="service"
-                    >{{ service }}</mat-option
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <mat-card class="service-selection shadow-lg">
+                <mat-card-content>
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/5395/5395993.png"
+                    alt="Service Icon"
+                    class="service-icon"
+                  />
+                  <mat-form-field appearance="fill" class="w-100 mt-3">
+                    <mat-label>Select Service</mat-label>
+                    <mat-select [(value)]="selectedService">
+                      <mat-option
+                        *ngFor="let service of services"
+                        [value]="service"
+                        >{{ service }}</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill" class="w-100 mt-3">
+                    <mat-label>Your Message</mat-label>
+                    <textarea
+                      matInput
+                      [(ngModel)]="userMessage"
+                      rows="4"
+                      placeholder="Describe your needs..."
+                    ></textarea>
+                  </mat-form-field>
+
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    class="w-100 mt-4 premium-button"
+                    (click)="sendRequest()"
                   >
-                </mat-select>
-              </mat-form-field>
+                    Request Service
+                  </button>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
 
-              <mat-form-field appearance="fill" class="w-100 mt-3">
-                <mat-label>Your Message</mat-label>
-                <textarea
-                  matInput
-                  [(ngModel)]="userMessage"
-                  rows="4"
-                  placeholder="Describe your needs..."
-                ></textarea>
-              </mat-form-field>
-
-              <button
-                mat-raised-button
-                color="primary"
-                class="w-100 mt-4 premium-button"
-                (click)="sendRequest()"
-              >
-                Request Service
-              </button>
-            </mat-card-content>
-          </mat-card>
+          <h3 class="text-center mt-5 mb-4 mat-h3">What Our Clients Say</h3>
+          <div class="row">
+            <div class="col-md-4" *ngFor="let testimonial of testimonials">
+              <mat-card class="testimonial-card shadow border-0">
+                <mat-card-content>
+                  <p class="text-muted">{{ testimonial.message }}</p>
+                  <p class="font-weight-bold">{{ testimonial.author }}</p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <h3 class="text-center mt-5 mb-4 mat-h3">What Our Clients Say</h3>
-      <div class="row">
-        <div class="col-md-4" *ngFor="let testimonial of testimonials">
-          <mat-card class="testimonial-card shadow border-0">
-            <mat-card-content>
-              <p class="text-muted">{{ testimonial.message }}</p>
-              <p class="font-weight-bold">{{ testimonial.author }}</p>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </div>
-    </div>
+      </mat-card-content>
+    </mat-card>
   `,
   styles: [
     `

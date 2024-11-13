@@ -38,90 +38,97 @@ import { SkillsComponent } from '../../components/skills/skills.component';
     SkillsComponent,
   ],
   template: `
-    <div class="container">
-      <h2>Create Portfolio</h2>
-      <mat-horizontal-stepper>
-        <mat-step>
-          <ng-template matStepLabel>
-            <span>Personal Info</span>
-          </ng-template>
-          <app-personal-info></app-personal-info>
-          <div class="button-container">
-            <button
-              mat-raised-button
-              disabled
-              color="secondary"
-              matStepperPrevious
-            >
-              Back
-            </button>
-            <button mat-raised-button color="primary" matStepperNext>
-              Next
-            </button>
-          </div>
-        </mat-step>
+    <mat-card>
+      <mat-card-content>
+        <div class="container">
+          <h2 class="text-center mat-h2 mb-4">Create Portfolio</h2>
+          <h5 class="text-center text-muted mb-4">
+            Our commitment is to deliver exceptional portfolio to our users
+          </h5>
+          <mat-horizontal-stepper>
+            <mat-step>
+              <ng-template matStepLabel>
+                <span>Personal Info</span>
+              </ng-template>
+              <app-personal-info></app-personal-info>
+              <div class="button-container">
+                <button
+                  mat-raised-button
+                  disabled
+                  color="secondary"
+                  matStepperPrevious
+                >
+                  Back
+                </button>
+                <button mat-raised-button color="primary" matStepperNext>
+                  Next
+                </button>
+              </div>
+            </mat-step>
 
-        <mat-step>
-          <ng-template matStepLabel>
-            <span>Education & Certifications</span>
-          </ng-template>
-          <app-education-and-certifications></app-education-and-certifications>
-          <div class="button-container">
-            <button mat-raised-button color="secondary" matStepperPrevious>
-              Back
-            </button>
-            <button mat-raised-button color="primary" matStepperNext>
-              Next
-            </button>
-          </div>
-        </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>
+                <span>Education & Certifications</span>
+              </ng-template>
+              <app-education-and-certifications></app-education-and-certifications>
+              <div class="button-container">
+                <button mat-raised-button color="secondary" matStepperPrevious>
+                  Back
+                </button>
+                <button mat-raised-button color="primary" matStepperNext>
+                  Next
+                </button>
+              </div>
+            </mat-step>
 
-        <mat-step>
-          <ng-template matStepLabel>
-            <span>Skills &Experience</span>
-          </ng-template>
-          <app-skill-and-experience></app-skill-and-experience>
-          <div class="button-container">
-            <button mat-raised-button color="secondary" matStepperPrevious>
-              Back
-            </button>
-            <button mat-raised-button color="primary" matStepperNext>
-              Next
-            </button>
-          </div>
-        </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>
+                <span>Skills &Experience</span>
+              </ng-template>
+              <app-skill-and-experience></app-skill-and-experience>
+              <div class="button-container">
+                <button mat-raised-button color="secondary" matStepperPrevious>
+                  Back
+                </button>
+                <button mat-raised-button color="primary" matStepperNext>
+                  Next
+                </button>
+              </div>
+            </mat-step>
 
-        <mat-step>
-          <ng-template matStepLabel>
-            <span>Additional Info</span>
-          </ng-template>
-          <app-additional-info></app-additional-info>
-          <div class="button-container">
-            <button mat-raised-button color="secondary" matStepperPrevious>
-              Back
-            </button>
-            <button mat-raised-button color="primary" matStepperNext>
-              Next
-            </button>
-          </div>
-        </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>
+                <span>Additional Info</span>
+              </ng-template>
+              <app-additional-info></app-additional-info>
+              <div class="button-container">
+                <button mat-raised-button color="secondary" matStepperPrevious>
+                  Back
+                </button>
+                <button mat-raised-button color="primary" matStepperNext>
+                  Next
+                </button>
+              </div>
+            </mat-step>
 
-        <mat-step>
-          <ng-template matStepLabel>
-            <span>Preview</span>
-          </ng-template>
-          <app-perview></app-perview>
-          <div class="button-container">
-            <button mat-raised-button color="secondary" matStepperPrevious>
-              Back
-            </button>
-            <button mat-raised-button color="accent" matStepperNext>
-              Finish
-            </button>
-          </div>
-        </mat-step>
-      </mat-horizontal-stepper>
-    </div>
+            <mat-step>
+              <ng-template matStepLabel>
+                <span>Preview</span>
+              </ng-template>
+              <app-perview></app-perview>
+              <div class="button-container">
+                <button mat-raised-button color="secondary" matStepperPrevious>
+                  Back
+                </button>
+                <button mat-raised-button color="accent" matStepperNext>
+                  Finish
+                </button>
+              </div>
+            </mat-step>
+          </mat-horizontal-stepper>
+        </div>
+      </mat-card-content>
+    </mat-card>
   `,
   styles: [
     `
@@ -129,7 +136,6 @@ import { SkillsComponent } from '../../components/skills/skills.component';
         max-width: 100%;
         margin: 0 auto;
         padding: 16px;
-        margin-bottom: 10%;
       }
 
       h2 {

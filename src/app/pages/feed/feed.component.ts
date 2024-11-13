@@ -8,39 +8,43 @@ import { MatCardModule } from '@angular/material/card';
   standalone: true,
   imports: [CommonModule, MatCardModule, MatButtonModule],
   template: `
-    <div class="container my-4">
-      <h2 class="text-center mat-h2 mb-3">Daily News Feed</h2>
-      <h5 class="text-center mat-h5 text-muted mb-4">
-        Stay updated with the latest news stories
-      </h5>
-      <div class="row">
-        <div class="col-md-6 mb-4" *ngFor="let news of newsList">
-          <mat-card class="news-item">
-            <mat-card-header>
-              <mat-card-title>{{ news.title }}</mat-card-title>
-            </mat-card-header>
-            <img
-              mat-card-image
-              [src]="news.image"
-              alt="News Image"
-              class="news-image"
-            />
-            <mat-card-content>
-              <p>{{ news.summary }}</p>
-            </mat-card-content>
-            <mat-card-actions>
-              <button
-                mat-raised-button
-                color="primary"
-                class="small-raised-button"
-              >
-                Read More
-              </button>
-            </mat-card-actions>
-          </mat-card>
+    <mat-card>
+      <mat-card-content>
+        <div class="container my-4">
+          <h2 class="text-center mat-h2 mb-3">Daily News Feed</h2>
+          <h5 class="text-center mat-h5 text-muted mb-4">
+            Stay updated with the latest news stories
+          </h5>
+          <div class="row">
+            <div class="col-md-6 mb-4" *ngFor="let news of newsList">
+              <mat-card class="news-item">
+                <mat-card-header>
+                  <mat-card-title>{{ news.title }}</mat-card-title>
+                </mat-card-header>
+                <img
+                  mat-card-image
+                  [src]="news.image"
+                  alt="News Image"
+                  class="news-image"
+                />
+                <mat-card-content>
+                  <p>{{ news.summary }}</p>
+                </mat-card-content>
+                <mat-card-actions>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    class="small-raised-button"
+                  >
+                    Read More
+                  </button>
+                </mat-card-actions>
+              </mat-card>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </mat-card-content>
+    </mat-card>
   `,
   styles: [
     `
