@@ -1,12 +1,20 @@
 import { MatButtonModule } from '@angular/material/button';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule } from '@angular/material/paginator'; // Import MatPaginatorModule
+
+// Define an interface for news item
+interface News {
+  title: string;
+  summary: string;
+  image: string;
+}
 
 @Component({
   selector: 'app-feed',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatPaginatorModule], // Add MatPaginatorModule here
   template: `
     <mat-card>
       <mat-card-content>
@@ -16,7 +24,7 @@ import { MatCardModule } from '@angular/material/card';
             Stay updated with the latest news stories
           </h5>
           <div class="row">
-            <div class="col-md-6 mb-4" *ngFor="let news of newsList">
+            <div class="col-md-6 mb-4" *ngFor="let news of pagedNewsList">
               <mat-card class="news-item">
                 <mat-card-header>
                   <mat-card-title>{{ news.title }}</mat-card-title>
@@ -42,6 +50,14 @@ import { MatCardModule } from '@angular/material/card';
               </mat-card>
             </div>
           </div>
+
+          <!-- Pagination -->
+          <mat-paginator
+            [length]="newsList.length"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            (page)="onPageChange($event)"
+          ></mat-paginator>
         </div>
       </mat-card-content>
     </mat-card>
@@ -75,43 +91,74 @@ import { MatCardModule } from '@angular/material/card';
     `,
   ],
 })
-export class FeedComponent {
-  newsList = [
+export class FeedComponent implements OnInit {
+  // Type the newsList array using the interface
+  newsList: News[] = [
     {
-      title: "Headline for Today's Top Story",
+      title: 'World Markets Soar Amid Global Recovery',
       summary:
-        'Brief summary of the top story, providing a teaser for readers to click and read more...',
+        'Global markets witnessed a significant uptick as economic recovery gains momentum, with major indices hitting record highs...',
       image: 'https://cdn-icons-png.flaticon.com/512/5395/5395993.png',
     },
     {
-      title: "Headline for Today's Top Story",
+      title: 'SpaceX Successfully Launches Mars Mission',
       summary:
-        'Brief summary of the top story, providing a teaser for readers to click and read more...',
+        'SpaceX’s ambitious mission to Mars has successfully launched, bringing humanity one step closer to interplanetary travel...',
       image: 'https://cdn-icons-png.flaticon.com/512/5395/5395993.png',
     },
     {
-      title: "Headline for Today's Top Story",
+      title: 'Tech Giants Join Forces for Green Innovation',
       summary:
-        'Brief summary of the top story, providing a teaser for readers to click and read more...',
+        'In an unprecedented collaboration, top tech companies have announced a series of green initiatives aimed at reducing carbon footprints...',
       image: 'https://cdn-icons-png.flaticon.com/512/5395/5395993.png',
     },
     {
-      title: "Headline for Today's Top Story",
+      title: 'Breakthrough in Cancer Research Promises Hope',
       summary:
-        'Brief summary of the top story, providing a teaser for readers to click and read more...',
+        'A new breakthrough in cancer research has opened up possibilities for more effective treatments and a potential cure...',
       image: 'https://cdn-icons-png.flaticon.com/512/5395/5395993.png',
     },
     {
-      title: "Headline for Today's Top Story",
+      title: 'World’s First Fully Autonomous Car Approved for Roads',
       summary:
-        'Brief summary of the top story, providing a teaser for readers to click and read more...',
+        'A major leap forward in automotive technology as the first fully autonomous car receives approval for public road use...',
       image: 'https://cdn-icons-png.flaticon.com/512/5395/5395993.png',
     },
     {
-      title: "Headline for Today's Top Story",
+      title: 'Global Warming: New Report Raises Urgent Concerns',
       summary:
-        'Brief summary of the top story, providing a teaser for readers to click and read more...',
+        'A new report on climate change warns that global warming could have irreversible effects on the planet if immediate action is not taken...',
+      image: 'https://cdn-icons-png.flaticon.com/512/5395/5395993.png',
+    },
+    {
+      title: 'The Rise of Electric Aviation: A Greener Future for Air Travel',
+      summary:
+        'Electric aviation is rapidly growing as a viable alternative to traditional air travel, promising reduced emissions and greener skies...',
       image: 'https://cdn-icons-png.flaticon.com/512/5395/5395993.png',
     },
   ];
+
+  pageSize = 5; // Default page size
+  pagedNewsList: News[] = [];
+
+  constructor() {}
+
+  ngOnInit(): void {
+    // Initialize the paged list
+    this.updatePagedNewsList(0);
+  }
+
+  // Handle page changes
+  onPageChange(event: any) {
+    this.updatePagedNewsList(event.pageIndex);
+  }
+
+  // Update the displayed news list based on the current page
+  updatePagedNewsList(pageIndex: number) {
+    const startIndex = pageIndex * this.pageSize;
+    this.pagedNewsList = this.newsList.slice(
+      startIndex,
+      startIndex + this.pageSize
+    );
+  }
 }
