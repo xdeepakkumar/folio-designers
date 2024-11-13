@@ -31,18 +31,26 @@ import { CustomSidenavComponent } from './components/custom-sidenav/custom-siden
     CustomSidenavComponent,
   ],
   template: `
-    <mat-toolbar class="mat-elevation-z3">
+    <mat-toolbar class="mat-elevation-z3" color="primary">
+      <!-- Menu Button for Collapsing Sidebar -->
       <button mat-icon-button (click)="toggleSidenav()">
         <mat-icon>menu</mat-icon>
       </button>
+
+      <!-- Company Name in Toolbar -->
       <span class="company-name">Folio Designers</span>
+
       <span class="spacer"></span>
+
+      <!-- Other Toolbar Content -->
       <button mat-button *ngIf="isLargeScreen" (click)="navigateTo('about')">
         About Us
       </button>
       <button mat-button *ngIf="isLargeScreen" (click)="navigateTo('contact')">
         Contact Us
       </button>
+
+      <!-- Notification and Profile Buttons with Menus -->
       <button
         mat-icon-button
         matBadge=" "
@@ -55,30 +63,20 @@ import { CustomSidenavComponent } from './components/custom-sidenav/custom-siden
       </button>
       <mat-menu #notificationMenu="matMenu">
         <button mat-menu-item>
-          <mat-icon>message</mat-icon>
-          Notification 1
+          <mat-icon>message</mat-icon> Notification 1
         </button>
         <button mat-menu-item>
-          <mat-icon>message</mat-icon>
-          Notification 2
+          <mat-icon>message</mat-icon> Notification 2
         </button>
       </mat-menu>
+
       <button mat-icon-button [matMenuTriggerFor]="profileMenu">
         <mat-icon>account_circle</mat-icon>
       </button>
       <mat-menu #profileMenu="matMenu">
-        <button mat-menu-item>
-          <mat-icon>person</mat-icon>
-          Profile
-        </button>
-        <button mat-menu-item>
-          <mat-icon>settings</mat-icon>
-          Settings
-        </button>
-        <button mat-menu-item>
-          <mat-icon>logout</mat-icon>
-          Logout
-        </button>
+        <button mat-menu-item><mat-icon>person</mat-icon> Profile</button>
+        <button mat-menu-item><mat-icon>settings</mat-icon> Settings</button>
+        <button mat-menu-item><mat-icon>logout</mat-icon> Logout</button>
       </mat-menu>
     </mat-toolbar>
 
