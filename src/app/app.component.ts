@@ -108,8 +108,10 @@ import { CustomSidenavComponent } from './components/custom-sidenav/custom-siden
     </mat-sidenav-container>
 
     <footer class="sticky-footer">
-      <div class="footer-content">
-        <span>&copy; 2024 Portfolio Designers. All Rights Reserved.</span>
+      <div class="text-muted mt-2">
+        <h5>
+          <span>&copy; 2024 Portfolio Designers. All Rights Reserved.</span>
+        </h5>
       </div>
     </footer>
   `,
@@ -145,7 +147,7 @@ import { CustomSidenavComponent } from './components/custom-sidenav/custom-siden
         left: 0;
         right: 0;
         background-color: #f8f8f8;
-        padding: 10px;
+        padding: 2px;
         text-align: center;
         box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
         z-index: 1;

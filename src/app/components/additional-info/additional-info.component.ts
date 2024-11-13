@@ -13,8 +13,8 @@ import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
         style="border-radius: 12px; max-width: 700px;"
       >
         <div class="card-body p-3">
-          <h4 class="card-title mb-3 text-center text-primary">
-            <b>Additional Information</b>
+          <h4 class="card-title mb-3 text-center">
+            <b>ADDITIONAL INFORMATION</b>
           </h4>
           <form [formGroup]="additionalInfoForm" (ngSubmit)="onSubmit()">
             <!-- Select Template -->
@@ -110,17 +110,17 @@ export class AdditionalInfoComponent {
     {
       name: 'Template 1',
       image:
-        'https://images.unsplash.com/photo-1606761514651-04a4f13cbaef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTc3MDF8MHwxfGFsbHwxfHx8fHx8fHwxNjQ0MDA0MjY4&ixlib=rb-1.2.1&q=80&w=400', // Unsplash image URL
+        'https://images.unsplash.com/photo-1541598599844-19a0319b8846?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Unsplash image URL
     },
     {
       name: 'Template 2',
       image:
-        'https://images.unsplash.com/photo-1534983785122-49b2a3f6c78d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTc3MDF8MHwxfGFsbHwxfHx8fHx8fHwxNjQ0MDA0MjY4&ixlib=rb-1.2.1&q=80&w=400',
+        'https://plus.unsplash.com/premium_photo-1683141351293-5c53bcdfc63b?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
     {
       name: 'Template 3',
       image:
-        'https://images.unsplash.com/photo-1584621072418-1d634c26b2a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTc3MDF8MHwxfGFsbHwxfHx8fHx8fHwxNjQ0MDA0MjY4&ixlib=rb-1.2.1&q=80&w=400',
+        'https://plus.unsplash.com/premium_photo-1681566925305-e7827f95c717?q=80&w=1984&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
   ];
 

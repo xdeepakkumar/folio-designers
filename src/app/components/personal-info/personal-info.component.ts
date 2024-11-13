@@ -12,9 +12,7 @@ import { CommonModule } from '@angular/common';
         style="max-width: 650px; border-radius: 12px;"
       >
         <div class="card-body p-4">
-          <h4 class="card-title mb-4 text-center text-primary">
-            Personal Information
-          </h4>
+          <h4 class="card-title mb-4 text-center">PERSONAL INFORMATION</h4>
           <hr />
           <form class="row g-3">
             <div class="col-md-6">

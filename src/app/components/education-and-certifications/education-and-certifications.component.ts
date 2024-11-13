@@ -22,8 +22,8 @@ import {
             style="border-radius: 12px;"
           >
             <div class="card-body p-4">
-              <h4 class="card-title mb-4 text-center text-primary">
-                <b>Add Your Education</b>
+              <h4 class="card-title mb-4 text-center">
+                <b>ADD EDUCATION DETAILS</b>
               </h4>
               <hr />
               <form [formGroup]="educationAndCertificationsForm">
@@ -100,7 +100,7 @@ import {
                 <div class="text-center">
                   <button
                     type="button"
-                    class="btn btn-primary btn-sm mt-4"
+                    class="btn btn-outline-success btn-sm mt-4"
                     (click)="addEducation()"
                   >
                     Add Another Education
@@ -118,8 +118,8 @@ import {
             style="border-radius: 12px;"
           >
             <div class="card-body p-4">
-              <h4 class="card-title mb-4 text-center text-primary">
-                <b>Add Your Certifications</b>
+              <h4 class="card-title mb-4 text-center">
+                <b>ADD YOUR CERTIFICATION DETAILS</b>
               </h4>
               <hr />
               <form [formGroup]="educationAndCertificationsForm">
@@ -198,7 +198,7 @@ import {
                 <div class="text-center">
                   <button
                     type="button"
-                    class="btn btn-primary btn-sm mt-4"
+                    class="btn btn-outline-success btn-sm mt-4"
                     (click)="addCertification()"
                   >
                     Add Another Certification

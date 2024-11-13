@@ -19,8 +19,8 @@ import {
         <div class="col-lg-6 col-12">
           <div class="card shadow-lg border-0" style="border-radius: 12px;">
             <div class="card-body p-4">
-              <h4 class="card-title mb-4 text-center text-primary">
-                <b>Add Your Skills</b>
+              <h4 class="card-title mb-4 text-center">
+                <b>ADD SKILLS</b>
               </h4>
               <form [formGroup]="skillsForm" (ngSubmit)="onSubmit()">
                 <div formArrayName="skills">
@@ -103,7 +103,7 @@ import {
                 <div class="text-center">
                   <button
                     type="button"
-                    class="btn btn-primary btn-sm mt-4"
+                    class="btn btn-outline-success btn-sm mt-4"
                     (click)="addSkill()"
                   >
                     Add Another Skill
@@ -118,7 +118,7 @@ import {
         <div class="col-lg-6 col-12">
           <div class="card shadow-lg border-0" style="border-radius: 12px;">
             <div class="card-body p-4">
-              <h4 class="card-title mb-4 text-center text-primary">
+              <h4 class="card-title mb-4 text-center">
                 <b>Add Your Experience</b>
               </h4>
               <form [formGroup]="experienceForm" (ngSubmit)="onSubmit()">
@@ -199,7 +199,7 @@ import {
                 <div class="text-center">
                   <button
                     type="button"
-                    class="btn btn-primary btn-sm mt-4"
+                    class="btn btn-outline-success btn-sm mt-4"
                     (click)="addExperience()"
                   >
                     Add Another Experience

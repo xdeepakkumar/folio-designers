@@ -17,7 +17,6 @@ import { SkillAndExperienceComponent } from '../../components/skill-and-experien
 import { EducationAndCertificationsComponent } from '../../components/education-and-certifications/education-and-certifications.component';
 import { AdditionalInfoComponent } from '../../components/additional-info/additional-info.component';
 import { PerviewComponent } from '../../components/perview/perview.component';
-import { SkillsComponent } from '../../components/skills/skills.component';
 
 @Component({
   selector: 'app-dashboard',
