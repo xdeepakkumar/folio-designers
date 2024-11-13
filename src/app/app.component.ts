@@ -107,8 +107,13 @@ import { CustomSidenavComponent } from './components/custom-sidenav/custom-siden
       </mat-sidenav>
 
       <!-- Sidenav for small screens (mobile) -->
-      <mat-sidenav *ngIf="!isLargeScreen" mode="over" [opened]="collapsed()">
-        <app-custom-sidenav [collapsed]="collapsed()"></app-custom-sidenav>
+      <mat-sidenav
+        *ngIf="!isLargeScreen"
+        mode="over"
+        [opened]="!collapsed()"
+        [style.width]="collapsed() ? '0px' : '250px'"
+      >
+        <app-custom-sidenav [collapsed]="false"></app-custom-sidenav>
       </mat-sidenav>
 
       <!-- Content Section -->
