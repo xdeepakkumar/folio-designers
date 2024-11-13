@@ -1,13 +1,19 @@
-import { Component, computed, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import {
+  Component,
+  signal,
+  computed,
+  OnInit,
+  HostListener,
+} from '@angular/core';
+import { Router } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
-import { Router } from '@angular/router'; // Import Router for navigation
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 import { CustomSidenavComponent } from './components/custom-sidenav/custom-sidenav.component';
 
 @Component({
@@ -27,7 +33,7 @@ import { CustomSidenavComponent } from './components/custom-sidenav/custom-siden
   template: `
     <mat-toolbar class="mat-elevation-z3">
       <!-- Menu Button for Collapsing Sidebar -->
-      <button mat-icon-button (click)="collapsed.set(!collapsed())">
+      <button mat-icon-button (click)="toggleSidenav()">
         <mat-icon>menu</mat-icon>
       </button>
 
@@ -54,11 +60,10 @@ import { CustomSidenavComponent } from './components/custom-sidenav/custom-siden
         matBadgeSize="small"
         matBadgeOverlap="false"
         [matMenuTriggerFor]="notificationMenu"
-        class="notification-button"
       >
         <mat-icon>notifications</mat-icon>
       </button>
-      <mat-menu #notificationMenu="matMenu" class="primary-menu">
+      <mat-menu #notificationMenu="matMenu">
         <button mat-menu-item>
           <mat-icon>message</mat-icon>
           Notification 1
@@ -67,17 +72,13 @@ import { CustomSidenavComponent } from './components/custom-sidenav/custom-siden
           <mat-icon>message</mat-icon>
           Notification 2
         </button>
-        <button mat-menu-item>
-          <mat-icon>message</mat-icon>
-          Notification 3
-        </button>
       </mat-menu>
 
       <!-- User Profile with Dropdown Menu -->
       <button mat-icon-button [matMenuTriggerFor]="profileMenu">
         <mat-icon>account_circle</mat-icon>
       </button>
-      <mat-menu #profileMenu="matMenu" class="primary-menu">
+      <mat-menu #profileMenu="matMenu">
         <button mat-menu-item>
           <mat-icon>person</mat-icon>
           Profile
@@ -93,12 +94,28 @@ import { CustomSidenavComponent } from './components/custom-sidenav/custom-siden
       </mat-menu>
     </mat-toolbar>
 
-    <!-- Sidenav and Content Sections (Unchanged) -->
-    <mat-sidenav-container>
-      <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">
+    <!-- Sidenav and Content Sections -->
+    <mat-sidenav-container class="sidenav-container">
+      <!-- Sidenav for large screens (desktop) -->
+      <mat-sidenav
+        *ngIf="isLargeScreen"
+        mode="side"
+        [opened]="true"
+        [style.width]="sidenavWidth()"
+      >
         <app-custom-sidenav [collapsed]="collapsed()"></app-custom-sidenav>
       </mat-sidenav>
-      <mat-sidenav-content class="content" [style.margin-left]="sidenavWidth()">
+
+      <!-- Sidenav for small screens (mobile) -->
+      <mat-sidenav *ngIf="!isLargeScreen" mode="over" [opened]="collapsed()">
+        <app-custom-sidenav [collapsed]="collapsed()"></app-custom-sidenav>
+      </mat-sidenav>
+
+      <!-- Content Section -->
+      <mat-sidenav-content
+        class="content"
+        [style.margin-left]="isLargeScreen ? sidenavWidth() : '0px'"
+      >
         <router-outlet></router-outlet>
       </mat-sidenav-content>
     </mat-sidenav-container>
@@ -130,21 +147,13 @@ import { CustomSidenavComponent } from './components/custom-sidenav/custom-siden
         padding: 24px;
         padding-bottom: 60px;
       }
-      mat-sidenav-container {
-        height: calc(100vh - 64px);
+      .sidenav-container {
+        height: calc(100vh - 64px); /* Adjust for toolbar height */
         position: relative;
       }
       mat-sidenav,
       mat-sidenav-content {
         transition: all 500ms ease-in-out;
-      }
-      .notification-button .mat-badge-content {
-        transform: scale(0.8) translate(40%, -30%);
-      }
-      .sidebar-menu {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
       }
       .primary-menu {
         color: var(--mat-primary);
@@ -163,23 +172,47 @@ import { CustomSidenavComponent } from './components/custom-sidenav/custom-siden
     `,
   ],
 })
-export class AppComponent {
-  title = 'folio-designers';
-  collapsed = signal(false);
+export class AppComponent implements OnInit {
+  collapsed = signal(false); // Signal to manage collapse state
 
   constructor(private router: Router) {}
 
+  ngOnInit() {
+    this.updateSidebarState();
+  }
+
+  // Toggle the collapse state of the sidebar
   toggleSidenav() {
     this.collapsed.set(!this.collapsed());
   }
 
-  sidenavWidth = computed(() => (this.collapsed() ? '65px' : '250px'));
+  // Computed value for the sidebar width
+  sidenavWidth = computed(() => {
+    return this.collapsed() ? '65px' : '250px';
+  });
 
+  // Check if the screen size is large (>= 960px)
+  get isLargeScreen() {
+    return window.innerWidth >= 960;
+  }
+
+  // Update sidebar state based on screen size
+  updateSidebarState() {
+    if (this.isLargeScreen) {
+      this.collapsed.set(true); // Show icons only on large screens
+    } else {
+      this.collapsed.set(true); // Collapse by default on small screens (initial state)
+    }
+  }
+
+  // Navigate to specific routes
   navigateTo(route: string) {
     this.router.navigate([route]);
   }
 
-  get isLargeScreen() {
-    return window.innerWidth >= 960;
+  // Listen to window resize events and update sidebar state accordingly
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.updateSidebarState();
   }
 }
