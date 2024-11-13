@@ -1,18 +1,60 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-invalid-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatButtonModule],
   template: `
-    <p>
-      invalid-page works!
-    </p>
+    <div class="container-lg py-5 text-center">
+      <div
+        class="card shadow border-0 mx-auto"
+        style="border-radius: 12px; max-width: 700px;"
+      >
+        <div class="card-body p-4">
+          <h4 class="card-title mb-3 text-center">
+            <strong>404 ERROR</strong>
+          </h4>
+          <p class="text-muted mb-4">
+            Oops! The page you are looking for does not exist.
+          </p>
+
+          <img
+            src="https://media.istockphoto.com/id/1067573454/photo/3d-word-oops.jpg?s=2048x2048&w=is&k=20&c=EF_v_bN-mcX8lIsz1zHrCOlVaR--lTxGWsZmTElToEk="
+            alt="Oops Image"
+            class="img-fluid mb-4"
+            style="max-width: 80%; height: auto; object-fit: contain; border-radius: 12px;"
+          />
+
+          <button mat-raised-button color="primary" matStepperNext>
+            Go Back to Home
+          </button>
+        </div>
+      </div>
+    </div>
   `,
   styles: [
-  ]
+    `
+      .container-lg {
+        max-width: 100%;
+      }
+      .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+      }
+      .card-body {
+        padding: 2rem;
+      }
+      .text-muted {
+        font-size: 1.2rem;
+      }
+      @media (max-width: 576px) {
+        .card-body {
+          padding: 1.5rem;
+        }
+      }
+    `,
+  ],
 })
-export class InvalidPageComponent {
-
-}
+export class InvalidPageComponent {}
