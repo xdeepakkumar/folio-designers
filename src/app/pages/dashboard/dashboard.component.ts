@@ -35,7 +35,6 @@ import { SkillsComponent } from '../../components/skills/skills.component';
     EducationAndCertificationsComponent,
     AdditionalInfoComponent,
     PerviewComponent,
-    SkillsComponent,
   ],
   template: `
     <mat-card>
