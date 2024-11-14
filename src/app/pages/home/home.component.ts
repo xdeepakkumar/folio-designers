@@ -1,3 +1,4 @@
+import { RouterLink, RouterModule } from '@angular/router';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -7,7 +8,13 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    RouterModule,
+  ],
   template: `
     <section class="hero-section">
       <div class="hero-content">
@@ -16,9 +23,14 @@ import { MatIconModule } from '@angular/material/icon';
           Showcase your skills and achievements with a portfolio that stands
           out.
         </h4>
-        <button mat-raised-button color="primary" class="get-started-button">
+        <a
+          mat-raised-button
+          color="primary"
+          class="get-started-button"
+          [routerLink]="'/create-portfolio'"
+        >
           Get Started
-        </button>
+        </a>
       </div>
     </section>
 
