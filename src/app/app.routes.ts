@@ -7,15 +7,18 @@ import { AboutComponent } from './pages/about/about.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { InvalidPageComponent } from './pages/invalid-page/invalid-page.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { SignInComponent } from './pages/sign-in/sign-in.component';
+import { SignUpComponent } from './pages/sign-up/sign-up.component';
+import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'dashboard',
+    redirectTo: 'home',
   },
   {
-    path: 'dashboard',
+    path: 'create-portfolio',
     component: DashboardComponent,
   },
   {
@@ -41,6 +44,18 @@ export const routes: Routes = [
   {
     path: 'settings',
     component: SettingsComponent,
+  },
+  {
+    path: 'sign-in',
+    component: SignInComponent,
+  },
+  {
+    path: 'sign-up',
+    component: SignUpComponent,
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
   },
   {
     path: '**',
