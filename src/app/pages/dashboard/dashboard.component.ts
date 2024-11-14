@@ -81,7 +81,7 @@ import { PerviewComponent } from '../../components/perview/perview.component';
 
             <mat-step>
               <ng-template matStepLabel>
-                <span>Skills &Experience</span>
+                <span>Skills & Experience</span>
               </ng-template>
               <app-skill-and-experience></app-skill-and-experience>
               <div class="button-container">
