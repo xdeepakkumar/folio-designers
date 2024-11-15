@@ -34,11 +34,6 @@ import { FormsModule } from '@angular/forms';
             <div class="col-md-8">
               <mat-card class="service-selection shadow-lg">
                 <mat-card-content>
-                  <img
-                    src="https://cdn-icons-png.flaticon.com/512/5395/5395993.png"
-                    alt="Service Icon"
-                    class="service-icon"
-                  />
                   <mat-form-field appearance="fill" class="w-100 mt-3">
                     <mat-label>Select Service</mat-label>
                     <mat-select [(value)]="selectedService">
@@ -139,9 +134,9 @@ import { FormsModule } from '@angular/forms';
 })
 export class ServicesComponent {
   services = [
-    'Web Development',
-    'App Development',
-    'UI/UX Design',
+    'Portfolio Services',
+    'Resume Services',
+    'Web Services',
     'SEO Services',
   ];
   selectedService: string | undefined;
