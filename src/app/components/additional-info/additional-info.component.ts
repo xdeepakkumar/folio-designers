@@ -16,6 +16,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
           <h4 class="card-title mb-3 text-center">
             <b>ADDITIONAL INFORMATION</b>
           </h4>
+          <hr />
           <form [formGroup]="additionalInfoForm" (ngSubmit)="onSubmit()">
             <!-- Select Template -->
             <div class="mb-3">

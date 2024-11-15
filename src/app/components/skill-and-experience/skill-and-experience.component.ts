@@ -22,6 +22,7 @@ import {
               <h4 class="card-title mb-4 text-center">
                 <b>ADD SKILLS</b>
               </h4>
+              <hr />
               <form [formGroup]="skillsForm" (ngSubmit)="onSubmit()">
                 <div formArrayName="skills">
                   <div
@@ -121,6 +122,7 @@ import {
               <h4 class="card-title mb-4 text-center">
                 <b>Add Your Experience</b>
               </h4>
+              <hr />
               <form [formGroup]="experienceForm" (ngSubmit)="onSubmit()">
                 <div formArrayName="experiences">
                   <div
