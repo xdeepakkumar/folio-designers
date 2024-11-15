@@ -66,10 +66,20 @@ import {
             <span>OR</span>
           </div>
 
+          <!-- Google Login Button (Flat) -->
           <div class="google-login">
-            <button mat-raised-button color="accent" class="google-button">
-              <mat-icon class="google-icon">google</mat-icon> Login with Google
+            <button mat-flat-button color="warn" class="google-button">
+              <!-- Google icon from Material Icons -->
+              <mat-icon class="google-icon">google</mat-icon> Sign-in with
+              Google
             </button>
+          </div>
+
+          <div class="sign-up-link text-muted">
+            <h5>
+              Don't have an account?
+              <a href="/sign-up" class="sign-up">Sign Up</a>
+            </h5>
           </div>
         </mat-card-content>
       </mat-card>
@@ -78,7 +88,7 @@ import {
   styles: [
     `
       .sign-in-section {
-        padding: 40px 20px;
+        padding: 20px 10px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -138,16 +148,17 @@ import {
         font-weight: bold;
       }
 
-      /* Google Login Button */
+      /* Google Login Button (Flat) */
       .google-login {
         text-align: center;
+        margin-top: 20px;
       }
 
       .google-button {
         width: 100%;
         padding: 12px;
         font-size: 1rem; /* Adjusted font size */
-        border-radius: 30px;
+        border-radius: 4px; /* Optional: Rounded corners */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -156,6 +167,21 @@ import {
       .google-icon {
         margin-right: 10px;
         font-size: 1.4rem; /* Adjusted icon size */
+      }
+
+      /* Sign Up Link */
+      .sign-up-link {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .sign-up {
+        color: #007bff;
+        text-decoration: none;
+      }
+
+      .sign-up:hover {
+        text-decoration: underline;
       }
 
       /* Responsive Styles */

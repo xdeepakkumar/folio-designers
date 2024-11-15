@@ -77,6 +77,9 @@ import { CustomSidenavComponent } from './components/custom-sidenav/custom-siden
         <button mat-menu-item><mat-icon>person</mat-icon> Profile</button>
         <button mat-menu-item><mat-icon>settings</mat-icon> Settings</button>
         <button mat-menu-item><mat-icon>logout</mat-icon> Logout</button>
+        <a mat-menu-item href="/sign-in">
+          <mat-icon>login</mat-icon> Sign In
+        </a>
       </mat-menu>
     </mat-toolbar>
 

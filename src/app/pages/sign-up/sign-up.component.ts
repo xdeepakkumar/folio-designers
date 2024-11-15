@@ -87,10 +87,17 @@ import {
           </div>
 
           <div class="google-signup">
-            <button mat-raised-button color="accent" class="google-button">
-              <mat-icon class="google-icon">google</mat-icon> Sign Up with
-              Google
-            </button>
+            <a mat-flat-button color="warn" class="google-button">
+              Sign-up with Google
+            </a>
+          </div>
+
+          <!-- Sign In Link -->
+          <div class="sign-in-link text-muted">
+            <h5>
+              Already have an account?
+              <a href="/sign-in" class="sign-in">Sign In</a>
+            </h5>
           </div>
         </mat-card-content>
       </mat-card>
@@ -99,7 +106,7 @@ import {
   styles: [
     `
       .sign-up-section {
-        padding: 40px 20px;
+        padding: 20px 10px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -167,18 +174,33 @@ import {
 
       .google-button {
         width: 100%;
-        padding: 10px;
+        padding: 12px;
         font-size: 1rem;
-        border-radius: 30px;
+        border-radius: 4px; /* Optional: Rounded corners */
         display: flex;
         justify-content: center;
         align-items: center;
         font-weight: normal;
       }
 
-      .google-button mat-icon {
+      .google-icon {
         margin-right: 10px;
         font-size: 1.4rem; /* Icon size adjustment */
+      }
+
+      /* Sign In Link */
+      .sign-in-link {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .sign-in {
+        color: #007bff;
+        text-decoration: none;
+      }
+
+      .sign-in:hover {
+        text-decoration: underline;
       }
 
       /* Responsive Styles */
@@ -200,7 +222,7 @@ import {
         }
 
         .google-button {
-          padding: 8px;
+          padding: 10px;
         }
       }
 
