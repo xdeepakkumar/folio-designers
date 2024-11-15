@@ -21,27 +21,38 @@ import { FormsModule } from '@angular/forms';
     <mat-card>
       <mat-card-content>
         <div class="container my-5">
-          <h2
-            class="text-center mat-h2 mb-1"
-            style="color: #ff5733; font-size: 2.1em;"
-          >
+          <h2 class="text-center mat-h2 mb-1" style="color: #2a3d7c;  font-size: 1.6rem;">
             Our Premium Services
           </h2>
           <h5 class="text-center text-muted mb-4">
-            Select a service and let us handle the rest
+            Select a service and let us handle the rest with professionalism and
+            expertise.
           </h5>
+
+          <!-- Service Request Form -->
           <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-12 col-md-8">
               <mat-card class="service-selection shadow-lg">
                 <mat-card-content>
+                  <mat-form-field appearance="fill" class="w-100 mt-3">
+                    <mat-label>Email or Phone</mat-label>
+                    <input
+                      matInput
+                      [(ngModel)]="userEmail"
+                      type="email"
+                      placeholder="Enter your email or phone number"
+                    />
+                  </mat-form-field>
+
                   <mat-form-field appearance="fill" class="w-100 mt-3">
                     <mat-label>Select Service</mat-label>
                     <mat-select [(value)]="selectedService">
                       <mat-option
                         *ngFor="let service of services"
                         [value]="service"
-                        >{{ service }}</mat-option
                       >
+                        {{ service }}
+                      </mat-option>
                     </mat-select>
                   </mat-form-field>
 
@@ -55,25 +66,42 @@ import { FormsModule } from '@angular/forms';
                     ></textarea>
                   </mat-form-field>
 
-                  <a
-                    mat-raised-button
-                    color="primary"
-                    class="get-started-button"
-                  >
-                    Request Service
-                  </a>
+                  <div class="text-center">
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      class="get-started-button mt-4"
+                      (click)="sendRequest()"
+                    >
+                      Request Service
+                    </button>
+                  </div>
                 </mat-card-content>
               </mat-card>
             </div>
           </div>
 
+          <!-- Testimonials Section -->
           <h3 class="text-center mt-5 mb-4 mat-h3">What Our Clients Say</h3>
           <div class="row">
-            <div class="col-md-4" *ngFor="let testimonial of testimonials">
+            <div
+              class="col-12 col-md-4"
+              *ngFor="let testimonial of testimonials"
+            >
               <mat-card class="testimonial-card">
-                <mat-card-content>
+                <mat-card-content class="text-center">
+                  <!-- Client Image and Name Section -->
+                  <div class="testimonial-header">
+                    <img
+                      class="testimonial-image"
+                      [src]="testimonial.image"
+                      alt="{{ testimonial.author }}"
+                    />
+                    <div class="testimonial-name">
+                      <p class="font-weight-bold">{{ testimonial.author }}</p>
+                    </div>
+                  </div>
                   <p class="text-muted">{{ testimonial.message }}</p>
-                  <p class="font-weight-bold">{{ testimonial.author }}</p>
                 </mat-card-content>
               </mat-card>
             </div>
@@ -88,32 +116,14 @@ import { FormsModule } from '@angular/forms';
         margin-top: 20px;
         padding: 30px;
         border-radius: 15px;
-        background-color: #ffffff; /* White background for the card */
-        border: 1px solid #e0e0e0; /* Light border for a clean look */
+        background-color: #ffffff; /* Clean white background */
+        border: 1px solid #e0e0e0; /* Subtle border for contrast */
         text-align: center; /* Center-align content */
         transition: box-shadow 0.3s; /* Smooth shadow transition */
       }
 
       .service-selection:hover {
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow on hover */
-      }
-
-      .service-icon {
-        width: 100px; /* Define the size of the image */
-        height: auto; /* Maintain aspect ratio */
-        margin-bottom: 15px; /* Spacing below the image */
-      }
-
-      .premium-button {
-        background-color: #007bff; /* Bootstrap primary color */
-        color: white;
-        font-weight: bold;
-        text-transform: uppercase; /* Uppercase text */
-        transition: background-color 0.3s; /* Smooth transition */
-      }
-
-      .premium-button:hover {
-        background-color: #0056b3; /* Darker shade on hover */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Elevated shadow effect */
       }
 
       .testimonial-card {
@@ -121,13 +131,68 @@ import { FormsModule } from '@angular/forms';
         padding: 20px;
         text-align: center;
         border-radius: 15px;
-        background-color: #f8f9fa; /* Light background for testimonials */
-        border: none; /* Remove default border */
-        transition: transform 0.2s; /* Smooth transform effect */
+        background-color: #f9fafb; /* Light gray background for testimonial cards */
+        border: none;
+        transition: transform 0.2s ease; /* Smooth transform on hover */
       }
 
       .testimonial-card:hover {
-        transform: translateY(-5px); /* Lift effect on hover */
+        transform: translateY(-5px); /* Slight lift on hover */
+      }
+
+      /* Client Image and Name Styling */
+      .testimonial-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .testimonial-image {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%; /* Circular client image */
+        margin-right: 15px;
+        object-fit: cover;
+      }
+
+      .testimonial-name {
+        font-size: 1.1em;
+        font-weight: 600;
+      }
+
+      /* Responsive Design for Small Screens */
+      @media (max-width: 767px) {
+        .service-selection {
+          padding: 20px; /* Less padding on small screens */
+        }
+
+        .testimonial-card {
+          margin-bottom: 20px;
+          padding: 15px;
+        }
+
+        h2 {
+          font-size: 1.8em; /* Smaller header size for mobile */
+        }
+
+        h3.mat-h3 {
+          font-size: 1.5em; /* Adjust testimonial section header for small screens */
+        }
+      }
+
+      .get-started-button:hover {
+        background-color: #0056b3;
+      }
+
+      /* General Text Styling */
+      mat-form-field {
+        margin-bottom: 20px;
+        width: 100%;
+      }
+
+      .small-raised-button {
+        font-size: 0.8rem;
       }
     `,
   ],
@@ -141,23 +206,44 @@ export class ServicesComponent {
   ];
   selectedService: string | undefined;
   userMessage: string = '';
+  userEmail: string = '';
+  userPhone: string = '';
 
   testimonials = [
-    { message: 'Excellent service and support!', author: 'John Doe' },
-    { message: 'Highly recommend their services!', author: 'Jane Smith' },
-    { message: 'Professional and dedicated team!', author: 'Alice Johnson' },
+    {
+      message: 'Excellent service and support!',
+      author: 'John Doe',
+      image: 'https://www.w3schools.com/howto/img_avatar.png',
+    },
+    {
+      message: 'Highly recommend their services!',
+      author: 'Jane Smith',
+      image: 'https://www.w3schools.com/howto/img_avatar2.png',
+    },
+    {
+      message: 'Professional and dedicated team!',
+      author: 'Alice Johnson',
+      image: 'https://www.w3schools.com/howto/img_avatar.png',
+    },
   ];
 
   sendRequest() {
-    if (this.selectedService && this.userMessage) {
+    if (
+      this.selectedService &&
+      this.userMessage &&
+      this.userEmail &&
+      this.userPhone
+    ) {
       console.log(
-        `Service: ${this.selectedService}, Message: ${this.userMessage}`
+        `Service: ${this.selectedService}, Message: ${this.userMessage}, Email: ${this.userEmail}, Phone: ${this.userPhone}`
       );
       alert('Your request has been sent!');
       this.selectedService = undefined;
       this.userMessage = '';
+      this.userEmail = '';
+      this.userPhone = '';
     } else {
-      alert('Please select a service and enter your message.');
+      alert('Please fill in all the fields before submitting.');
     }
   }
 }

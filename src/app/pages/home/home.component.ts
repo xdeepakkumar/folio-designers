@@ -36,7 +36,7 @@ import { MatIconModule } from '@angular/material/icon';
 
     <section class="testimonials-section">
       <h2 class="section-title">Who We Are</h2>
-      <p class="section-description">
+      <p class="section-description text-muted">
         We specialize in creating professional portfolios that make an impact.
         Our mission is to provide high-quality services that help you present
         your best self.
@@ -52,7 +52,7 @@ import { MatIconModule } from '@angular/material/icon';
             <mat-card-title>{{ service.title }}</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <p>{{ service.description }}</p>
+            <p class="text-muted">{{ service.description }}</p>
           </mat-card-content>
         </mat-card>
       </div>
@@ -66,7 +66,7 @@ import { MatIconModule } from '@angular/material/icon';
           *ngFor="let testimonial of testimonials"
         >
           <mat-card-content>
-            <p class="quote">"{{ testimonial.message }}"</p>
+            <p class="quote text-muted">"{{ testimonial.message }}"</p>
             <p class="author">- {{ testimonial.author }}</p>
           </mat-card-content>
         </mat-card>
@@ -76,9 +76,14 @@ import { MatIconModule } from '@angular/material/icon';
     <section class="cta-section">
       <h2>Ready to Start?</h2>
       <p>Create a professional portfolio in minutes.</p>
-      <button mat-raised-button color="accent" class="cta-button">
+      <a
+        mat-raised-button
+        color="accent"
+        class="cta-button"
+        [routerLink]="'/create-portfolio'"
+      >
         Create Your Portfolio
-      </button>
+      </a>
     </section>
   `,
   styles: [
@@ -104,7 +109,7 @@ import { MatIconModule } from '@angular/material/icon';
 
       /* General Section Styling */
       .section-title {
-        font-size: 2.5rem;
+        font-size: 2rem;
         font-weight: 700;
         text-align: center;
         margin-top: 40px;
@@ -112,7 +117,6 @@ import { MatIconModule } from '@angular/material/icon';
       }
       .section-description {
         text-align: center;
-        font-size: 1.2rem;
         max-width: 800px;
         margin: 0 auto 40px;
       }
@@ -182,7 +186,7 @@ import { MatIconModule } from '@angular/material/icon';
         transition: background-color 0.3s ease;
       }
       .cta-button:hover {
-        background-color: #388e3c;
+        background-color: #ff5733;
         color: white;
       }
 
@@ -253,6 +257,9 @@ import { MatIconModule } from '@angular/material/icon';
 
         .section-description {
           font-size: 0.9rem;
+        }
+        .small-raised-button {
+          font-size: 0.8rem;
         }
       }
     `,

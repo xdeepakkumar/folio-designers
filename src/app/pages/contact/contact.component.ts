@@ -17,11 +17,16 @@ import {
     <mat-card>
       <mat-card-content>
         <div class="container my-5">
-          <h2 class="text-center mat-h2 mb-4">Contact Us</h2>
-          <p class="text-center text-muted mb-4">
+          <h2
+            class="text-center mat-h2 mb-1"
+            style="color: #2a3d7c;  font-size: 1.6rem;"
+          >
+            Contact Us
+          </h2>
+          <h5 class="text-center text-muted mb-4">
             We'd love to hear from you! Please fill out the form below to get in
             touch.
-          </p>
+          </h5>
 
           <div class="text-center">
             <mat-card class="contact-card mt-4">

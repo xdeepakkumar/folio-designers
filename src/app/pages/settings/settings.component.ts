@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
         <div class="container my-4">
           <h2
             class="text-center mat-h2 mb-1"
-            style="color: #ff5733; font-size: 2.1em;"
+            style="color: #2a3d7c; font-size: 1.6rem;"
           >
             User Settings
           </h2>

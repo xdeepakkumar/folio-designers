@@ -17,10 +17,15 @@ import {
     <mat-card>
       <mat-card-content>
         <div class="container my-5">
-          <h2 class="text-center mat-h2 mb-4">About Us</h2>
-          <p class="text-center text-muted mb-4">
+          <h2
+            class="text-center mat-h2 mb-1"
+            style="color: #2a3d7c;  font-size: 1.6rem;"
+          >
+            About Us
+          </h2>
+          <h5 class="text-center text-muted mb-4">
             We are committed to providing the best services for our clients.
-          </p>
+          </h5>
           <div class="row">
             <div class="col-md-6 mb-4">
               <mat-card class="about-card">
@@ -28,7 +33,7 @@ import {
                   <mat-card-title>Our Mission</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                  <p>
+                  <p class="text-muted">
                     Our mission is to deliver high-quality products and services
                     that meet the needs of our clients and contribute to their
                     success.
@@ -42,7 +47,7 @@ import {
                   <mat-card-title>Our Vision</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                  <p>
+                  <p class="text-muted">
                     We envision a world where our innovative solutions empower
                     businesses to thrive and achieve their full potential.
                   </p>

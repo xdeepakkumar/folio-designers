@@ -19,10 +19,7 @@ interface News {
     <mat-card>
       <mat-card-content>
         <div class="container my-4">
-          <h2
-            class="text-center mat-h2 mb-1"
-            style="color: #ff5733; font-size: 2.1em;"
-          >
+          <h2 class="text-center mat-h2 mb-1" style="color: #2a3d7c;  font-size: 1.6rem;">
             Daily News Feed
           </h2>
           <h5 class="text-center text-muted mb-4">
@@ -92,6 +89,10 @@ interface News {
 
       mat-card-content p {
         color: #555;
+      }
+
+      .small-raised-button {
+        font-size: 0.8rem;
       }
     `,
   ],
