@@ -39,7 +39,12 @@ import { PerviewComponent } from '../../components/perview/perview.component';
     <mat-card>
       <mat-card-content>
         <div class="container">
-          <h2 class="text-center mat-h2 mb-4">Create Portfolio</h2>
+          <h2
+            class="text-center mat-h2 mb-1"
+            style="color: #ff5733; font-size: 2.1em;"
+          >
+            Create Portfolio
+          </h2>
           <h5 class="text-center text-muted mb-4">
             Our commitment is to deliver exceptional portfolio to our users
           </h5>
@@ -138,7 +143,7 @@ import { PerviewComponent } from '../../components/perview/perview.component';
 
       h2 {
         text-align: center;
-        font-size: 1.8em;
+        font-size: 2.8em;
       }
 
       .button-container {

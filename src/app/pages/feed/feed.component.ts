@@ -19,9 +19,14 @@ interface News {
     <mat-card>
       <mat-card-content>
         <div class="container my-4">
-          <h2 class="text-center mat-h2 mb-3">Daily News Feed</h2>
-          <h5 class="text-center mat-h5 text-muted mb-4">
-            Stay updated with the latest news stories
+          <h2
+            class="text-center mat-h2 mb-1"
+            style="color: #ff5733; font-size: 2.1em;"
+          >
+            Daily News Feed
+          </h2>
+          <h5 class="text-center text-muted mb-4">
+            Keep track of the latest news developments
           </h5>
           <div class="row">
             <div class="col-md-6 mb-4" *ngFor="let news of pagedNewsList">

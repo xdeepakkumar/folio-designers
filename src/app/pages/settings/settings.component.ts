@@ -11,9 +11,14 @@ import { MatButtonModule } from '@angular/material/button';
     <mat-card>
       <mat-card-content>
         <div class="container my-4">
-          <h2 class="text-center mat-h2 mb-3">User Settings</h2>
-          <h5 class="text-center mat-h5 text-muted mb-4">
-            Customize your experience
+          <h2
+            class="text-center mat-h2 mb-1"
+            style="color: #ff5733; font-size: 2.1em;"
+          >
+            User Settings
+          </h2>
+          <h5 class="text-center text-muted mb-4">
+            Adjust to suit your preferences.
           </h5>
           <div class="row">
             <div class="col-md-6 mb-4" *ngFor="let setting of settingsList">
@@ -52,12 +57,14 @@ import { MatButtonModule } from '@angular/material/button';
       }
 
       mat-card-title {
-        font-size: 1.2rem;
-        font-weight: bold;
+        font-size: 1rem;
       }
 
       mat-card-content p {
         color: #555;
+      }
+      .small-raised-button {
+        font-size: 0.8rem;
       }
     `,
   ],

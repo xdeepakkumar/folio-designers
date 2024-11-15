@@ -21,11 +21,15 @@ import { FormsModule } from '@angular/forms';
     <mat-card>
       <mat-card-content>
         <div class="container my-5">
-          <h2 class="text-center mb-4 mat-h2">Our Premium Services</h2>
-          <h5 class="text-center mat-h5 text-muted mb-5">
+          <h2
+            class="text-center mat-h2 mb-1"
+            style="color: #ff5733; font-size: 2.1em;"
+          >
+            Our Premium Services
+          </h2>
+          <h5 class="text-center text-muted mb-4">
             Select a service and let us handle the rest
           </h5>
-
           <div class="row justify-content-center">
             <div class="col-md-8">
               <mat-card class="service-selection shadow-lg">
@@ -56,14 +60,13 @@ import { FormsModule } from '@angular/forms';
                     ></textarea>
                   </mat-form-field>
 
-                  <button
+                  <a
                     mat-raised-button
                     color="primary"
-                    class="w-100 mt-4 premium-button"
-                    (click)="sendRequest()"
+                    class="get-started-button"
                   >
                     Request Service
-                  </button>
+                  </a>
                 </mat-card-content>
               </mat-card>
             </div>
@@ -72,7 +75,7 @@ import { FormsModule } from '@angular/forms';
           <h3 class="text-center mt-5 mb-4 mat-h3">What Our Clients Say</h3>
           <div class="row">
             <div class="col-md-4" *ngFor="let testimonial of testimonials">
-              <mat-card class="testimonial-card shadow border-0">
+              <mat-card class="testimonial-card">
                 <mat-card-content>
                   <p class="text-muted">{{ testimonial.message }}</p>
                   <p class="font-weight-bold">{{ testimonial.author }}</p>
