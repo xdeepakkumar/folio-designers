@@ -9,13 +9,13 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'app-education-and-certifications',
+  selector: 'app-education-and-certifications', // Keeping the same selector name
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
     <div class="container-lg py-5">
       <div class="row">
-        <!-- Education Section -->
+        <!-- Project Section -->
         <div class="col-lg-6 mb-4">
           <div
             class="card mx-auto shadow-lg border-0"
@@ -23,74 +23,94 @@ import {
           >
             <div class="card-body p-4">
               <h4 class="card-title mb-4 text-center">
-                <b>ADD EDUCATION DETAILS</b>
+                <b>ADD PROJECT DETAILS</b>
               </h4>
               <hr />
               <form [formGroup]="educationAndCertificationsForm">
-                <div formArrayName="educations">
+                <div formArrayName="projects">
                   <div
-                    *ngFor="let education of educations.controls; let i = index"
+                    *ngFor="let project of projects.controls; let i = index"
                     [formGroupName]="i"
                     class="card mb-3 border-0 shadow-sm"
                   >
                     <div class="card-body p-4">
                       <h6 class="card-subtitle mb-3 text-secondary">
-                        Education {{ i + 1 }}
+                        Project {{ i + 1 }}
                       </h6>
                       <div class="row g-3">
                         <div class="col-12">
-                          <label class="form-label fw-semibold">Degree</label>
+                          <label class="form-label fw-semibold"
+                            >Project Name</label
+                          >
                           <input
                             type="text"
-                            formControlName="degree"
+                            formControlName="projectName"
                             class="form-control border-secondary-subtle"
-                            placeholder="e.g., B.Sc., M.Tech"
+                            placeholder="e.g., Personal Portfolio, E-Commerce App"
                             required
                           />
                         </div>
                         <div class="col-12">
                           <label class="form-label fw-semibold"
-                            >Institution</label
+                            >Project Description</label
                           >
-                          <input
-                            type="text"
-                            formControlName="institution"
+                          <textarea
+                            formControlName="description"
                             class="form-control border-secondary-subtle"
-                            placeholder="e.g., Harvard, MIT"
+                            placeholder="Describe the project"
+                            rows="4"
                             required
-                          />
+                          ></textarea>
                         </div>
                         <div class="col-md-6">
                           <label class="form-label fw-semibold"
-                            >Year of Graduation</label
+                            >Technologies Used</label
                           >
                           <input
-                            type="number"
-                            formControlName="graduationYear"
+                            type="text"
+                            formControlName="technologiesUsed"
                             class="form-control border-secondary-subtle"
-                            placeholder="e.g., 2020"
-                            min="1900"
-                            max="2100"
+                            placeholder="e.g., Angular, Node.js, MongoDB"
                             required
                           />
                         </div>
                         <div class="col-md-6">
-                          <label class="form-label fw-semibold">Grade</label>
+                          <label class="form-label fw-semibold">Role</label>
                           <input
                             type="text"
-                            formControlName="grade"
+                            formControlName="role"
                             class="form-control border-secondary-subtle"
-                            placeholder="e.g., A, 3.5/4"
+                            placeholder="e.g., Frontend Developer"
                             required
+                          />
+                        </div>
+                        <div class="col-12">
+                          <label class="form-label fw-semibold"
+                            >GitHub Repository</label
+                          >
+                          <input
+                            type="url"
+                            formControlName="githubRepo"
+                            class="form-control border-secondary-subtle"
+                            placeholder="https://github.com/username/project-name"
+                          />
+                        </div>
+                        <div class="col-12">
+                          <label class="form-label fw-semibold">Live URL</label>
+                          <input
+                            type="url"
+                            formControlName="liveUrl"
+                            class="form-control border-secondary-subtle"
+                            placeholder="https://projectname.com"
                           />
                         </div>
                         <div class="col-12 text-end">
                           <button
                             type="button"
                             class="btn btn-outline-danger btn-sm mt-3"
-                            (click)="removeEducation(i)"
+                            (click)="removeProject(i)"
                           >
-                            Remove Education
+                            Remove Project
                           </button>
                         </div>
                       </div>
@@ -101,9 +121,9 @@ import {
                   <button
                     type="button"
                     class="btn btn-outline-success btn-sm mt-4"
-                    (click)="addEducation()"
+                    (click)="addProject()"
                   >
-                    Add Another Education
+                    Add Another Project
                   </button>
                 </div>
               </form>
@@ -182,6 +202,28 @@ import {
                             class="form-control border-secondary-subtle"
                           />
                         </div>
+                        <div class="col-12">
+                          <label class="form-label fw-semibold"
+                            >Certification Description</label
+                          >
+                          <textarea
+                            formControlName="certificationDescription"
+                            class="form-control border-secondary-subtle"
+                            placeholder="Describe the certification details"
+                            rows="4"
+                          ></textarea>
+                        </div>
+                        <div class="col-12">
+                          <label class="form-label fw-semibold"
+                            >Certification Image</label
+                          >
+                          <input
+                            type="file"
+                            formControlName="certificationImage"
+                            class="form-control border-secondary-subtle"
+                            accept="image/*"
+                          />
+                        </div>
                         <div class="col-12 text-end">
                           <button
                             type="button"
@@ -224,6 +266,9 @@ import {
         font-size: 1rem;
         font-weight: 500;
       }
+      .form-control {
+        box-sizing: border-box;
+      }
       @media (max-width: 768px) {
         .row {
           flex-direction: column;
@@ -237,18 +282,18 @@ export class EducationAndCertificationsComponent {
 
   constructor(private fb: FormBuilder) {
     this.educationAndCertificationsForm = this.fb.group({
-      educations: this.fb.array([]), // Initialize with an empty FormArray for educations
+      projects: this.fb.array([]), // Initialize with an empty FormArray for projects
       certifications: this.fb.array([]), // Initialize with an empty FormArray for certifications
     });
 
-    // Add an initial education and certification entry
-    this.addEducation();
+    // Add an initial project and certification entry
+    this.addProject();
     this.addCertification();
   }
 
-  // Getter to access the educations FormArray
-  get educations(): FormArray {
-    return this.educationAndCertificationsForm.get('educations') as FormArray;
+  // Getter to access the projects FormArray
+  get projects(): FormArray {
+    return this.educationAndCertificationsForm.get('projects') as FormArray;
   }
 
   // Getter to access the certifications FormArray
@@ -258,24 +303,23 @@ export class EducationAndCertificationsComponent {
     ) as FormArray;
   }
 
-  // Method to add a new education entry
-  addEducation() {
-    this.educations.push(
+  // Method to add a new project entry
+  addProject() {
+    this.projects.push(
       this.fb.group({
-        degree: ['', Validators.required],
-        institution: ['', Validators.required],
-        graduationYear: [
-          '',
-          [Validators.required, Validators.min(1900), Validators.max(2100)],
-        ],
-        grade: ['', Validators.required],
+        projectName: ['', Validators.required],
+        description: ['', Validators.required],
+        technologiesUsed: ['', Validators.required],
+        role: ['', Validators.required],
+        githubRepo: [''],
+        liveUrl: [''],
       })
     );
   }
 
-  // Method to remove an education entry
-  removeEducation(index: number) {
-    this.educations.removeAt(index);
+  // Method to remove a project entry
+  removeProject(index: number) {
+    this.projects.removeAt(index);
   }
 
   // Method to add a new certification entry
@@ -286,6 +330,8 @@ export class EducationAndCertificationsComponent {
         issuingOrganization: ['', Validators.required],
         dateIssued: ['', Validators.required],
         expirationDate: [''],
+        certificationDescription: [''],
+        certificationImage: [null], // For image upload
       })
     );
   }

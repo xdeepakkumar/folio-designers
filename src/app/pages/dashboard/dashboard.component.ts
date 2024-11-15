@@ -39,7 +39,10 @@ import { PerviewComponent } from '../../components/perview/perview.component';
     <mat-card>
       <mat-card-content>
         <div class="container">
-          <h2 class="text-center mat-h2 mb-1" style="color: #2a3d7c;  font-size: 1.6rem;">
+          <h2
+            class="text-center mat-h2 mb-1"
+            style="color: #2a3d7c;  font-size: 1.6rem;"
+          >
             Create Your Portfolio
           </h2>
           <h5 class="text-center text-muted mb-4">
@@ -48,7 +51,7 @@ import { PerviewComponent } from '../../components/perview/perview.component';
           <mat-horizontal-stepper>
             <mat-step>
               <ng-template matStepLabel>
-                <span>Personal Info</span>
+                <span>Personal & Educations</span>
               </ng-template>
               <app-personal-info></app-personal-info>
               <div class="button-container">
@@ -68,9 +71,9 @@ import { PerviewComponent } from '../../components/perview/perview.component';
 
             <mat-step>
               <ng-template matStepLabel>
-                <span>Education & Certifications</span>
+                <span>Skills & Experience</span>
               </ng-template>
-              <app-education-and-certifications></app-education-and-certifications>
+              <app-skill-and-experience></app-skill-and-experience>
               <div class="button-container">
                 <button mat-raised-button color="secondary" matStepperPrevious>
                   Back
@@ -83,9 +86,9 @@ import { PerviewComponent } from '../../components/perview/perview.component';
 
             <mat-step>
               <ng-template matStepLabel>
-                <span>Skills & Experience</span>
+                <span>Projects & Certifications</span>
               </ng-template>
-              <app-skill-and-experience></app-skill-and-experience>
+              <app-education-and-certifications></app-education-and-certifications>
               <div class="button-container">
                 <button mat-raised-button color="secondary" matStepperPrevious>
                   Back
