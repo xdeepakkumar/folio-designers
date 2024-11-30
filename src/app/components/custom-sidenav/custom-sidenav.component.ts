@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, Input, signal } from '@angular/core';
+import { Component, Input, signal, computed } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { RouterLink, RouterModule } from '@angular/router';
+import { MatDividerModule } from '@angular/material/divider'; // Import MatDividerModule
 
 export type MenuItem = {
   icon: string;
@@ -20,6 +21,7 @@ export type MenuItem = {
     MatIconModule,
     RouterLink,
     RouterModule,
+    MatDividerModule, // Add MatDividerModule here
   ],
   template: `
     <div class="sidenav-header">
@@ -35,26 +37,34 @@ export type MenuItem = {
       </div>
     </div>
     <mat-nav-list>
-      <a
-        mat-list-item
-        class="menu-item"
-        *ngFor="let item of filteredMenuItems()"
-        [routerLink]="item.route"
-        routerLinkActive="selected-menu-item"
-        #rla="routerLinkActive"
-        [activated]="rla.isActive"
-      >
-        <mat-icon
-          [fontSet]="
-            rla.isActive ? 'material-icons' : 'material-icons-outlined'
-          "
-          matListItemIcon
-          >{{ item.icon }}</mat-icon
+      <!-- Loop through menu items -->
+      <ng-container *ngFor="let item of filteredMenuItems(); let i = index">
+        <!-- Add divider after "Daily Feed" -->
+        <mat-divider *ngIf="item.label === 'Manage Portfolio'"></mat-divider>
+
+        <a
+          mat-list-item
+          class="menu-item"
+          [routerLink]="item.route"
+          routerLinkActive="selected-menu-item"
+          #rla="routerLinkActive"
+          [activated]="rla.isActive"
         >
-        <span *ngIf="!sideNavCollapsed()" matListItemTitle>{{
-          item.label
-        }}</span>
-      </a>
+          <mat-icon
+            [fontSet]="
+              rla.isActive ? 'material-icons' : 'material-icons-outlined'
+            "
+            matListItemIcon
+            >{{ item.icon }}</mat-icon
+          >
+          <span *ngIf="!sideNavCollapsed()" matListItemTitle>{{
+            item.label
+          }}</span>
+        </a>
+
+        <!-- Add divider before "Services" -->
+        <mat-divider *ngIf="item.label === 'View Portfolio'"></mat-divider>
+      </ng-container>
     </mat-nav-list>
   `,
   styles: [
@@ -118,8 +128,13 @@ export class CustomSidenavComponent {
     },
     {
       icon: 'dashboard',
-      label: 'Create Portfolio',
+      label: 'Manage Portfolio',
       route: 'create-portfolio',
+    },
+    {
+      icon: 'visibility',
+      label: 'View Portfolio',
+      route: 'portfolio/view',
     },
     {
       icon: 'handshake',

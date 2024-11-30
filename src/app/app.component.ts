@@ -126,7 +126,6 @@ import { CustomSidenavComponent } from './components/custom-sidenav/custom-siden
       }
       .company-name {
         font-size: 1.25rem;
-        font-weight: bold;
         margin-left: 8px;
       }
       .spacer {
