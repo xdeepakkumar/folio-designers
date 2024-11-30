@@ -134,7 +134,7 @@ export class CustomSidenavComponent {
     {
       icon: 'visibility',
       label: 'View Portfolio',
-      route: 'portfolio/view',
+      route: 'my-portfolio',
     },
     {
       icon: 'handshake',
