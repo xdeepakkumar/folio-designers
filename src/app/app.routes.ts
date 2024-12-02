@@ -12,6 +12,7 @@ import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MyPortfolioComponent } from './components/my-portfolio/my-portfolio.component';
 import { PortfolioDetailsComponent } from './components/portfolio-details/portfolio-details.component';
+import { FeedDetailsComponent } from './components/feed-details/feed-details.component';
 
 export const routes: Routes = [
   {
@@ -65,8 +66,12 @@ export const routes: Routes = [
   },
   {
     path: 'portfolio-details',
-    component: PortfolioDetailsComponent, // Add route for the new page without sidebar and navbar
-    data: { layout: 'blank' }, // Optionally, you can use this data property to specify a layout if you are managing layouts
+    component: PortfolioDetailsComponent, // No changes here
+    data: { layout: 'blank' },
+  },
+  {
+    path: 'feed-details/:id',
+    component: FeedDetailsComponent,
   },
   {
     path: '**',
