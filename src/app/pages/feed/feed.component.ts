@@ -105,52 +105,56 @@ export class FeedComponent implements OnInit {
   newsList: News[] = [
     {
       id: 1,
-      title: 'World Markets Soar Amid Global Recovery',
+      title: 'Red Monsters: Webb Space Telescope Discovers Early Galaxies',
       summary:
-        'Global markets witnessed a significant uptick as economic recovery gains momentum, with major indices hitting record highs...',
-      image: 'https://cdn-icons-png.flaticon.com/512/5395/5395993.png',
+        'The Webb Space Telescope has uncovered ultra-massive early galaxies known as red monsters, challenging existing models of galaxy formation...',
+      image: 'https://images.pexels.com/photos/45201/pexels-photo-45201.jpeg',
     },
     {
       id: 2,
-      title: 'SpaceX Successfully Launches Mars Mission',
+      title: 'Apple’s iPhone 15 Launches with Revolutionary Features',
       summary:
-        'SpaceX’s ambitious mission to Mars has successfully launched, bringing humanity one step closer to interplanetary travel...',
-      image: 'https://cdn-icons-png.flaticon.com/512/5395/5395993.png',
+        'Apple’s latest iPhone 15 features breakthrough technology, including enhanced AI capabilities and a stunning new design...',
+      image: 'https://images.pexels.com/photos/267202/pexels-photo-267202.jpeg',
     },
     {
       id: 3,
-      title: 'Tech Giants Join Forces for Green Innovation',
+      title: 'SpaceX Launches Mars Mission, Aims for First Human Landing',
       summary:
-        'Top tech companies have announced a series of green initiatives aimed at reducing carbon footprints and fostering sustainability...',
-      image: 'https://cdn-icons-png.flaticon.com/512/5395/5395993.png',
+        'SpaceX has successfully launched its Mars mission, aiming to establish a permanent human presence on the Red Planet...',
+      image:
+        'https://images.pexels.com/photos/2826749/pexels-photo-2826749.jpeg',
     },
     {
       id: 4,
-      title: 'Breakthrough in Cancer Research Promises Hope',
+      title: 'Electric Aircraft: A New Era in Aviation Takes Flight',
       summary:
-        'A new breakthrough in cancer research has opened up possibilities for more effective treatments and a potential cure...',
-      image: 'https://cdn-icons-png.flaticon.com/512/5395/5395993.png',
+        'Electric aircraft are changing the future of air travel, reducing carbon emissions and paving the way for a greener aviation industry...',
+      image: 'https://images.pexels.com/photos/124346/pexels-photo-124346.jpeg',
     },
     {
       id: 5,
-      title: 'World’s First Fully Autonomous Car Approved for Roads',
+      title: 'Breakthrough Cancer Treatment Shows Promise in Clinical Trials',
       summary:
-        'A major leap forward in automotive technology as the first fully autonomous car receives approval for public road use...',
-      image: 'https://cdn-icons-png.flaticon.com/512/5395/5395993.png',
+        'New cancer treatments are showing unprecedented success in clinical trials, with hopes for wider applications in the near future...',
+      image:
+        'https://images.pexels.com/photos/1470240/pexels-photo-1470240.jpeg',
     },
     {
       id: 6,
-      title: 'Global Warming: New Report Raises Urgent Concerns',
+      title: 'World’s First Fully Autonomous Car Hits the Road',
       summary:
-        'A new report on climate change warns that global warming could have irreversible effects on the planet if immediate action is not taken...',
-      image: 'https://cdn-icons-png.flaticon.com/512/5395/5395993.png',
+        'The first fully autonomous car has been approved for public roads, marking a major milestone in the future of transportation...',
+      image:
+        'https://images.pexels.com/photos/3693062/pexels-photo-3693062.jpeg',
     },
     {
       id: 7,
-      title: 'The Rise of Electric Aviation: A Greener Future for Air Travel',
+      title: 'Breakthrough in Space Tourism with Suborbital Flights',
       summary:
-        'Electric aviation is rapidly growing as a viable alternative to traditional air travel, promising reduced emissions and greener skies...',
-      image: 'https://cdn-icons-png.flaticon.com/512/5395/5395993.png',
+        'New developments in space tourism are opening doors to suborbital flights, making space travel more accessible to the public...',
+      image:
+        'https://images.pexels.com/photos/1108541/pexels-photo-1108541.jpeg',
     },
   ];
 

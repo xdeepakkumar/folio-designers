@@ -15,8 +15,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { CustomSidenavComponent } from './components/custom-sidenav/custom-sidenav.component';
-import { FormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +30,7 @@ import { BrowserModule } from '@angular/platform-browser';
     MatMenuModule,
     MatBadgeModule,
     CustomSidenavComponent,
+    HttpClientModule,
   ],
   template: `
     <mat-toolbar class="mat-elevation-z3" color="primary">
