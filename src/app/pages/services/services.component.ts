@@ -21,7 +21,10 @@ import { FormsModule } from '@angular/forms';
     <mat-card>
       <mat-card-content>
         <div class="container my-5">
-          <h2 class="text-center mat-h2 mb-1" style="color: #2a3d7c;  font-size: 1.6rem;">
+          <h2
+            class="text-center mat-h2 mb-1"
+            style="color: #2a3d7c; font-size: 1.6rem;"
+          >
             Our Premium Services
           </h2>
           <h5 class="text-center text-muted mb-4">
@@ -29,10 +32,11 @@ import { FormsModule } from '@angular/forms';
             expertise.
           </h5>
 
-          <!-- Service Request Form -->
-          <div class="row justify-content-center">
-            <div class="col-12 col-md-8">
-              <mat-card class="service-selection shadow-lg">
+          <!-- Service Request Section -->
+          <div class="row justify-content-center align-items-stretch">
+            <!-- Form Section -->
+            <div class="col-12 col-md-6">
+              <mat-card class="service-selection">
                 <mat-card-content>
                   <mat-form-field appearance="fill" class="w-100 mt-3">
                     <mat-label>Email or Phone</mat-label>
@@ -70,7 +74,7 @@ import { FormsModule } from '@angular/forms';
                     <button
                       mat-raised-button
                       color="primary"
-                      class="get-started-button mt-4"
+                      class="get-started-button mt-3"
                       (click)="sendRequest()"
                     >
                       Request Service
@@ -79,31 +83,14 @@ import { FormsModule } from '@angular/forms';
                 </mat-card-content>
               </mat-card>
             </div>
-          </div>
 
-          <!-- Testimonials Section -->
-          <h3 class="text-center mt-5 mb-4 mat-h3">What Our Clients Say</h3>
-          <div class="row">
-            <div
-              class="col-12 col-md-4"
-              *ngFor="let testimonial of testimonials"
-            >
-              <mat-card class="testimonial-card">
-                <mat-card-content class="text-center">
-                  <!-- Client Image and Name Section -->
-                  <div class="testimonial-header">
-                    <img
-                      class="testimonial-image"
-                      [src]="testimonial.image"
-                      alt="{{ testimonial.author }}"
-                    />
-                    <div class="testimonial-name">
-                      <p class="font-weight-bold">{{ testimonial.author }}</p>
-                    </div>
-                  </div>
-                  <p class="text-muted">{{ testimonial.message }}</p>
-                </mat-card-content>
-              </mat-card>
+            <!-- Image Section -->
+            <div class="col-12 col-md-6 image-container">
+              <img
+                src="https://images.unsplash.com/photo-1521747116042-5a810fda9664?crop=entropy&cs=tinysrgb&fit=max&ixid=MnwzNjcwM3wwfDF8c2VhcmNofDJ8fHRlY2hub2xvZ3l8ZW58MHx8fHx8&ixlib=rb-1.2.1&q=80&w=1080"
+                alt="Tech Image"
+                class="img-fluid rounded"
+              />
             </div>
           </div>
         </div>
@@ -113,71 +100,59 @@ import { FormsModule } from '@angular/forms';
   styles: [
     `
       .service-selection {
-        margin-top: 20px;
-        padding: 30px;
-        border-radius: 15px;
-        background-color: #ffffff; /* Clean white background */
-        border: 1px solid #e0e0e0; /* Subtle border for contrast */
-        text-align: center; /* Center-align content */
-        transition: box-shadow 0.3s; /* Smooth shadow transition */
-      }
-
-      .service-selection:hover {
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Elevated shadow effect */
-      }
-
-      .testimonial-card {
-        margin-bottom: 30px;
-        padding: 20px;
+        margin-top: 10px;
+        border-radius: 5px;
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
         text-align: center;
-        border-radius: 15px;
-        background-color: #f9fafb; /* Light gray background for testimonial cards */
-        border: none;
-        transition: transform 0.2s ease; /* Smooth transform on hover */
+        height: 100%; /* Ensure the form takes up the full height of its container */
       }
 
-      .testimonial-card:hover {
-        transform: translateY(-5px); /* Slight lift on hover */
-      }
-
-      /* Client Image and Name Styling */
-      .testimonial-header {
-        display: flex;
+      /* Image Section Styles */
+      .image-container {
         justify-content: center;
         align-items: center;
-        margin-bottom: 15px;
+        height: 100%; /* Make the image container stretch to the same height as the form */
+        padding: 10px;
+        overflow: hidden; /* Ensure the image doesn't overflow */
+        border-radius: 12px;
       }
 
-      .testimonial-image {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%; /* Circular client image */
-        margin-right: 15px;
-        object-fit: cover;
+      .image-container img {
+        max-width: 130%;
+        height: 260%; /* Ensure the image stretches to fit the container's height */
+        object-fit: cover; /* Maintain aspect ratio while covering the container */
       }
 
-      .testimonial-name {
-        font-size: 1.1em;
-        font-weight: 600;
-      }
-
-      /* Responsive Design for Small Screens */
       @media (max-width: 767px) {
-        .service-selection {
-          padding: 20px; /* Less padding on small screens */
+        /* Hide the image on smaller screens */
+        .image-container {
+          display: none;
         }
 
-        .testimonial-card {
-          margin-bottom: 20px;
+        .service-selection {
           padding: 15px;
         }
 
         h2 {
-          font-size: 1.8em; /* Smaller header size for mobile */
+          font-size: 1.5em;
         }
 
-        h3.mat-h3 {
-          font-size: 1.5em; /* Adjust testimonial section header for small screens */
+        .get-started-button {
+          width: 100%;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .row {
+          display: flex;
+          align-items: stretch; /* Ensure form and image are aligned vertically */
+        }
+
+        .col-md-6 {
+          display: flex;
+          flex-direction: column;
+          height: 100%; /* Ensure both the form and image sections are the same height */
         }
       }
 
@@ -185,10 +160,9 @@ import { FormsModule } from '@angular/forms';
         background-color: #0056b3;
       }
 
-      /* General Text Styling */
       mat-form-field {
         margin-bottom: 20px;
-        width: 100%;
+        width: 98%;
       }
 
       .small-raised-button {
@@ -208,24 +182,6 @@ export class ServicesComponent {
   userMessage: string = '';
   userEmail: string = '';
   userPhone: string = '';
-
-  testimonials = [
-    {
-      message: 'Excellent service and support!',
-      author: 'John Doe',
-      image: 'https://www.w3schools.com/howto/img_avatar.png',
-    },
-    {
-      message: 'Highly recommend their services!',
-      author: 'Jane Smith',
-      image: 'https://www.w3schools.com/howto/img_avatar2.png',
-    },
-    {
-      message: 'Professional and dedicated team!',
-      author: 'Alice Johnson',
-      image: 'https://www.w3schools.com/howto/img_avatar.png',
-    },
-  ];
 
   sendRequest() {
     if (

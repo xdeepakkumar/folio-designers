@@ -32,7 +32,7 @@ export type MenuItem = {
         alt="profile pic"
       />
       <div class="header-text" [class.hide-header-text]="sideNavCollapsed()">
-        <h2>Dashboard</h2>
+        <h2>Welcome</h2>
         <p>Deepak Kumar</p>
       </div>
     </div>

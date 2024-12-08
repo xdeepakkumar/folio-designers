@@ -19,7 +19,7 @@ import {
         <div class="container my-5">
           <h2
             class="text-center mat-h2 mb-1"
-            style="color: #2a3d7c;  font-size: 1.6rem;"
+            style="color: #2a3d7c; font-size: 1.6rem;"
           >
             About Us
           </h2>
@@ -58,7 +58,7 @@ import {
 
           <div class="text-center">
             <mat-card class="contact-card mt-5">
-              <mat-card-header class="text-center">
+              <mat-card-header>
                 <mat-card-title class="mat-h2 mb-4">Contact Us</mat-card-title>
               </mat-card-header>
               <mat-card-content>
@@ -68,7 +68,8 @@ import {
                       type="text"
                       class="form-control"
                       formControlName="name"
-                      placeholder="Your Name"
+                      placeholder="Enter your name"
+                      aria-label="Your Name"
                       required
                     />
                   </div>
@@ -77,7 +78,8 @@ import {
                       type="email"
                       class="form-control"
                       formControlName="email"
-                      placeholder="Your Email"
+                      placeholder="Enter your email"
+                      aria-label="Your Email"
                       required
                     />
                   </div>
@@ -86,7 +88,8 @@ import {
                       class="form-control"
                       formControlName="message"
                       rows="4"
-                      placeholder="Your Message"
+                      placeholder="Write your message here"
+                      aria-label="Your Message"
                       required
                     ></textarea>
                   </div>
@@ -95,6 +98,7 @@ import {
                     color="primary"
                     type="submit"
                     [disabled]="contactForm.invalid"
+                    class="submit-button"
                   >
                     Send Message
                   </button>
@@ -108,6 +112,15 @@ import {
   `,
   styles: [
     `
+      .section-title {
+        color: #2a3d7c;
+        font-size: 1.6rem;
+      }
+
+      .section-subtitle {
+        font-size: 1.1rem;
+      }
+
       .about-card {
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -122,6 +135,16 @@ import {
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       }
 
+      .submit-button {
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        width: 100%;
+      }
+
+      .submit-button:hover {
+        background-color: #1e5ab6;
+        transform: translateY(-2px);
+      }
+
       mat-card-title {
         font-size: 1.25rem;
         font-weight: bold;
@@ -129,6 +152,20 @@ import {
 
       mat-card-content p {
         color: #333;
+      }
+
+      .form-control {
+        border-radius: 10px;
+        padding: 12px;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+      }
+
+      @media (max-width: 768px) {
+        .section-title,
+        .section-subtitle {
+          text-align: left;
+        }
       }
     `,
   ],
@@ -146,9 +183,10 @@ export class AboutComponent {
 
   onSubmit() {
     if (this.contactForm.valid) {
-      console.log('Form submitted', this.contactForm.value);
-      // Handle the form submission logic, e.g., send data to a server
-      this.contactForm.reset(); // Reset the form after submission
+      alert('Your message has been sent successfully!');
+      this.contactForm.reset();
+    } else {
+      alert('Please fill out all required fields.');
     }
   }
 }
