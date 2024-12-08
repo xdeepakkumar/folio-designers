@@ -72,6 +72,9 @@ interface News {
     `
       .news-item {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 380px; /* Fixed height for each card */
+        display: flex;
+        flex-direction: column;
       }
 
       .news-item:hover {
@@ -81,7 +84,7 @@ interface News {
 
       .news-image {
         width: 100%;
-        height: 180px;
+        height: 180px; /* Fixed height for the image */
         object-fit: cover;
         border-bottom: 2px solid #eee;
       }
@@ -89,10 +92,23 @@ interface News {
       mat-card-title {
         font-size: 1.2rem;
         font-weight: bold;
+        height: 60px; /* Fixed height for title */
+        overflow: hidden; /* Prevent long titles from breaking the layout */
+      }
+
+      mat-card-content {
+        flex-grow: 1; /* Makes content area take the remaining space */
+        color: #555;
       }
 
       mat-card-content p {
-        color: #555;
+        font-size: 0.9rem;
+        height: 70px; /* Adjust the height to fit the text */
+        overflow: hidden; /* Ensure text is clipped if it's too long */
+      }
+
+      .mat-card-actions {
+        margin-top: auto; /* Pushes the actions to the bottom of the card */
       }
 
       .small-raised-button {
@@ -108,53 +124,49 @@ export class FeedComponent implements OnInit {
       title: 'Red Monsters: Webb Space Telescope Discovers Early Galaxies',
       summary:
         'The Webb Space Telescope has uncovered ultra-massive early galaxies known as red monsters, challenging existing models of galaxy formation...',
-      image: 'https://images.pexels.com/photos/45201/pexels-photo-45201.jpeg',
+      image: 'https://www.spacex.com/static/images/share.jpg',
     },
     {
       id: 2,
       title: 'Apple’s iPhone 15 Launches with Revolutionary Features',
       summary:
         'Apple’s latest iPhone 15 features breakthrough technology, including enhanced AI capabilities and a stunning new design...',
-      image: 'https://images.pexels.com/photos/267202/pexels-photo-267202.jpeg',
+      image: 'https://www.spacex.com/static/images/share.jpg',
     },
     {
       id: 3,
       title: 'SpaceX Launches Mars Mission, Aims for First Human Landing',
       summary:
         'SpaceX has successfully launched its Mars mission, aiming to establish a permanent human presence on the Red Planet...',
-      image:
-        'https://images.pexels.com/photos/2826749/pexels-photo-2826749.jpeg',
+      image: 'https://www.spacex.com/static/images/share.jpg',
     },
     {
       id: 4,
       title: 'Electric Aircraft: A New Era in Aviation Takes Flight',
       summary:
         'Electric aircraft are changing the future of air travel, reducing carbon emissions and paving the way for a greener aviation industry...',
-      image: 'https://images.pexels.com/photos/124346/pexels-photo-124346.jpeg',
+      image: 'https://www.spacex.com/static/images/share.jpg',
     },
     {
       id: 5,
       title: 'Breakthrough Cancer Treatment Shows Promise in Clinical Trials',
       summary:
         'New cancer treatments are showing unprecedented success in clinical trials, with hopes for wider applications in the near future...',
-      image:
-        'https://images.pexels.com/photos/1470240/pexels-photo-1470240.jpeg',
+      image: 'https://www.spacex.com/static/images/share.jpg',
     },
     {
       id: 6,
       title: 'World’s First Fully Autonomous Car Hits the Road',
       summary:
         'The first fully autonomous car has been approved for public roads, marking a major milestone in the future of transportation...',
-      image:
-        'https://images.pexels.com/photos/3693062/pexels-photo-3693062.jpeg',
+      image: 'https://www.spacex.com/static/images/share.jpg',
     },
     {
       id: 7,
       title: 'Breakthrough in Space Tourism with Suborbital Flights',
       summary:
         'New developments in space tourism are opening doors to suborbital flights, making space travel more accessible to the public...',
-      image:
-        'https://images.pexels.com/photos/1108541/pexels-photo-1108541.jpeg',
+      image: 'https://www.spacex.com/static/images/share.jpg',
     },
   ];
 
