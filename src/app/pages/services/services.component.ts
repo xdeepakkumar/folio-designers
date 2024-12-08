@@ -138,6 +138,8 @@ import { FormsModule } from '@angular/forms';
       .main-card {
         border-radius: 12px;
         padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
 
       .service-selection {
@@ -168,9 +170,10 @@ import { FormsModule } from '@angular/forms';
       }
 
       .testimonial-section {
-        background-color: #f9f9f9;
+        background-color: #fff;
         padding: 20px;
         border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
 
       .testimonial-slider {
@@ -190,10 +193,11 @@ import { FormsModule } from '@angular/forms';
       .testimonial-card {
         width: 33.33%;
         margin-right: 15px;
-        background-color: #fff;
+        background-color: #f5f5f5;
         border-radius: 12px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         padding: 15px;
+        text-align: center;
         transition: transform 0.3s ease;
       }
 
@@ -212,21 +216,22 @@ import { FormsModule } from '@angular/forms';
         height: 80px;
         border-radius: 50%;
         object-fit: cover;
+        border: 3px solid #ff6f00; /* Amber border for the image */
       }
 
       .testimonial-text {
-        text-align: center;
+        padding: 10px;
       }
 
       .testimonial-comment {
         font-size: 1rem;
         color: #555;
+        margin-bottom: 10px;
       }
 
       .testimonial-name {
         font-weight: bold;
-        color: #333;
-        margin-top: 10px;
+        color: #2a3d7c;
       }
 
       @media (max-width: 767px) {
@@ -319,16 +324,19 @@ export class ServicesComponent implements OnInit, OnDestroy {
   startAutoSlide() {
     this.testimonialInterval = setInterval(() => {
       this.nextTestimonial();
-    }, 3000); // Auto slide every 2 seconds
+    }, 3000); // Auto slide every 3 seconds
   }
 
   nextTestimonial() {
+    // Move to the next set of testimonials, wrap around if necessary
     this.currentTestimonialIndex =
       (this.currentTestimonialIndex + 1) % this.testimonials.length;
     this.visibleTestimonials = this.testimonials.slice(
       this.currentTestimonialIndex,
       this.currentTestimonialIndex + 3
     );
+
+    // Ensure that only 3 testimonials are displayed at a time
     if (this.visibleTestimonials.length < 3) {
       const remaining = 3 - this.visibleTestimonials.length;
       this.visibleTestimonials.push(...this.testimonials.slice(0, remaining));
