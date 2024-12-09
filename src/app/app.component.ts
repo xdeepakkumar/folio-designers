@@ -125,26 +125,43 @@ import { HttpClientModule } from '@angular/common/http';
       mat-toolbar {
         display: flex;
         align-items: center;
+        background: linear-gradient(
+          45deg,
+          #8e2de2,
+          #4a00e0
+        ); /* Gemini gradient colors */
       }
+
       .company-name {
         font-size: 1.25rem;
-        margin-left: 8px;
+        margin-left: 2px;
+        color: white; /* Text color */
       }
+
+      mat-button,
+      mat-icon-button {
+        color: white; /* Button icon color */
+      }
+
       .spacer {
         flex: 1;
       }
+
       .content {
         padding: 24px;
         padding-bottom: 60px;
       }
+
       .sidenav-container {
         height: calc(100vh - 64px);
         position: relative;
       }
+
       mat-sidenav,
       mat-sidenav-content {
         transition: all 500ms ease-in-out;
       }
+
       .sticky-footer {
         position: fixed;
         bottom: 0;
