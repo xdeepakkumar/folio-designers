@@ -27,7 +27,7 @@ import { FormsModule } from '@angular/forms';
           >
             Our Premium Services
           </h2>
-          <h5 class="text-center text-muted mb-4">
+          <h5 class="text-center text-muted mb-5">
             Select a service and let us handle the rest with professionalism and
             expertise.
           </h5>
@@ -40,6 +40,16 @@ import { FormsModule } from '@angular/forms';
                 <mat-card-content>
                   <mat-form-field appearance="fill" class="w-100 mt-3">
                     <mat-label>Email or Phone</mat-label>
+                    <input
+                      matInput
+                      [(ngModel)]="userEmail"
+                      type="email"
+                      placeholder="Enter your email or phone number"
+                    />
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill" class="w-100 mt-3">
+                    <mat-label>Address</mat-label>
                     <input
                       matInput
                       [(ngModel)]="userEmail"
@@ -65,7 +75,7 @@ import { FormsModule } from '@angular/forms';
                     <textarea
                       matInput
                       [(ngModel)]="userMessage"
-                      rows="4"
+                      rows="5"
                       placeholder="Describe your needs..."
                     ></textarea>
                   </mat-form-field>
@@ -73,9 +83,9 @@ import { FormsModule } from '@angular/forms';
                   <div class="text-center">
                     <button
                       mat-raised-button
-                      color="primary"
                       class="get-started-button mt-3"
                       (click)="sendRequest()"
+                      style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
                     >
                       Request Service
                     </button>
@@ -87,14 +97,14 @@ import { FormsModule } from '@angular/forms';
             <!-- Image Section -->
             <div class="col-12 col-md-6 image-container">
               <img
-                src="https://images.unsplash.com/photo-1521747116042-5a810fda9664?crop=entropy&cs=tinysrgb&fit=max&ixid=MnwzNjcwM3wwfDF8c2VhcmNofDJ8fHRlY2hub2xvZ3l8ZW58MHx8fHx8&ixlib=rb-1.2.1&q=80&w=1080"
+                src="../../../assets/assets/images/services.jpg"
                 alt="Tech Image"
                 class="img-fluid rounded-img"
               />
             </div>
           </div>
 
-          <!-- Testimonial Section -->
+          <!-- Testimonial Section
           <mat-card class="testimonial-section mt-5">
             <mat-card-content>
               <h2 class="text-center mat-h2 mb-4" style="color: #2a3d7c;">
@@ -128,13 +138,65 @@ import { FormsModule } from '@angular/forms';
                 </div>
               </div>
             </mat-card-content>
-          </mat-card>
+          </mat-card> -->
         </div>
       </mat-card-content>
     </mat-card>
   `,
   styles: [
     `
+      /* Define the gradient as a reusable variable */
+      :root {
+        --primary-gradient: linear-gradient(
+          135deg,
+          #16a085,
+          #732d91
+        ); /* Teal to Purple */
+      }
+
+      /* Define the gradient as a reusable variable */
+      :root {
+        --primary-gradient: linear-gradient(
+          135deg,
+          #16a085,
+          #732d91
+        ); /* Teal to Purple */
+      }
+
+      /* Global styling for Angular Material Raised Buttons */
+      .button.mat-raised-button {
+        color: white; /* White text on buttons */
+        border-radius: 30px; /* Rounded corners for a smooth button look */
+        padding: 12px 24px; /* Padding for the button */
+        font-size: 16px; /* Font size */
+        text-transform: uppercase; /* Uppercase text */
+        border: none; /* Remove default border */
+        transition: background-color 0.3s ease-in-out; /* Smooth transition for hover effect */
+      }
+
+      /* Apply the gradient to primary and secondary buttons globally */
+      button.mat-raised-button.mat-button-primary {
+        background: var(
+          --primary-gradient
+        ); /* Apply the gradient to primary button */
+      }
+
+      button.mat-raised-button.mat-button-secondary {
+        background: var(
+          --primary-gradient
+        ); /* Apply the gradient to secondary button */
+      }
+
+      /* Hover effect for primary and secondary buttons */
+      button.mat-raised-button.mat-button-primary:hover,
+      button.mat-raised-button.mat-button-secondary:hover {
+        background: linear-gradient(
+          135deg,
+          #732d91,
+          #16a085
+        ); /* Reverse the gradient on hover */
+      }
+
       .main-card {
         border-radius: 12px;
         padding: 20px;
@@ -156,17 +218,17 @@ import { FormsModule } from '@angular/forms';
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100%;
+        height: 50%;
         padding: 10px;
         overflow: hidden;
         border-radius: 12px;
       }
 
       .image-container img {
-        max-width: 130%;
-        height: 100%;
+        max-width: 99%;
+        height: 70% !important;
         object-fit: cover;
-        border-radius: 12px;
+        border-radius: 5px;
       }
 
       .testimonial-section {

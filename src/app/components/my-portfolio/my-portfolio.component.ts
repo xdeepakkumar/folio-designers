@@ -31,7 +31,7 @@ import { Router } from '@angular/router'; // Import Router for navigation
             <div class="col-auto">
               <button
                 mat-raised-button
-                color="primary"
+                style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
                 (click)="onPortfolioClick()"
               >
                 View My Portfolio
@@ -41,7 +41,7 @@ import { Router } from '@angular/router'; // Import Router for navigation
 
           <!-- Profile Visitors Insights Chart Section -->
           <div class="row justify-content-center pt-3">
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-11">
               <h4
                 class="text-center mb-3"
                 style="color: #333; font-weight: 600;"

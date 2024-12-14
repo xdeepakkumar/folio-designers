@@ -125,8 +125,8 @@ import { FooterComponent } from './components/footer/footer.component';
         align-items: center;
         background: linear-gradient(
           45deg,
-          #8e2de2,
-          #4a00e0
+          #8e4488,
+          #16a099
         ); /* Gemini gradient colors */
       }
 

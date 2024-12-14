@@ -102,11 +102,11 @@ interface News {
                     </mat-form-field>
                     <button
                       mat-raised-button
-                      color="primary"
+                      style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
                       class="mt-2"
                       (click)="addComment(commentInput.value)"
                     >
-                      Add
+                      Add Comment
                     </button>
                   </mat-card-content>
                 </mat-card>
