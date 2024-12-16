@@ -20,7 +20,7 @@ import { MatIconModule } from '@angular/material/icon';
       <div class="hero-content">
         <h1>Build a Portfolio That Reflects Your Excellence</h1>
         <h4
-          style="color:black; text-align: center; width: 80%; margin: 0 auto;"
+          style="color:#333333; text-align: center; width: 80%; margin: 0 auto;"
         >
           Present your skills and achievements in a way that resonates with
           clients, employers, and collaborators....
@@ -61,7 +61,7 @@ import { MatIconModule } from '@angular/material/icon';
       </div>
     </section>
 
-    <h2 class="section-title">Ready to Start?</h2>
+    <h2 class="section-title">You're Almost There!</h2>
 
     <section class="cta-section">
       <p>Create a professional portfolio in minutes.</p>
@@ -123,7 +123,6 @@ import { MatIconModule } from '@angular/material/icon';
         font-size: 1.2rem;
         font-weight: 500;
         padding: 10px 30px;
-        border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         transition: all 0.3s ease;
       }
@@ -140,7 +139,6 @@ import { MatIconModule } from '@angular/material/icon';
         padding: 10px 30px;
         color: #16a085; /* Teal */
         border: 2px solid #16a085;
-        border-radius: 8px;
         background-color: transparent;
         transition: all 0.3s ease;
       }
@@ -159,18 +157,13 @@ import { MatIconModule } from '@angular/material/icon';
           font-size: 2rem;
         }
         .hero-content h4 {
-          font-size: 1rem;
-        }
-        .hero-buttons {
-          flex-direction: column;
-          gap: 10px;
+          font-size: 0.8rem;
         }
       }
 
       /* General Section Styling */
       .section-title {
         font-size: 1.5rem;
-        font-weight: 700;
         text-align: center;
         margin-top: 40px;
         margin-bottom: 20px;
@@ -272,15 +265,12 @@ import { MatIconModule } from '@angular/material/icon';
         .hero-content h4 {
           font-size: 1rem;
           margin-top: 10px;
+          color: #16a085; /* Teal */
         }
 
         .get-started-button {
           font-size: 1rem;
           padding: 12px 25px;
-        }
-
-        .section-title {
-          font-size: 2rem;
         }
 
         .section-description {
@@ -312,15 +302,12 @@ import { MatIconModule } from '@angular/material/icon';
 
         .hero-content h4 {
           font-size: 0.9rem;
+          color: #16a085; /* Teal */
         }
 
         .get-started-button {
           font-size: 0.9rem;
           padding: 10px 20px;
-        }
-
-        .section-title {
-          font-size: 1.8rem;
         }
 
         .section-description {

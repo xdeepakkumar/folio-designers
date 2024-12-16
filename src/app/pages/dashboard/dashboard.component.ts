@@ -63,7 +63,11 @@ import { PerviewComponent } from '../../components/perview/perview.component';
                 >
                   Back
                 </button>
-                <button mat-raised-button color="primary" matStepperNext>
+                <button
+                  mat-raised-button
+                  style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
+                  matStepperNext
+                >
                   Next
                 </button>
               </div>
@@ -78,7 +82,11 @@ import { PerviewComponent } from '../../components/perview/perview.component';
                 <button mat-raised-button color="secondary" matStepperPrevious>
                   Back
                 </button>
-                <button mat-raised-button color="primary" matStepperNext>
+                <button
+                  mat-raised-button
+                  style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
+                  matStepperNext
+                >
                   Next
                 </button>
               </div>
@@ -93,7 +101,11 @@ import { PerviewComponent } from '../../components/perview/perview.component';
                 <button mat-raised-button color="secondary" matStepperPrevious>
                   Back
                 </button>
-                <button mat-raised-button color="primary" matStepperNext>
+                <button
+                  mat-raised-button
+                  style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
+                  matStepperNext
+                >
                   Next
                 </button>
               </div>
@@ -108,7 +120,11 @@ import { PerviewComponent } from '../../components/perview/perview.component';
                 <button mat-raised-button color="secondary" matStepperPrevious>
                   Back
                 </button>
-                <button mat-raised-button color="primary" matStepperNext>
+                <button
+                  mat-raised-button
+                  style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
+                  matStepperNext
+                >
                   Next
                 </button>
               </div>
@@ -123,7 +139,7 @@ import { PerviewComponent } from '../../components/perview/perview.component';
                 <button mat-raised-button color="secondary" matStepperPrevious>
                   Back
                 </button>
-                <button mat-raised-button color="accent" matStepperNext>
+                <button mat-raised-button color="primary" matStepperNext>
                   Finish
                 </button>
               </div>

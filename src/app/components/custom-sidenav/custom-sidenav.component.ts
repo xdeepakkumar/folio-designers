@@ -32,7 +32,20 @@ export type MenuItem = {
         alt="profile pic"
       />
       <div class="header-text" [class.hide-header-text]="sideNavCollapsed()">
-        <h2>Welcome</h2>
+        <h2
+          style="
+    background: linear-gradient(135deg, #16a085, #732d91);
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 13px;
+    text-transform: uppercase;
+    border: none;
+    transition: background-color 0.3s ease-in-out;
+  "
+        >
+          Welcome
+        </h2>
+
         <p>Deepak Kumar</p>
       </div>
     </div>

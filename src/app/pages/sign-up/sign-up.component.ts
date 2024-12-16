@@ -72,10 +72,9 @@ import {
             <div class="form-group">
               <button
                 mat-raised-button
-                color="primary"
+                class="sign-up-button"
                 type="submit"
                 [disabled]="signUpForm.invalid"
-                class="sign-up-button"
               >
                 Sign Up
               </button>
@@ -87,12 +86,11 @@ import {
           </div>
 
           <div class="google-signup">
-            <a mat-flat-button color="warn" class="google-button">
-              Sign-up with Google
+            <a mat-stroked-button class="google-button" color="warn">
+              <i class="fa fa-google"></i> Sign up with Google
             </a>
           </div>
 
-          <!-- Sign In Link -->
           <div class="sign-in-link text-muted">
             <h5>
               Already have an account?
@@ -105,6 +103,34 @@ import {
   `,
   styles: [
     `
+      /* Google Sign Up Button */
+      .google-signup {
+        text-align: center;
+      }
+
+      .google-button {
+        width: 100%; /* Make the button 100% width */
+        padding: 12px; /* Same padding as the Sign Up button */
+        font-size: 1rem; /* Match the font size of the Sign Up button */
+        background-color: #db4437; /* Google's signature red color */
+        color: white !important;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      .google-button:hover {
+        background-color: #c1351d; /* Darker shade of red on hover */
+      }
+
+      .google-button i {
+        margin-right: 10px; /* Space between the icon and text */
+      }
+
       .sign-up-section {
         padding: 20px 10px;
         display: flex;
@@ -119,6 +145,8 @@ import {
         max-width: 400px;
         padding: 20px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        background-color: white;
       }
 
       .sign-up-card mat-card-header {
@@ -129,6 +157,7 @@ import {
       .sign-up-card mat-card-title {
         font-size: 1.75rem;
         font-weight: 600;
+        color: #333;
       }
 
       .form-group {
@@ -137,21 +166,33 @@ import {
 
       .form-group input {
         width: 100%;
-        padding: 10px;
+        padding: 12px;
         font-size: 1rem;
         border: 1px solid #ccc;
         border-radius: 4px;
+        transition: all 0.3s ease;
+      }
+
+      .form-group input:focus {
+        border-color: #16a085;
+        outline: none;
       }
 
       /* Sign Up Button */
       .sign-up-button {
         width: 100%;
         padding: 12px;
-        font-size: 1rem; /* Reduced text size */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
+        font-size: 1rem;
+        background: linear-gradient(135deg, #16a085, #732d91);
+        color: white !important;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      .sign-up-button:hover {
+        background-color: #16a085;
       }
 
       .divider {
@@ -170,22 +211,6 @@ import {
       /* Google Sign Up Button */
       .google-signup {
         text-align: center;
-      }
-
-      .google-button {
-        width: 100%;
-        padding: 12px;
-        font-size: 1rem;
-        border-radius: 4px; /* Optional: Rounded corners */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: normal;
-      }
-
-      .google-icon {
-        margin-right: 10px;
-        font-size: 1.4rem; /* Icon size adjustment */
       }
 
       /* Sign In Link */
@@ -214,7 +239,7 @@ import {
         }
 
         .form-group input {
-          padding: 8px;
+          padding: 10px;
         }
 
         .sign-up-button {
@@ -232,14 +257,10 @@ import {
         }
 
         .form-group input {
-          padding: 6px;
-        }
-
-        .sign-up-button {
           padding: 8px;
         }
 
-        .google-button {
+        .sign-up-button {
           padding: 8px;
         }
       }

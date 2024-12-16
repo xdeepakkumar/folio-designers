@@ -52,7 +52,7 @@ import {
             <div class="form-group">
               <button
                 mat-raised-button
-                color="primary"
+                style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
                 type="submit"
                 [disabled]="signInForm.invalid"
                 class="sign-in-button"
@@ -69,9 +69,7 @@ import {
           <!-- Google Login Button (Flat) -->
           <div class="google-login">
             <button mat-flat-button color="warn" class="google-button">
-              <!-- Google icon from Material Icons -->
-              <mat-icon class="google-icon">google</mat-icon> Sign-in with
-              Google
+              <i class="fa fa-google"></i> Continue with Google
             </button>
           </div>
 
@@ -155,18 +153,27 @@ import {
       }
 
       .google-button {
-        width: 100%;
-        padding: 12px;
-        font-size: 1rem; /* Adjusted font size */
-        border-radius: 4px; /* Optional: Rounded corners */
+        width: 100%; /* Make the button 100% width */
+        padding: 12px; /* Match the padding of the Sign In button */
+        font-size: 1rem; /* Same font size as Sign In button */
+        background-color: #db4437; /* Google's signature red color */
+        color: white !important;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 4px;
         display: flex;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      .google-button:hover {
+        background-color: #c1351d; /* Darker shade on hover */
       }
 
       .google-icon {
-        margin-right: 10px;
-        font-size: 1.4rem; /* Adjusted icon size */
+        margin-right: 10px; /* Space between icon and text */
+        font-size: 1.4rem; /* Adjust icon size */
       }
 
       /* Sign Up Link */
