@@ -87,7 +87,7 @@ import {
 
           <div class="google-signup">
             <a mat-stroked-button class="google-button" color="warn">
-              <i class="fa fa-google"></i> Sign up with Google
+              <i class="fa fa-google"></i> Continue with Google
             </a>
           </div>
 
@@ -111,7 +111,7 @@ import {
       .google-button {
         width: 100%; /* Make the button 100% width */
         padding: 12px; /* Same padding as the Sign Up button */
-        font-size: 1rem; /* Match the font size of the Sign Up button */
+        font-size: 12px; /* Match the font size of the Sign Up button */
         background-color: #db4437; /* Google's signature red color */
         color: white !important;
         text-transform: uppercase;
@@ -128,7 +128,7 @@ import {
       }
 
       .google-button i {
-        margin-right: 10px; /* Space between the icon and text */
+        margin-right: 5px; /* Space between the icon and text */
       }
 
       .sign-up-section {
@@ -182,7 +182,7 @@ import {
       .sign-up-button {
         width: 100%;
         padding: 12px;
-        font-size: 1rem;
+        font-size: 12px;
         background: linear-gradient(135deg, #16a085, #732d91);
         color: white !important;
         text-transform: uppercase;

@@ -155,7 +155,7 @@ import {
       .google-button {
         width: 100%; /* Make the button 100% width */
         padding: 12px; /* Match the padding of the Sign In button */
-        font-size: 1rem; /* Same font size as Sign In button */
+        font-size: 12px; /* Same font size as Sign In button */
         background-color: #db4437; /* Google's signature red color */
         color: white !important;
         text-transform: uppercase;
@@ -189,6 +189,10 @@ import {
 
       .sign-up:hover {
         text-decoration: underline;
+      }
+
+      .google-button i {
+        margin-right: 5px; /* Space between the icon and text */
       }
 
       /* Responsive Styles */
