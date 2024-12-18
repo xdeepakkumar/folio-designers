@@ -13,6 +13,7 @@ import {
 } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-reset-password',
@@ -26,18 +27,25 @@ import { ActivatedRoute, Router } from '@angular/router';
     MatButtonModule,
     MatIconModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
   ],
   template: `
-    <div class="forgot-password-section">
-      <div class="forgot-password-card">
-        <mat-card>
+    <div class="reset-password-section">
+      <!-- Full-page overlay with spinner -->
+      <div class="overlay" *ngIf="isLoading">
+        <mat-spinner diameter="50"></mat-spinner>
+      </div>
+
+      <div class="reset-password-card">
+        <mat-card style="min-width:400px; min-hight:400px;" class="pt-2 pb-2">
           <mat-card-header>
-            <mat-card-title>Reset Password</mat-card-title>
+            <mat-card-title style="padding-bottom: 10px;"
+              >Reset Password</mat-card-title
+            >
           </mat-card-header>
           <mat-card-content>
             <form [formGroup]="resetPasswordForm" (ngSubmit)="onSubmit()">
               <div class="form-group">
-                <label for="password">New Password</label>
                 <input
                   type="password"
                   id="password"
@@ -56,7 +64,6 @@ import { ActivatedRoute, Router } from '@angular/router';
               </div>
 
               <div class="form-group">
-                <label for="confirmPassword">Confirm Password</label>
                 <input
                   type="password"
                   id="confirmPassword"
@@ -80,17 +87,20 @@ import { ActivatedRoute, Router } from '@angular/router';
                 Reset Password
               </button>
             </form>
+            <div class="sign-in-link text-muted pt-3">
+              <h5>
+                Remember your password?
+                <a href="/sign-in" class="sign-in">Sign In</a>
+              </h5>
+            </div>
           </mat-card-content>
         </mat-card>
       </div>
-
-      <!-- Loader -->
-      <div class="loader" *ngIf="isLoading"></div>
     </div>
   `,
   styles: [
     `
-      .forgot-password-section {
+      .reset-password-section {
         padding: 12px 40px;
         display: flex;
         justify-content: center;
@@ -100,12 +110,12 @@ import { ActivatedRoute, Router } from '@angular/router';
         position: relative;
       }
 
-      .forgot-password-card mat-card-header {
+      .reset-password-card mat-card-header {
         text-align: center;
         margin-bottom: 20px;
       }
 
-      .forgot-password-card mat-card-title {
+      .reset-password-card mat-card-title {
         font-size: 1.5rem;
         font-weight: 600;
       }
@@ -141,27 +151,23 @@ import { ActivatedRoute, Router } from '@angular/router';
         margin-top: 5px;
       }
 
-      /* Loader Styling */
-      .loader {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border: 8px solid #f3f3f3;
-        border-top: 8px solid #16a085;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        animation: spin 2s linear infinite;
+      /* Full-screen overlay with spinner */
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.5); /* Light transparent background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000; /* Ensure overlay covers the entire screen */
       }
 
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
+      /* Spinner styling */
+      mat-spinner {
+        color: #16a085;
       }
     `,
   ],
@@ -224,9 +230,11 @@ export class ResetPasswordComponent {
       };
 
       this.http.post(url, payload).subscribe(
-        () => {
+        (response: any) => {
           this.isLoading = false; // Stop loader on success
-          this.snackBar.open('Password reset successfully!', 'Close', {
+          const successMessage =
+            response.message || 'Password reset successfully!'; // Default to a fallback message
+          this.snackBar.open(successMessage, 'Close', {
             duration: 4000,
             panelClass: ['success-snackbar'],
             horizontalPosition: 'right', // Align message to the right
@@ -236,16 +244,15 @@ export class ResetPasswordComponent {
         },
         (error) => {
           this.isLoading = false; // Stop loader on error
-          this.snackBar.open(
-            'An error occurred while resetting the password. Please try again.',
-            'Close',
-            {
-              duration: 4000,
-              panelClass: ['error-snackbar'],
-              horizontalPosition: 'right', // Align message to the right
-              verticalPosition: 'top', // Align message to the top
-            }
-          );
+          const errorMessage =
+            error.error?.message ||
+            'An error occurred while resetting the password. Please try again.'; // Default error message
+          this.snackBar.open(errorMessage, 'Close', {
+            duration: 4000,
+            panelClass: ['error-snackbar'],
+            horizontalPosition: 'right', // Align message to the right
+            verticalPosition: 'top', // Align message to the top
+          });
           console.error(error);
         }
       );
