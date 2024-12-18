@@ -73,11 +73,18 @@ import {
             </button>
           </div>
 
-          <div class="sign-up-link text-muted">
+          <div class="sign-up-link text-muted mt-2">
             <h5>
               Don't have an account?
               <a href="/sign-up" class="sign-up">Sign Up</a>
             </h5>
+          </div>
+
+          <!-- Forgot Password Link -->
+          <div class="forgot-password-link">
+            <a href="/forget-password" class="forgot-password"
+              >Forgot Password?</a
+            >
           </div>
         </mat-card-content>
       </mat-card>
@@ -123,11 +130,10 @@ import {
         border-radius: 4px;
       }
 
-      /* Sign In Button */
       .sign-in-button {
         width: 100%;
         padding: 12px;
-        font-size: 1rem; /* Reduced text size */
+        font-size: 1rem;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -135,7 +141,7 @@ import {
 
       .divider {
         text-align: center;
-        margin: 20px 0;
+        margin: 10px 0;
         font-size: 1rem;
         color: #333;
       }
@@ -146,17 +152,16 @@ import {
         font-weight: bold;
       }
 
-      /* Google Login Button (Flat) */
       .google-login {
         text-align: center;
         margin-top: 20px;
       }
 
       .google-button {
-        width: 100%; /* Make the button 100% width */
-        padding: 12px; /* Match the padding of the Sign In button */
-        font-size: 12px; /* Same font size as Sign In button */
-        background-color: #db4437; /* Google's signature red color */
+        width: 100%;
+        padding: 12px;
+        font-size: 12px;
+        background-color: #db4437;
         color: white !important;
         text-transform: uppercase;
         border: none;
@@ -168,34 +173,24 @@ import {
       }
 
       .google-button:hover {
-        background-color: #c1351d; /* Darker shade on hover */
+        background-color: #c1351d;
       }
 
-      .google-icon {
-        margin-right: 10px; /* Space between icon and text */
-        font-size: 1.4rem; /* Adjust icon size */
+      .forgot-password-link {
+        text-align: right;
+        margin-top: 10px;
+        font-size: 12px;
       }
 
-      /* Sign Up Link */
-      .sign-up-link {
-        text-align: center;
-        margin-top: 20px;
-      }
-
-      .sign-up {
+      .forgot-password {
         color: #007bff;
         text-decoration: none;
       }
 
-      .sign-up:hover {
+      .forgot-password:hover {
         text-decoration: underline;
       }
 
-      .google-button i {
-        margin-right: 5px; /* Space between the icon and text */
-      }
-
-      /* Responsive Styles */
       @media (max-width: 768px) {
         .sign-in-card {
           padding: 15px;
@@ -251,8 +246,7 @@ export class SignInComponent {
   onSubmit() {
     if (this.signInForm.valid) {
       console.log('Form submitted', this.signInForm.value);
-      // Handle the login logic here, e.g., authenticate with the backend.
-      this.signInForm.reset(); // Reset the form after submission
+      this.signInForm.reset();
     }
   }
 }

@@ -13,6 +13,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { MyPortfolioComponent } from './components/my-portfolio/my-portfolio.component';
 import { PortfolioDetailsComponent } from './components/portfolio-details/portfolio-details.component';
 import { FeedDetailsComponent } from './components/feed-details/feed-details.component';
+import { ForgotPasswordComponent } from './pages/forget-password/forget-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 export const routes: Routes = [
   {
@@ -72,6 +74,14 @@ export const routes: Routes = [
   {
     path: 'feed-details/:id',
     component: FeedDetailsComponent,
+  },
+  {
+    path: 'forget-password',
+    component: ForgotPasswordComponent,
+  },
+  {
+    path: 'api/v1/auth/reset-password/:token/:email',
+    component: ResetPasswordComponent,
   },
   {
     path: '**',

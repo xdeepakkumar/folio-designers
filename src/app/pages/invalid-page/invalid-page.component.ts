@@ -1,35 +1,38 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router'; // Import RouterModule
 
 @Component({
   selector: 'app-invalid-page',
   standalone: true,
-  imports: [CommonModule, MatButtonModule],
+  imports: [CommonModule, MatButtonModule, RouterModule],
   template: `
     <div class="container-lg py-5 text-center">
-      <div
-        class="card shadow border-0 mx-auto"
-        style="border-radius: 12px; max-width: 700px;"
-      >
-        <div class="card-body p-4">
-          <h4 class="card-title mb-3 text-center">
-            <strong>404 ERROR</strong>
-          </h4>
-          <p class="text-muted mb-4">
-            Oops! The page you are looking for does not exist.
-          </p>
+      <div class="row justify-content-center">
+        <div
+          class="col-12 col-md-8 col-lg-6 card shadow border-0"
+          style="border-radius: 12px;"
+        >
+          <div class="card-body p-4">
+            <h4 class="card-title mb-3 text-center">
+              <strong>404 ERROR</strong>
+            </h4>
+            <p class="text-muted mb-4">
+              Oops! The page you are looking for does not exist.
+            </p>
 
-          <img
-            src="https://media.istockphoto.com/id/1067573454/photo/3d-word-oops.jpg?s=2048x2048&w=is&k=20&c=EF_v_bN-mcX8lIsz1zHrCOlVaR--lTxGWsZmTElToEk="
-            alt="Oops Image"
-            class="img-fluid mb-4"
-            style="max-width: 80%; height: auto; object-fit: contain; border-radius: 12px;"
-          />
+            <img
+              src="../../../assets/404.jpg"
+              alt="Oops Image"
+              class="img-fluid mb-4"
+              style="max-width: 80%; height: auto; object-fit: contain; border-radius: 12px;"
+            />
 
-          <button mat-raised-button color="primary" matStepperNext>
-            Go Back to Home
-          </button>
+            <button mat-raised-button color="primary" [routerLink]="'/home'">
+              Go Back to Home
+            </button>
+          </div>
         </div>
       </div>
     </div>
