@@ -17,6 +17,7 @@ import { RouterOutlet } from '@angular/router';
 import { CustomSidenavComponent } from './components/custom-sidenav/custom-sidenav.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from './components/footer/footer.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; // Import MatProgressSpinnerModule
 
 @Component({
   selector: 'app-root',
@@ -33,6 +34,7 @@ import { FooterComponent } from './components/footer/footer.component';
     CustomSidenavComponent,
     HttpClientModule,
     FooterComponent,
+    MatProgressSpinnerModule,
   ],
   template: `
     <ng-container *ngIf="showLayout">

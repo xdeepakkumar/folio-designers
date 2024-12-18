@@ -3,15 +3,16 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSnackBar
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import {
   ReactiveFormsModule,
   FormBuilder,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HttpClient } from '@angular/common/http'; // Import HttpClient
-import { Observable } from 'rxjs'; // For API response handling
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; // Import spinner module
 
 @Component({
   selector: 'app-forget-password',
@@ -23,14 +24,21 @@ import { Observable } from 'rxjs'; // For API response handling
     MatIconModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule, // Import spinner module
   ],
   template: `
     <section class="forgot-password-section">
+      <!-- Full-page spinner overlay -->
+      <div *ngIf="loading" class="overlay">
+        <mat-spinner diameter="50"></mat-spinner>
+      </div>
+
       <mat-card class="forgot-password-card">
         <mat-card-header>
           <mat-card-title class="mat-h4">Forgot Password</mat-card-title>
         </mat-card-header>
         <mat-card-content>
+          <!-- Form content, will be visible even with the spinner active -->
           <form [formGroup]="forgotPasswordForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
               <input
@@ -67,7 +75,7 @@ import { Observable } from 'rxjs'; // For API response handling
                 mat-raised-button
                 style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
                 type="submit"
-                [disabled]="forgotPasswordForm.invalid"
+                [disabled]="forgotPasswordForm.invalid || loading"
                 class="forgot-password-button"
               >
                 Reset Password
@@ -92,15 +100,18 @@ import { Observable } from 'rxjs'; // For API response handling
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 80vh;
+        min-height: 100vh; /* Cover full height of the screen */
         background-color: #f4f4f4;
+        position: relative; /* Ensures overlay is positioned correctly */
       }
 
       .forgot-password-card {
         width: 100%;
         max-width: 400px;
-        padding: 20px ;
+        padding: 20px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        position: relative; /* Keep card's content in front of the spinner */
+        z-index: 1;
       }
 
       .forgot-password-card mat-card-header {
@@ -157,16 +168,31 @@ import { Observable } from 'rxjs'; // For API response handling
       .error-message small {
         display: block;
       }
+
+      /* Full-page spinner overlay */
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.5); /* Light overlay background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000; /* Ensure overlay covers everything else */
+      }
     `,
   ],
 })
 export class ForgotPasswordComponent {
   forgotPasswordForm: FormGroup;
+  loading: boolean = false; // Flag to show the full-page spinner
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private snackBar: MatSnackBar // Inject MatSnackBar
+    private snackBar: MatSnackBar
   ) {
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -176,22 +202,26 @@ export class ForgotPasswordComponent {
   // Handle form submission and make API call
   onSubmit() {
     if (this.forgotPasswordForm.valid) {
+      this.loading = true; // Set loading to true when submitting the form
+
       const email = this.forgotPasswordForm.value.email;
       this.resetPassword(email).subscribe({
         next: (response) => {
           console.log('Password reset request successful:', response);
-          // Show the message from the API response using MatSnackBar
           this.showMessage(response.message, 'success');
         },
         error: (error) => {
           console.error('Error sending password reset request:', error);
-          // Show a generic error message
           this.showMessage(
             'An error occurred while sending the password reset request.',
             'error'
           );
         },
+        complete: () => {
+          this.loading = false; // Set loading to false once the request is complete
+        },
       });
+
       this.forgotPasswordForm.reset();
     }
   }
@@ -205,10 +235,10 @@ export class ForgotPasswordComponent {
   // Function to display messages using MatSnackBar
   showMessage(message: string, type: 'success' | 'error') {
     this.snackBar.open(message, 'Close', {
-      duration: 4000, // Message will disappear after 3 seconds
+      duration: 4000,
       panelClass: type === 'success' ? 'success-snack' : 'error-snack',
-      horizontalPosition: 'right', // Align message to the right
-      verticalPosition: 'top', // Align message to the top
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
     });
   }
 }

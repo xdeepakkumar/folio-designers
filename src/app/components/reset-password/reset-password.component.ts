@@ -74,7 +74,7 @@ import { ActivatedRoute, Router } from '@angular/router';
               <button
                 type="submit"
                 class="forgot-password-button"
-                [disabled]="resetPasswordForm.invalid"
+                [disabled]="resetPasswordForm.invalid || isLoading"
                 style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 8px 16px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
               >
                 Reset Password
@@ -83,6 +83,9 @@ import { ActivatedRoute, Router } from '@angular/router';
           </mat-card-content>
         </mat-card>
       </div>
+
+      <!-- Loader -->
+      <div class="loader" *ngIf="isLoading"></div>
     </div>
   `,
   styles: [
@@ -94,6 +97,7 @@ import { ActivatedRoute, Router } from '@angular/router';
         align-items: center;
         min-height: 80vh;
         background-color: #f4f4f4;
+        position: relative;
       }
 
       .forgot-password-card mat-card-header {
@@ -136,6 +140,29 @@ import { ActivatedRoute, Router } from '@angular/router';
         font-size: 0.875rem;
         margin-top: 5px;
       }
+
+      /* Loader Styling */
+      .loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #16a085;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 2s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
     `,
   ],
 })
@@ -143,6 +170,7 @@ export class ResetPasswordComponent {
   resetPasswordForm: FormGroup;
   token: string = '';
   email: string = '';
+  isLoading = false; // To track the loading state
 
   constructor(
     private fb: FormBuilder,
@@ -183,6 +211,8 @@ export class ResetPasswordComponent {
 
   onSubmit() {
     if (this.resetPasswordForm.valid) {
+      this.isLoading = true; // Set loading to true when the request is sent
+
       // Send the token and email as part of the URL path
       const password = this.resetPasswordForm.value.password;
       const confirmPassword = this.resetPasswordForm.value.confirmPassword;
@@ -195,6 +225,7 @@ export class ResetPasswordComponent {
 
       this.http.post(url, payload).subscribe(
         () => {
+          this.isLoading = false; // Stop loader on success
           this.snackBar.open('Password reset successfully!', 'Close', {
             duration: 4000,
             panelClass: ['success-snackbar'],
@@ -204,6 +235,7 @@ export class ResetPasswordComponent {
           this.router.navigate(['/home']);
         },
         (error) => {
+          this.isLoading = false; // Stop loader on error
           this.snackBar.open(
             'An error occurred while resetting the password. Please try again.',
             'Close',
