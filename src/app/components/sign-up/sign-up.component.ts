@@ -3,12 +3,21 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSnackBar
+import { HttpClient } from '@angular/common/http'; // Import HttpClient
+
 import {
   ReactiveFormsModule,
   FormBuilder,
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router'; // For navigation
+import {
+  MatProgressSpinner,
+  MatProgressSpinnerModule,
+  MatSpinner,
+} from '@angular/material/progress-spinner'; // For spinner
 
 @Component({
   selector: 'app-sign-up',
@@ -19,6 +28,8 @@ import {
     MatButtonModule,
     MatIconModule,
     ReactiveFormsModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
   ],
   template: `
     <section class="sign-up-section">
@@ -26,9 +37,35 @@ import {
         <mat-card-header>
           <mat-card-title class="mat-h2">Sign Up</mat-card-title>
         </mat-card-header>
+
+        <!-- Spinner overlay -->
+        <div *ngIf="isLoading" class="overlay">
+          <mat-spinner diameter="60"></mat-spinner>
+        </div>
+
         <mat-card-content>
           <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
+              <div class="form-group">
+                <input
+                  matInput
+                  type="text"
+                  formControlName="fullName"
+                  placeholder="Full Name"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  matInput
+                  type="email"
+                  formControlName="email"
+                  placeholder="Email"
+                  class="form-control"
+                  required
+                />
+              </div>
               <input
                 matInput
                 type="text"
@@ -38,32 +75,13 @@ import {
                 required
               />
             </div>
-            <div class="form-group">
-              <input
-                matInput
-                type="email"
-                formControlName="email"
-                placeholder="Email"
-                class="form-control"
-                required
-              />
-            </div>
+
             <div class="form-group">
               <input
                 matInput
                 type="password"
                 formControlName="password"
                 placeholder="Password"
-                class="form-control"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <input
-                matInput
-                type="text"
-                formControlName="fullName"
-                placeholder="Full Name"
                 class="form-control"
                 required
               />
@@ -147,6 +165,7 @@ import {
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
         background-color: white;
+        position: relative; /* Make the card relative for overlay positioning */
       }
 
       .sign-up-card mat-card-header {
@@ -208,11 +227,6 @@ import {
         font-weight: bold;
       }
 
-      /* Google Sign Up Button */
-      .google-signup {
-        text-align: center;
-      }
-
       /* Sign In Link */
       .sign-in-link {
         text-align: center;
@@ -226,6 +240,25 @@ import {
 
       .sign-in:hover {
         text-decoration: underline;
+      }
+
+      /* Full-page spinner overlay */
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.7); /* Lighter overlay background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000; /* Ensure overlay covers everything else */
+      }
+
+      mat-spinner {
+        width: 80px !important; /* Set the spinner size to 80px */
+        height: 80px !important; /* Set the spinner size to 80px */
       }
 
       /* Responsive Styles */
@@ -269,21 +302,67 @@ import {
 })
 export class SignUpComponent {
   signUpForm: FormGroup;
+  isLoading = false; // Track loading state
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient, // Inject HttpClient
+    private snackBar: MatSnackBar, // Inject MatSnackBar
+    private router: Router // For navigation after successful sign-up
+  ) {
     this.signUpForm = this.fb.group({
-      username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
       fullName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      username: ['', Validators.required],
+      password: ['', Validators.required],
     });
   }
 
   onSubmit() {
     if (this.signUpForm.valid) {
-      console.log('Form submitted', this.signUpForm.value);
-      // Handle the sign-up logic here, e.g., create user in the backend.
-      this.signUpForm.reset(); // Reset the form after submission
+      this.isLoading = true; // Show loading spinner
+
+      const requestBody = {
+        firstName: this.signUpForm.value.fullName.split(' ')[0],
+        lastName: this.signUpForm.value.fullName.split(' ')[1],
+        username: this.signUpForm.value.username,
+        password: this.signUpForm.value.password,
+        email: this.signUpForm.value.email,
+      };
+
+      this.http
+        .post('http://localhost:8080/api/v1/user/register', requestBody)
+        .subscribe(
+          (response: any) => {
+            this.isLoading = false; // Stop loading spinner
+
+            const successMessage =
+              response?.message || 'Registration successful!';
+            this.snackBar.open(successMessage, 'Close', {
+              duration: 4000,
+              panelClass: ['success-snackbar'],
+              horizontalPosition: 'right',
+              verticalPosition: 'top',
+            });
+
+            this.router.navigate(['/sign-in']); // Navigate to sign-in page
+          },
+          (error) => {
+            this.isLoading = false; // Stop loading spinner
+
+            const errorMessage =
+              error?.error?.message ||
+              'An error occurred while registering. Please try again.';
+            this.snackBar.open(errorMessage, 'Close', {
+              duration: 4000,
+              panelClass: ['error-snackbar'],
+              horizontalPosition: 'right',
+              verticalPosition: 'top',
+            });
+
+            console.error(error);
+          }
+        );
     }
   }
 }

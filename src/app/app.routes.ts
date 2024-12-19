@@ -8,13 +8,13 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { InvalidPageComponent } from './pages/invalid-page/invalid-page.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
-import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MyPortfolioComponent } from './components/my-portfolio/my-portfolio.component';
 import { PortfolioDetailsComponent } from './components/portfolio-details/portfolio-details.component';
 import { FeedDetailsComponent } from './components/feed-details/feed-details.component';
 import { ForgotPasswordComponent } from './components/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
 
 export const routes: Routes = [
   {
