@@ -154,7 +154,7 @@ import {
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 100vh;
+        min-height: 79vh;
         background-color: #f4f4f4;
       }
 
@@ -323,8 +323,7 @@ export class SignUpComponent {
       this.isLoading = true; // Show loading spinner
 
       const requestBody = {
-        firstName: this.signUpForm.value.fullName.split(' ')[0],
-        lastName: this.signUpForm.value.fullName.split(' ')[1],
+        name: this.signUpForm.value.fullName,
         username: this.signUpForm.value.username,
         password: this.signUpForm.value.password,
         email: this.signUpForm.value.email,
@@ -345,7 +344,7 @@ export class SignUpComponent {
               verticalPosition: 'top',
             });
 
-            this.router.navigate(['/sign-in']); // Navigate to sign-in page
+            this.router.navigate(['/verify-email']);
           },
           (error) => {
             this.isLoading = false; // Stop loading spinner

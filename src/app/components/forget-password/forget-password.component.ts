@@ -100,7 +100,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; /
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 100vh; /* Cover full height of the screen */
+        min-height: 75vh; /* Cover full height of the screen */
         background-color: #f4f4f4;
         position: relative; /* Ensures overlay is positioned correctly */
       }
