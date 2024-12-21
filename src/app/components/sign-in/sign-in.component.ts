@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,6 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -80,7 +81,12 @@ import { HttpClient } from '@angular/common/http';
           </div>
 
           <div class="google-login">
-            <button mat-flat-button color="warn" class="google-button">
+            <button
+              mat-flat-button
+              color="warn"
+              class="google-button"
+              (click)="signInWithGoogle()"
+            >
               <i class="fa fa-google"></i> Continue with Google
             </button>
           </div>
@@ -223,6 +229,7 @@ import { HttpClient } from '@angular/common/http';
         z-index: 1000; /* Ensures it’s on top of other content */
       }
 
+
       @media (max-width: 768px) {
         .sign-in-card {
           padding: 15px;
@@ -265,18 +272,27 @@ import { HttpClient } from '@angular/common/http';
     `,
   ],
 })
-export class SignInComponent {
+export class SignInComponent implements OnInit {
   signInForm: FormGroup;
   isLoading: boolean = false; // Flag for loading state
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this.signInForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
 
-  onSubmit() {
+  ngOnInit(): void {
+    this.handleRedirect();
+  }
+
+  onSubmit(): void {
     if (this.signInForm.invalid) return;
 
     this.isLoading = true; // Show spinner
@@ -296,14 +312,13 @@ export class SignInComponent {
           if (response.response.length > 0) {
             const token = response.response[0]?.token;
             if (token) {
-              // Store token in session storage if login is successful
+              // Store token in session storage
               sessionStorage.setItem('token', token);
-              console.log('Login successful, token stored in sessionStorage.');
+              this.router.navigate(['/home']);
             } else {
               console.error('Token not found in response.');
             }
           } else {
-            // Handle backend error message
             console.log('Error:', response.message);
           }
         },
@@ -312,5 +327,38 @@ export class SignInComponent {
           console.error('API error:', error);
         }
       );
+  }
+
+  signInWithGoogle(): void {
+    window.location.href =
+      'http://localhost:8081/login/oauth2/authorization/google';
+  }
+
+  handleRedirect(): void {
+    this.isLoading = true; // Show spinner
+
+    // Use a timeout to ensure the component is fully loaded before handling query parameters
+    setTimeout(() => {
+      this.route.queryParams.subscribe((params) => {
+        const token = params['token'];
+
+        if (token) {
+          // Store token in sessionStorage
+          sessionStorage.setItem('token', token);
+
+          // Clear the token from the URL
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: {},
+            queryParamsHandling: 'merge', // Remove query parameters
+          });
+
+          // Navigate to home or a specific page
+          this.router.navigate(['/home']);
+        }
+
+        this.isLoading = false; // Stop spinner
+      });
+    }, 0); // Minimal delay to allow query parameters to be processed
   }
 }
