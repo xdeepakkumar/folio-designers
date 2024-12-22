@@ -16,6 +16,7 @@ import { ForgotPasswordComponent } from './components/forget-password/forget-pas
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { VerifyOtpComponent } from './components/verify-otp/verify-otp.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 export const routes: Routes = [
   {
@@ -87,6 +88,10 @@ export const routes: Routes = [
   {
     path: 'verify-email',
     component: VerifyOtpComponent,
+  },
+  {
+    path: 'user-profile',
+    component: UserProfileComponent,
   },
   {
     path: '**',
