@@ -10,50 +10,43 @@ import { Router } from '@angular/router'; // Import Router for navigation
   standalone: true,
   imports: [CommonModule, MatCardModule, MatButtonModule], // Add MatButtonModule to imports
   template: `
-    <mat-card>
-      <mat-card-content>
-        <div class="container my-5">
-          <!-- Portfolio Header with Improved Styles -->
-          <div class="row text-center">
-            <div class="col-12">
-              <h2 style="color: #2a3d7c; font-size: 2rem; font-weight: bold;">
-                Your Portfolio
-              </h2>
-              <h5 class="text-muted">
-                A collection of my best work—creativity, skill, and dedication
-                at the forefront. Let’s collaborate and create something great!
-              </h5>
-            </div>
-          </div>
-
-          <!-- Portfolio View Button -->
-          <div class="row justify-content-center mb-4">
-            <div class="col-auto">
-              <button
-                mat-raised-button
-                style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
-                (click)="onPortfolioClick()"
-              >
-                View My Portfolio
-              </button>
-            </div>
-          </div>
-
-          <!-- Profile Visitors Insights Chart Section -->
-          <div class="row justify-content-center pt-3">
-            <div class="col-12 col-md-11">
-              <h4
-                class="text-center mb-3"
-                style="color: #333; font-weight: 600;"
-              >
-                Profile Visitors Insights (Last 6 Months)
-              </h4>
-              <canvas id="portfolioChart" width="400" height="200"></canvas>
-            </div>
-          </div>
+    <div class="container my-5">
+      <!-- Portfolio Header with Improved Styles -->
+      <div class="row text-center">
+        <div class="col-12">
+          <h2 style="color: #2a3d7c; font-size: 2rem; font-weight: bold;">
+            Your Portfolio
+          </h2>
+          <h5 class="text-muted">
+            A collection of my best work—creativity, skill, and dedication at
+            the forefront. Let’s collaborate and create something great!
+          </h5>
         </div>
-      </mat-card-content>
-    </mat-card>
+      </div>
+
+      <!-- Portfolio View Button -->
+      <div class="row justify-content-center mb-4">
+        <div class="col-auto">
+          <button
+            mat-raised-button
+            style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
+            (click)="onPortfolioClick()"
+          >
+            View My Portfolio
+          </button>
+        </div>
+      </div>
+
+      <!-- Profile Visitors Insights Chart Section -->
+      <div class="row justify-content-center pt-3">
+        <div class="col-12 col-md-11">
+          <h4 class="text-center mb-3" style="color: #333; font-weight: 600;">
+            Profile Visitors Insights (Last 6 Months)
+          </h4>
+          <canvas id="portfolioChart" width="400" height="200"></canvas>
+        </div>
+      </div>
+    </div>
   `,
   styles: [
     `

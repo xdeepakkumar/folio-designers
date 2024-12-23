@@ -78,6 +78,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; /
                 [disabled]="forgotPasswordForm.invalid || loading"
                 class="forgot-password-button"
               >
+                <i class="fa fa-unlock"></i>
                 Reset Password
               </button>
             </div>
@@ -101,7 +102,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; /
         justify-content: center;
         align-items: center;
         min-height: 75vh; /* Cover full height of the screen */
-        background-color: #f4f4f4;
         position: relative; /* Ensures overlay is positioned correctly */
       }
 
@@ -109,7 +109,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; /
         width: 100%;
         max-width: 400px;
         padding: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         position: relative; /* Keep card's content in front of the spinner */
         z-index: 1;
       }
@@ -120,7 +119,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; /
       }
 
       .forgot-password-card mat-card-title {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
         font-weight: 600;
       }
 

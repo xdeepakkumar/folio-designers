@@ -61,7 +61,7 @@ import { ActivatedRoute, Router } from '@angular/router';
                 [disabled]="signInForm.invalid || isLoading"
                 class="sign-in-button"
               >
-                Sign In
+                <i class="fa fa-sign-in"></i> Sign In
               </button>
             </div>
           </form>
@@ -115,14 +115,12 @@ import { ActivatedRoute, Router } from '@angular/router';
         justify-content: center;
         align-items: center;
         min-height: 79vh;
-        background-color: #f4f4f4;
       }
 
       .sign-in-card {
         width: 100%;
         max-width: 400px;
         padding: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       }
 
       .sign-in-card mat-card-header {
@@ -228,7 +226,6 @@ import { ActivatedRoute, Router } from '@angular/router';
         ); /* Light gray overlay with 20% opacity */
         z-index: 1000; /* Ensures it’s on top of other content */
       }
-
 
       @media (max-width: 768px) {
         .sign-in-card {

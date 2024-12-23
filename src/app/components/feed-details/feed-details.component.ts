@@ -30,118 +30,110 @@ interface News {
     MatDividerModule,
   ],
   template: `
-    <mat-card>
-      <mat-card-content>
-        <div class="container my-5">
-          <h2
-            class="text-center mat-h2 mb-1"
-            style="color: #2a3d7c; font-size: 1.6rem;"
-          >
-            Latest News
-          </h2>
-          <h5 class="text-center text-muted mb-4">
-            Explore the exciting developments in space exploration, technology,
-            and more!
-          </h5>
+    <div class="container my-5">
+      <h2
+        class="text-center mat-h2 mb-1"
+        style="color: #2a3d7c; font-size: 1.6rem;"
+      >
+        Latest News
+      </h2>
+      <h5 class="text-center text-muted mb-4">
+        Explore the exciting developments in space exploration, technology, and
+        more!
+      </h5>
 
-          <div class="container-fluid mt-4">
-            <div class="row">
-              <!-- Main Content -->
-              <div class="col-12 col-md-8">
-                <mat-card class="feed-card">
-                  <mat-card-header>
-                    <div mat-card-avatar class="user-avatar"></div>
-                    <mat-card-title>Space Enthusiast</mat-card-title>
-                    <mat-card-subtitle>2 hours ago</mat-card-subtitle>
-                  </mat-card-header>
+      <div class="container-fluid mt-4">
+        <div class="row">
+          <!-- Main Content -->
+          <div class="col-12 col-md-8">
+            <mat-card class="feed-card">
+              <mat-card-header>
+                <div mat-card-avatar class="user-avatar"></div>
+                <mat-card-title>Space Enthusiast</mat-card-title>
+                <mat-card-subtitle>2 hours ago</mat-card-subtitle>
+              </mat-card-header>
 
-                  <img
-                    mat-card-image
-                    [src]="newsItem?.image"
-                    alt="News Image"
-                    class="news-image"
-                  />
+              <img
+                mat-card-image
+                [src]="newsItem?.image"
+                alt="News Image"
+                class="news-image"
+              />
 
-                  <mat-card-content>
-                    <h2>{{ newsItem?.title }}</h2>
-                    <p>{{ newsItem?.details }}</p>
-                  </mat-card-content>
+              <mat-card-content>
+                <h2>{{ newsItem?.title }}</h2>
+                <p>{{ newsItem?.details }}</p>
+              </mat-card-content>
 
-                  <mat-card-actions>
-                    <button mat-button>
-                      <mat-icon>thumb_up</mat-icon> Like
-                    </button>
-                    <button mat-button><mat-icon>share</mat-icon> Share</button>
-                    <button mat-button>
-                      <mat-icon>chat</mat-icon> Comment
-                    </button>
-                  </mat-card-actions>
+              <mat-card-actions>
+                <button mat-button><mat-icon>thumb_up</mat-icon> Like</button>
+                <button mat-button><mat-icon>share</mat-icon> Share</button>
+                <button mat-button><mat-icon>chat</mat-icon> Comment</button>
+              </mat-card-actions>
 
-                  <mat-divider></mat-divider>
+              <mat-divider></mat-divider>
 
-                  <!-- Comments Section -->
-                  <mat-card-content>
-                    <h3>Comments</h3>
-                    <div *ngFor="let comment of comments" class="comment">
-                      <div class="d-flex align-items-center mb-2">
-                        <img
-                          class="rounded-circle comment-avatar"
-                          src="https://cdn-icons-png.flaticon.com/512/147/147144.png"
-                          alt="Commenter Avatar"
-                        />
-                        <div class="ms-2">
-                          <strong>{{ comment.name }}</strong>
-                          <p class="mb-0 text-muted">{{ comment.text }}</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <mat-form-field class="w-100 mt-3">
-                      <mat-label>Add a comment</mat-label>
-                      <input matInput #commentInput />
-                    </mat-form-field>
-                    <button
-                      mat-raised-button
-                      style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
-                      class="mt-2"
-                      (click)="addComment(commentInput.value)"
-                    >
-                      Add Comment
-                    </button>
-                  </mat-card-content>
-                </mat-card>
-              </div>
-
-              <!-- Right-Side Content (Simplified) -->
-              <div class="col-md-4 d-none d-md-block">
-                <mat-card class="right-sidebar sticky-top">
-                  <mat-card-header>
-                    <mat-card-title>SpaceX Latest News</mat-card-title>
-                  </mat-card-header>
-
-                  <mat-card-content>
-                    <!-- Space-themed image from NASA -->
+              <!-- Comments Section -->
+              <mat-card-content>
+                <h3>Comments</h3>
+                <div *ngFor="let comment of comments" class="comment">
+                  <div class="d-flex align-items-center mb-2">
                     <img
-                      src="https://images.pexels.com/photos/259282/pexels-photo-259282.jpeg"
-                      alt="SpaceX News"
-                      class="right-sidebar-img"
+                      class="rounded-circle comment-avatar"
+                      src="https://cdn-icons-png.flaticon.com/512/147/147144.png"
+                      alt="Commenter Avatar"
                     />
+                    <div class="ms-2">
+                      <strong>{{ comment.name }}</strong>
+                      <p class="mb-0 text-muted">{{ comment.text }}</p>
+                    </div>
+                  </div>
+                </div>
 
-                    <mat-divider></mat-divider>
-                    <h5>SpaceX Launches Next Mission</h5>
-                    <p>
-                      SpaceX continues to make strides towards interplanetary
-                      missions. The next mission will include launching the
-                      latest communication satellites.
-                    </p>
-                  </mat-card-content>
-                </mat-card>
-              </div>
-            </div>
+                <mat-form-field class="w-100 mt-3">
+                  <mat-label>Add a comment</mat-label>
+                  <input matInput #commentInput />
+                </mat-form-field>
+                <button
+                  mat-raised-button
+                  style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
+                  class="mt-2"
+                  (click)="addComment(commentInput.value)"
+                >
+                  Add Comment
+                </button>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <!-- Right-Side Content (Simplified) -->
+          <div class="col-md-4 d-none d-md-block">
+            <mat-card class="right-sidebar sticky-top">
+              <mat-card-header>
+                <mat-card-title>SpaceX Latest News</mat-card-title>
+              </mat-card-header>
+
+              <mat-card-content>
+                <!-- Space-themed image from NASA -->
+                <img
+                  src="https://images.pexels.com/photos/259282/pexels-photo-259282.jpeg"
+                  alt="SpaceX News"
+                  class="right-sidebar-img"
+                />
+
+                <mat-divider></mat-divider>
+                <h5>SpaceX Launches Next Mission</h5>
+                <p>
+                  SpaceX continues to make strides towards interplanetary
+                  missions. The next mission will include launching the latest
+                  communication satellites.
+                </p>
+              </mat-card-content>
+            </mat-card>
           </div>
         </div>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </div>
   `,
   styles: [
     `

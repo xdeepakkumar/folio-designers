@@ -24,206 +24,213 @@ import { MatIconModule } from '@angular/material/icon';
     MatDialogModule,
   ],
   template: `
-    <mat-card>
-      <mat-card-content>
-        <div class="container my-5">
-          <h2
-            class="text-center mat-h2 mb-1"
-            style="color: #2a3d7c; font-size: 1.6rem;"
-          >
-            User Profile
-          </h2>
-          <h5 class="text-center text-muted mb-4">
-            Personalize your experience and update your details to stay
-            connected with us.
-          </h5>
+    <div class="container my-5">
+      <h2
+        class="text-center mat-h2 mb-1"
+        style="color: #2a3d7c; font-size: 1.6rem;"
+      >
+        Profile & Settings
+      </h2>
+      <h5 class="text-center text-muted mb-4">
+        Personalize your experience and update your details to stay connected
+        with us.
+      </h5>
+    </div>
+
+    <div class="container">
+      <div class="row g-4">
+        <!-- Profile Information -->
+        <div class="col-lg-6">
+          <mat-card>
+            <mat-card-content class="text-center">
+              <div class="position-relative">
+                <img
+                  src="../../../assets/me.png"
+                  alt="Profile Image"
+                  class="rounded-circle mb-3"
+                  style="cursor: pointer; width: 120px; height: 120px; object-fit: cover;cursor: pointer;"
+                  (click)="openImageDialog()"
+                />
+              </div>
+              <h5 class="mb-1">Deepak Kumar</h5>
+              <p class="text-muted mb-2">+91-9939377229</p>
+              <p class="text-muted small">
+                {{ 'xdeepakkumar355@gmail.com' }}
+              </p>
+
+              <hr class="w-100" />
+              <div class="d-flex justify-content-between w-100">
+                <span class="text-muted">Profile Status</span>
+                <span class="text-success">&#9679;</span>
+              </div>
+            </mat-card-content>
+          </mat-card>
         </div>
 
-        <div class="container my-4" style="max-width: 900px;">
-          <div class="row g-4">
-            <!-- Profile Information -->
+        <!-- Notification Preferences -->
+        <div class="col-lg-6">
+          <mat-card>
+            <mat-card-content>
+              <h6 class="card-title mb-3">Notification Preferences</h6>
 
-            <div class="col-lg-6">
-              <mat-card class="h-100 shadow-sm">
-                <mat-card-content class="text-center">
-                  <div class="position-relative">
-                    <img
-                      src="https://via.placeholder.com/120"
-                      alt="Profile Image"
-                      class="rounded-circle mb-3"
-                      style="cursor: pointer;"
-                      (click)="openImageDialog()"
-                    />
-                  </div>
-                  <h5 class="mb-1">Sami Rahman</h5>
-                  <p class="text-muted mb-2">+1-856-589-995-1236</p>
-                  <p class="text-muted small">samirahman0021gmail.com</p>
-                  <hr class="w-100" />
-                  <div class="d-flex justify-content-between w-100">
-                    <span class="text-muted">Profile Status</span>
-                    <span class="text-success">&#9679;</span>
-                  </div>
-                </mat-card-content>
-              </mat-card>
-            </div>
-
-            <!-- Notification Preferences -->
-            <div class="col-lg-6">
-              <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                  <h6 class="card-title mb-3">Notification Preferences</h6>
-                  <div class="form-check border-bottom py-2">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      id="emailNotifications"
-                      checked
-                    />
-                    <label class="form-check-label" for="emailNotifications">
-                      Email Notifications
-                    </label>
-                  </div>
-                  <div class="form-check border-bottom py-2">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      id="smsNotifications"
-                    />
-                    <label class="form-check-label" for="smsNotifications">
-                      SMS Notifications
-                    </label>
-                  </div>
-                  <div class="form-check border-bottom py-2">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      id="pushNotifications"
-                    />
-                    <label class="form-check-label" for="pushNotifications">
-                      Push Notifications
-                    </label>
-                  </div>
-                  <div class="form-check py-2">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      id="newsletterSubscriptions"
-                    />
-                    <label
-                      class="form-check-label"
-                      for="newsletterSubscriptions"
-                    >
-                      Newsletter Subscriptions
-                    </label>
-                  </div>
-                </div>
+              <div class="form-check border-bottom py-2">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="emailNotifications"
+                  checked
+                />
+                <label class="form-check-label" for="emailNotifications">
+                  Email Notifications
+                </label>
               </div>
-            </div>
 
-            <!-- Privacy Settings -->
-            <div class="col-lg-6">
-              <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                  <h6 class="card-title mb-3">Privacy Settings</h6>
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                      <input
-                        type="checkbox"
-                        id="twoFactor"
-                        class="form-check-input me-2"
-                      />
-                      <label for="twoFactor" class="form-check-label"
-                        >Enable Two-Factor Authentication</label
-                      >
-                    </li>
-                    <li class="list-group-item">
-                      <input
-                        type="checkbox"
-                        id="hideProfile"
-                        class="form-check-input me-2"
-                      />
-                      <label for="hideProfile" class="form-check-label"
-                        >Hide Profile from Public</label
-                      >
-                    </li>
-                    <li class="list-group-item">
-                      <input
-                        type="checkbox"
-                        id="blockContacts"
-                        class="form-check-input me-2"
-                      />
-                      <label for="blockContacts" class="form-check-label"
-                        >Block Unknown Contacts</label
-                      >
-                    </li>
-                  </ul>
-                </div>
+              <div class="form-check border-bottom py-2">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="smsNotifications"
+                />
+                <label class="form-check-label" for="smsNotifications">
+                  SMS Notifications
+                </label>
               </div>
-            </div>
 
-            <!-- Account Security -->
-            <div class="col-lg-6">
-              <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                  <h6 class="card-title mb-3">Account Security</h6>
-                  <p class="text-muted small">
-                    Last Password Change: 3 months ago
-                  </p>
-                  <button
-                    mat-raised-button
-                    style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
-                    type="submit"
-                    class="sign-in-button"
-                  >
-                    Change Password
-                  </button>
-                </div>
+              <div class="form-check border-bottom py-2">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="pushNotifications"
+                />
+                <label class="form-check-label" for="pushNotifications">
+                  Push Notifications
+                </label>
               </div>
-            </div>
 
-            <!-- Subscription Plan -->
-            <div class="col-lg-6">
-              <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                  <h6 class="card-title mb-3">Subscription Plan</h6>
-                  <p class="mb-1">Current Plan: <strong>Premium</strong></p>
-                  <p class="text-muted small">
-                    Next Billing Date: Jan 15, 2025
-                  </p>
-                  <button
-                    mat-raised-button
-                    style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
-                    type="submit"
-                    class="sign-in-button"
-                  >
-                    Upgrade Plan
-                  </button>
-                </div>
+              <div class="form-check border-bottom py-2">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="appUpdates"
+                />
+                <label class="form-check-label" for="appUpdates">
+                  App Updates
+                </label>
               </div>
-            </div>
 
-            <!-- Language Preferences -->
-            <div class="col-lg-6">
-              <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                  <h6 class="card-title mb-3">Language Preferences</h6>
-                  <select class="form-select">
-                    <option selected>English</option>
-                    <option>Hindi</option>
-                  </select>
-                </div>
+              <div class="form-check border-bottom py-2">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="marketingEmails"
+                />
+                <label class="form-check-label" for="marketingEmails">
+                  Marketing Emails
+                </label>
               </div>
-            </div>
-          </div>
+
+              <div class="form-check py-1">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="surveyNotifications"
+                />
+                <label class="form-check-label" for="surveyNotifications">
+                  Survey and Feedback Requests
+                </label>
+              </div>
+            </mat-card-content>
+          </mat-card>
         </div>
-      </mat-card-content>
-    </mat-card>
+
+        <!-- Privacy Settings -->
+        <div class="col-lg-6">
+          <mat-card>
+            <mat-card-content>
+              <h6 class="card-title mb-3">Privacy Settings</h6>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <input
+                    type="checkbox"
+                    id="twoFactor"
+                    class="form-check-input me-2"
+                  />
+                  <label for="twoFactor" class="form-check-label"
+                    >Enable Two-Factor Authentication</label
+                  >
+                </li>
+                <li class="list-group-item">
+                  <input
+                    type="checkbox"
+                    id="hideProfile"
+                    class="form-check-input me-2"
+                  />
+                  <label for="hideProfile" class="form-check-label"
+                    >Hide Profile from Public</label
+                  >
+                </li>
+              </ul>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <!-- Account Security -->
+        <div class="col-lg-6">
+          <mat-card style="min-height: 140px;">
+            <mat-card-content>
+              <h6 class="card-title mb-3">Account Security</h6>
+              <p class="text-muted small">Last Password Change: 3 months ago</p>
+              <button
+                mat-raised-button
+                style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
+                type="submit"
+                class="sign-in-button"
+              >
+                Change Password
+              </button>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <!-- Subscription Plan -->
+        <div class="col-lg-6">
+          <mat-card>
+            <mat-card-content>
+              <h6 class="card-title mb-3">Subscription Plan</h6>
+              <p class="mb-1">Current Plan: <strong>Premium</strong></p>
+              <p class="text-muted small">Next Billing Date: Jan 15, 2025</p>
+              <button
+                mat-raised-button
+                style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
+                type="submit"
+                class="sign-in-button"
+              >
+                Upgrade Plan
+              </button>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <!-- Language Preferences -->
+        <div class="col-lg-6">
+          <mat-card style="min-height: 158px;">
+            <mat-card-content>
+              <h6 class="card-title mb-3">Language Preferences</h6>
+              <select class="form-select">
+                <option selected>English</option>
+                <option>Hindi</option>
+              </select>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
 
     <!-- Dialog for Viewing/Updating Image -->
     <ng-template #imageDialog>
       <div class="dialog-content">
         <div class="header">
-          <h4 class="text-center">Profile Image</h4>
+          <h5 class="text-center">Update Your Profile Picture Here</h5>
           <!-- Close Button -->
           <button class="close-btn" style="color: red;" (click)="closeDialog()">
             &#10005;
@@ -231,19 +238,50 @@ import { MatIconModule } from '@angular/material/icon';
         </div>
         <div class="image-container">
           <img
-            src="https://via.placeholder.com/120"
+            *ngIf="selectedImage"
+            [src]="selectedImage"
             alt="Profile Image"
             class="img-fluid mb-3"
+            style="cursor: pointer; width: 200px; height: 220px; object-fit: cover;"
+          />
+          <img
+            *ngIf="!selectedImage"
+            src="../../../assets/me.png"
+            alt="Profile Image"
+            class="img-fluid mb-3"
+            style="cursor: pointer; width: 200px; height: 220px; object-fit: cover;"
           />
         </div>
         <div class="button-container">
+          <!-- Upload Button that triggers file input -->
           <button
+            *ngIf="!selectedFile"
+            mat-raised-button
+            (click)="fileInput.click()"
+            class="upload-button"
+            style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
+          >
+            Upload
+          </button>
+
+          <!-- Hidden file input -->
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+            style="display: none;"
+            #fileInput
+          />
+
+          <!-- Conditional button to trigger the upload after selecting a file -->
+          <button
+            *ngIf="selectedFile"
             mat-raised-button
             (click)="uploadNewImage()"
             class="upload-button"
             style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
           >
-            Upload New Image
+            Confirm Upload
           </button>
         </div>
       </div>
@@ -328,20 +366,50 @@ export class UserProfileComponent {
 
   openImageDialog(): void {
     const dialogRef = this.dialog.open(this.imageDialog, {
-      width: '400px',
-      height: '300px',
+      width: '500px',
+      height: '400px',
     });
 
     // You can add logic here to interact with the dialog if needed
   }
 
-  uploadNewImage() {
-    console.log('Upload new image');
-    // Logic to handle image upload
-  }
-
   // Close the dialog
   closeDialog() {
     this.dialog.closeAll(); // This will close all dialogs, including the one opened.
+    this.resetFileSelection();
+  }
+
+  selectedImage: string | null = null; // Store the selected image URL
+  selectedFile: File | null = null; // Store the selected file
+
+  // This function handles the file selection from the file input
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      // Preview the image after selection
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.selectedImage = e.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      // Store the selected file for uploading
+      this.selectedFile = file;
+    }
+  }
+
+  // Function to upload the new image (you can replace with your upload logic)
+  uploadNewImage(): void {
+    if (this.selectedFile) {
+      // Your upload logic goes here (e.g., make an API call)
+      console.log('Uploading file:', this.selectedFile);
+      // After upload, you can reset the selected file and image if needed
+      this.resetFileSelection();
+    }
+  }
+  // Function to reset the file and image selection
+  resetFileSelection(): void {
+    this.selectedImage = null; // Clear image preview
+    this.selectedFile = null; // Clear selected file
   }
 }

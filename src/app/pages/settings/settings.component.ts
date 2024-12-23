@@ -1,49 +1,48 @@
+import { RouterLink } from '@angular/router';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router'; // Import RouterModule
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule, RouterModule], // Include RouterModule here
   template: `
-    <mat-card>
-      <mat-card-content>
-        <div class="container my-4">
-          <h2
-            class="text-center mat-h2 mb-1"
-            style="color: #2a3d7c; font-size: 1.6rem;"
-          >
-            User Settings
-          </h2>
-          <h5 class="text-center text-muted mb-4">
-            Adjust to suit your preferences.
-          </h5>
-          <div class="row">
-            <div class="col-md-6 mb-4" *ngFor="let setting of settingsList">
-              <mat-card class="setting-item">
-                <mat-card-header>
-                  <mat-card-title>{{ setting.title }}</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                  <p>{{ setting.description }}</p>
-                </mat-card-content>
-                <mat-card-actions>
-                  <button
-                    mat-raised-button
-                    style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; border: none; transition: background-color 0.3s ease-in-out;"
-                    class="small-raised-button"
-                  >
-                    {{ setting.action }}
-                  </button>
-                </mat-card-actions>
-              </mat-card>
-            </div>
-          </div>
+    <div class="container my-4">
+      <h2
+        class="text-center mat-h2 mb-1"
+        style="color: #2a3d7c; font-size: 1.6rem;"
+      >
+        User Settings
+      </h2>
+      <h5 class="text-center text-muted mb-4">
+        Adjust to suit your preferences.
+      </h5>
+      <div class="row">
+        <div class="col-md-6 mb-4" *ngFor="let setting of settingsList">
+          <mat-card class="setting-item">
+            <mat-card-header>
+              <mat-card-title>{{ setting.title }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>{{ setting.description }}</p>
+            </mat-card-content>
+            <mat-card-actions>
+              <a
+                mat-raised-button
+                style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; border: none; transition: background-color 0.3s ease-in-out;"
+                class="small-raised-button"
+                routerLink="/user-profile"
+              >
+                {{ setting.action }}
+              </a>
+            </mat-card-actions>
+          </mat-card>
         </div>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </div>
   `,
   styles: [
     `

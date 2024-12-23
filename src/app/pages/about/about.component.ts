@@ -14,101 +14,99 @@ import {
   standalone: true,
   imports: [CommonModule, MatCardModule, MatButtonModule, ReactiveFormsModule],
   template: `
-    <mat-card>
-      <mat-card-content>
-        <div class="container my-5">
-          <h2
-            class="text-center mat-h2 mb-1"
-            style="color: #2a3d7c; font-size: 1.6rem;"
-          >
-            About Us
-          </h2>
-          <h5 class="text-center text-muted mb-4">
-            We are committed to providing the best services for our clients.
-          </h5>
-          <div class="row">
-            <div class="col-md-6 mb-4">
-              <mat-card class="about-card">
-                <mat-card-header>
-                  <mat-card-title>Our Mission</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                  <p class="text-muted">
-                    Our mission is to deliver high-quality products and services
-                    that meet the needs of our clients and contribute to their
-                    success.
-                  </p>
-                </mat-card-content>
-              </mat-card>
-            </div>
-            <div class="col-md-6 mb-4">
-              <mat-card class="about-card">
-                <mat-card-header>
-                  <mat-card-title>Our Vision</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                  <p class="text-muted">
-                    We envision a world where our innovative solutions empower
-                    businesses to thrive and achieve their full potential.
-                  </p>
-                </mat-card-content>
-              </mat-card>
-            </div>
-          </div>
-
-          <div class="text-center">
-            <mat-card class="contact-card mt-5">
-              <mat-card-header>
-                <mat-card-title class="mat-h2 mb-4">Contact Us</mat-card-title>
-              </mat-card-header>
-              <mat-card-content>
-                <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-                  <div class="form-group mb-3">
-                    <input
-                      type="text"
-                      class="form-control"
-                      formControlName="name"
-                      placeholder="Enter your name"
-                      aria-label="Your Name"
-                      required
-                    />
-                  </div>
-                  <div class="form-group mb-3">
-                    <input
-                      type="email"
-                      class="form-control"
-                      formControlName="email"
-                      placeholder="Enter your email"
-                      aria-label="Your Email"
-                      required
-                    />
-                  </div>
-                  <div class="form-group mb-3">
-                    <textarea
-                      class="form-control"
-                      formControlName="message"
-                      rows="4"
-                      placeholder="Write your message here"
-                      aria-label="Your Message"
-                      required
-                    ></textarea>
-                  </div>
-                  <button
-                    mat-raised-button
-                    color="primary"
-                    type="submit"
-                    [disabled]="contactForm.invalid"
-                    class="submit-button"
-                  >
-                    Send Message
-                  </button>
-                </form>
-              </mat-card-content>
-            </mat-card>
-          </div>
+    <div class="container">
+      <h2
+        class="text-center mat-h2 mb-1"
+        style="color: #2a3d7c; font-size: 1.6rem;"
+      >
+        About Us
+      </h2>
+      <h5 class="text-center text-muted mb-4">
+        We are committed to providing the best services for our clients.
+      </h5>
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Our Mission</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="text-muted">
+                Our mission is to deliver high-quality products and services
+                that meet the needs of our clients and contribute to their
+                success.
+              </p>
+            </mat-card-content>
+          </mat-card>
         </div>
-      </mat-card-content>
-    </mat-card>
+        <div class="col-md-6">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Our Vision</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="text-muted">
+                We envision a world where our innovative solutions empower
+                businesses to thrive and achieve their full potential.
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="text-center">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title class="mat-h2 mb-4">Contact Us</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+                <div class="form-group mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="name"
+                    placeholder="Enter your name"
+                    aria-label="Your Name"
+                    required
+                  />
+                </div>
+                <div class="form-group mb-3">
+                  <input
+                    type="email"
+                    class="form-control"
+                    formControlName="email"
+                    placeholder="Enter your email"
+                    aria-label="Your Email"
+                    required
+                  />
+                </div>
+                <div class="form-group mb-3">
+                  <textarea
+                    class="form-control"
+                    formControlName="message"
+                    rows="4"
+                    placeholder="Write your message here"
+                    aria-label="Your Message"
+                    required
+                  ></textarea>
+                </div>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  type="submit"
+                  [disabled]="contactForm.invalid"
+                  class="submit-button"
+                >
+                  Send Message
+                </button>
+              </form>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
   `,
   styles: [
     `
@@ -147,7 +145,6 @@ import {
 
       mat-card-title {
         font-size: 1.25rem;
-        font-weight: bold;
       }
 
       mat-card-content p {

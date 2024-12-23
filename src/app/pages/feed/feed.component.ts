@@ -17,56 +17,52 @@ interface News {
   standalone: true,
   imports: [CommonModule, MatCardModule, MatButtonModule, MatPaginatorModule],
   template: `
-    <mat-card>
-      <mat-card-content>
-        <div class="container my-4">
-          <h2
-            class="text-center mat-h2 mb-1"
-            style="color: #2a3d7c; font-size: 1.6rem;"
-          >
-            Daily News Feed
-          </h2>
-          <h5 class="text-center text-muted mb-4">
-            Keep track of the latest news developments
-          </h5>
-          <div class="row">
-            <div class="col-md-6 mb-4" *ngFor="let news of pagedNewsList">
-              <mat-card class="news-item">
-                <mat-card-header>
-                  <mat-card-title>{{ news.title }}</mat-card-title>
-                </mat-card-header>
-                <img
-                  mat-card-image
-                  [src]="news.image"
-                  alt="News Image"
-                  class="news-image"
-                />
-                <mat-card-content>
-                  <p>{{ news.summary }}</p>
-                </mat-card-content>
-                <mat-card-actions>
-                  <button
-                    mat-raised-button
-                    style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
-                    (click)="viewDetails(news.id)"
-                  >
-                    Read More
-                  </button>
-                </mat-card-actions>
-              </mat-card>
-            </div>
-          </div>
-
-          <!-- Pagination -->
-          <mat-paginator
-            [length]="newsList.length"
-            [pageSize]="pageSize"
-            [pageSizeOptions]="[5, 10, 25, 100]"
-            (page)="onPageChange($event)"
-          ></mat-paginator>
+    <div class="container my-4">
+      <h2
+        class="text-center mat-h2 mb-1"
+        style="color: #2a3d7c; font-size: 1.6rem;"
+      >
+        Daily News Feed
+      </h2>
+      <h5 class="text-center text-muted mb-4">
+        Keep track of the latest news developments
+      </h5>
+      <div class="row">
+        <div class="col-md-6 mb-4" *ngFor="let news of pagedNewsList">
+          <mat-card class="news-item">
+            <mat-card-header>
+              <mat-card-title>{{ news.title }}</mat-card-title>
+            </mat-card-header>
+            <img
+              mat-card-image
+              [src]="news.image"
+              alt="News Image"
+              class="news-image"
+            />
+            <mat-card-content>
+              <p>{{ news.summary }}</p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button
+                mat-raised-button
+                style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
+                (click)="viewDetails(news.id)"
+              >
+                Read More
+              </button>
+            </mat-card-actions>
+          </mat-card>
         </div>
-      </mat-card-content>
-    </mat-card>
+      </div>
+
+      <!-- Pagination -->
+      <mat-paginator
+        [length]="newsList.length"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        (page)="onPageChange($event)"
+      ></mat-paginator>
+    </div>
   `,
   styles: [
     `

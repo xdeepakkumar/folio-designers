@@ -18,151 +18,73 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
   ],
   template: `
-    <mat-card class="main-card">
-      <mat-card-content>
-        <div class="container my-5">
-          <h2
-            class="text-center mat-h2 mb-1"
-            style="color: #2a3d7c; font-size: 1.6rem;"
-          >
-            Our Premium Services
-          </h2>
-          <h5 class="text-center text-muted mb-5">
-            Select a service and let us handle the rest with professionalism and
-            expertise.
-          </h5>
+    <div class="container">
+      <h2
+        class="text-center mat-h2 mb-1"
+        style="color: #2a3d7c; font-size: 1.6rem;"
+      >
+        Our Premium Services
+      </h2>
+      <h5 class="text-center text-muted mb-4">
+        Select a service and let us handle the rest with professionalism and
+        expertise.
+      </h5>
 
-          <!-- Service Request Section -->
-          <div class="row justify-content-center align-items-stretch">
-            <!-- Form Section -->
-            <div class="col-12 col-md-6">
-              <mat-card class="service-selection">
-                <mat-card-content>
-                  <mat-form-field appearance="fill" class="w-100 mt-3">
-                    <mat-label>Email or Phone</mat-label>
-                    <input
-                      matInput
-                      [(ngModel)]="userEmail"
-                      type="email"
-                      placeholder="Enter your email or phone number"
-                    />
-                  </mat-form-field>
-
-                  <mat-form-field appearance="fill" class="w-100 mt-3">
-                    <mat-label>Address</mat-label>
-                    <input
-                      matInput
-                      [(ngModel)]="userEmail"
-                      type="email"
-                      placeholder="Enter your email or phone number"
-                    />
-                  </mat-form-field>
-
-                  <mat-form-field appearance="fill" class="w-100 mt-3">
-                    <mat-label>Select Service</mat-label>
-                    <mat-select [(value)]="selectedService">
-                      <mat-option
-                        *ngFor="let service of services"
-                        [value]="service"
-                      >
-                        {{ service }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-
-                  <mat-form-field appearance="fill" class="w-100 mt-3">
-                    <mat-label>Your Message</mat-label>
-                    <textarea
-                      matInput
-                      [(ngModel)]="userMessage"
-                      rows="5"
-                      placeholder="Describe your needs..."
-                    ></textarea>
-                  </mat-form-field>
-
-                  <div class="text-center">
-                    <button
-                      mat-raised-button
-                      class="get-started-button mt-3"
-                      (click)="sendRequest()"
-                      style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
-                    >
-                      Request Service
-                    </button>
-                  </div>
-                </mat-card-content>
-              </mat-card>
-            </div>
-
-            <!-- Image Section -->
-            <div class="col-12 col-md-6 image-container">
-              <img
-                src="../../../assets/assets/images/services.jpg"
-                alt="Tech Image"
-                class="img-fluid rounded-img"
-              />
-            </div>
-          </div>
-
-          <!-- Testimonial Section
-          <mat-card class="testimonial-section mt-5">
+      <!-- Service Request Section -->
+      <div class="row justify-content-center align-items-stretch">
+        <!-- Form Section -->
+        <div class="col-12 col-md-6">
+          <mat-card class="service-selection">
             <mat-card-content>
-              <h2 class="text-center mat-h2 mb-4" style="color: #2a3d7c;">
-                What Our Clients Say
-              </h2>
-              <div class="testimonial-slider">
-                <div class="testimonial-container">
-                  <mat-card
-                    class="testimonial-card"
-                    *ngFor="
-                      let testimonial of visibleTestimonials;
-                      let i = index
-                    "
+              <mat-form-field appearance="fill" class="w-100 mt-3">
+                <mat-label>Email or Phone</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="userEmail"
+                  type="email"
+                  placeholder="Enter your email or phone number"
+                />
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="w-100 mt-3">
+                <mat-label>Select Service</mat-label>
+                <mat-select [(value)]="selectedService">
+                  <mat-option
+                    *ngFor="let service of services"
+                    [value]="service"
                   >
-                    <mat-card-content>
-                      <div class="testimonial-image-container">
-                        <img
-                          [src]="testimonial.image"
-                          alt="{{ testimonial.name }}"
-                          class="testimonial-image"
-                        />
-                      </div>
-                      <div class="testimonial-text">
-                        <p class="testimonial-comment">
-                          {{ testimonial.comment }}
-                        </p>
-                        <p class="testimonial-name">{{ testimonial.name }}</p>
-                      </div>
-                    </mat-card-content>
-                  </mat-card>
-                </div>
+                    {{ service }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" class="w-100 mt-3">
+                <mat-label>Describe your needs...</mat-label>
+                <textarea
+                  matInput
+                  [(ngModel)]="userMessage"
+                  rows="3"
+                  placeholder="Describe your needs..."
+                ></textarea>
+              </mat-form-field>
+
+              <div class="text-center">
+                <button
+                  mat-raised-button
+                  class="get-started-button mt-3"
+                  (click)="sendRequest()"
+                  style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
+                >
+                  Request Service
+                </button>
               </div>
             </mat-card-content>
-          </mat-card> -->
+          </mat-card>
         </div>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </div>
   `,
   styles: [
     `
-      /* Define the gradient as a reusable variable */
-      :root {
-        --primary-gradient: linear-gradient(
-          135deg,
-          #16a085,
-          #732d91
-        ); /* Teal to Purple */
-      }
-
-      /* Define the gradient as a reusable variable */
-      :root {
-        --primary-gradient: linear-gradient(
-          135deg,
-          #16a085,
-          #732d91
-        ); /* Teal to Purple */
-      }
-
       /* Global styling for Angular Material Raised Buttons */
       .button.mat-raised-button {
         color: white; /* White text on buttons */
@@ -212,88 +134,6 @@ import { FormsModule } from '@angular/forms';
         text-align: center;
         height: auto;
         padding: 20px;
-      }
-
-      .image-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 50%;
-        padding: 10px;
-        overflow: hidden;
-        border-radius: 12px;
-      }
-
-      .image-container img {
-        max-width: 99%;
-        height: 70% !important;
-        object-fit: cover;
-        border-radius: 5px;
-      }
-
-      .testimonial-section {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      .testimonial-slider {
-        display: flex;
-        overflow: hidden;
-        width: 100%;
-        margin: 20px 0;
-        position: relative;
-      }
-
-      .testimonial-container {
-        display: flex;
-        transition: transform 0.5s ease;
-        width: 300%;
-      }
-
-      .testimonial-card {
-        width: 33.33%;
-        margin-right: 15px;
-        background-color: #f5f5f5;
-        border-radius: 12px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 15px;
-        text-align: center;
-        transition: transform 0.3s ease;
-      }
-
-      .testimonial-card:last-child {
-        margin-right: 0;
-      }
-
-      .testimonial-image-container {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 15px;
-      }
-
-      .testimonial-image {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 3px solid #ff6f00; /* Amber border for the image */
-      }
-
-      .testimonial-text {
-        padding: 10px;
-      }
-
-      .testimonial-comment {
-        font-size: 1rem;
-        color: #555;
-        margin-bottom: 10px;
-      }
-
-      .testimonial-name {
-        font-weight: bold;
-        color: #2a3d7c;
       }
 
       @media (max-width: 767px) {

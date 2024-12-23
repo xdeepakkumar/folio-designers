@@ -15,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
     <h4 mat-dialog-title class="text-center">Profile Image</h4>
     <mat-dialog-content>
       <img
-        src="https://via.placeholder.com/300"
+        src="../../../assets/me.png"
         alt="Profile Image"
         class="img-fluid mb-3"
       />

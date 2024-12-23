@@ -80,7 +80,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; /
           <div class="sign-in-link text-muted">
             <h5>
               Didn't receive the OTP?
-              <a routerLink="/varify-email" class="resend-otp" (click)="resendOtp()">
+              <a
+                routerLink="/varify-email"
+                class="resend-otp"
+                (click)="resendOtp()"
+              >
                 Resend OTP
               </a>
             </h5>
@@ -97,14 +101,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; /
         justify-content: center;
         align-items: center;
         min-height: 79vh;
-        background-color: #f4f4f4;
       }
 
       .verify-otp-card {
         width: 100%;
         max-width: 400px;
         padding: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
         background-color: white;
         position: relative;
@@ -116,7 +118,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; /
       }
 
       .verify-otp-card mat-card-title {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
         font-weight: 600;
         color: #333;
       }
@@ -140,6 +142,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; /
         border: 1px solid #ccc;
         border-radius: 4px;
         transition: all 0.3s ease;
+        padding: 10px;
       }
 
       .form-group input:focus {
@@ -265,7 +268,6 @@ export class VerifyOtpComponent {
       console.log('Form is invalid!'); // Log when form is invalid
     }
   }
-
 
   // Updated method for Resend OTP functionality with validation
   resendOtp() {

@@ -35,7 +35,7 @@ import {
     <section class="sign-up-section">
       <mat-card class="sign-up-card">
         <mat-card-header>
-          <mat-card-title class="mat-h2">Sign Up</mat-card-title>
+          <mat-card-title class="mat-h2"> Sign Up</mat-card-title>
         </mat-card-header>
 
         <!-- Spinner overlay -->
@@ -51,7 +51,7 @@ import {
                   matInput
                   type="text"
                   formControlName="fullName"
-                  placeholder="Full Name"
+                  placeholder="Name"
                   class="form-control"
                   required
                 />
@@ -94,6 +94,7 @@ import {
                 type="submit"
                 [disabled]="signUpForm.invalid"
               >
+                <i class="fa fa-user-plus"></i>
                 Sign Up
               </button>
             </div>
@@ -154,15 +155,13 @@ import {
         display: flex;
         justify-content: center;
         align-items: center;
-        min-height: 79vh;
-        background-color: #f4f4f4;
+        min-height: 75vh;
       }
 
       .sign-up-card {
         width: 100%;
         max-width: 400px;
         padding: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
         background-color: white;
         position: relative; /* Make the card relative for overlay positioning */

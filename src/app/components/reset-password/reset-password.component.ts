@@ -84,6 +84,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
                 [disabled]="resetPasswordForm.invalid || isLoading"
                 style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 8px 16px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
               >
+                <i class="fa fa-refresh p-1"></i>
                 Reset Password
               </button>
             </form>
@@ -106,7 +107,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         justify-content: center;
         align-items: center;
         min-height: 80vh;
-        background-color: #f4f4f4;
         position: relative;
       }
 

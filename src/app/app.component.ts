@@ -77,10 +77,17 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; /
           <mat-icon>account_circle</mat-icon>
         </button>
         <mat-menu #profileMenu="matMenu">
-          <button mat-menu-item><mat-icon>person</mat-icon> Profile</button>
-          <button mat-menu-item><mat-icon>settings</mat-icon> Settings</button>
+          <a
+            routerLink="user-profile"
+            (click)="navigateTo('user-profile')"
+            mat-menu-item
+            ><mat-icon>person</mat-icon> Profile</a
+          >
+          <button mat-menu-item (click)="navigateTo('user-profile')">
+            <mat-icon>settings</mat-icon> Settings
+          </button>
           <button mat-menu-item><mat-icon>logout</mat-icon> Logout</button>
-          <a mat-menu-item href="/sign-in">
+          <a mat-menu-item (click)="navigateTo('sign-in')">
             <mat-icon>login</mat-icon> Sign In
           </a>
         </mat-menu>

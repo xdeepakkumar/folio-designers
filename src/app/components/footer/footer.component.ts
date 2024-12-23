@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
     <footer class="sticky-footer">
       <div class="text-muted mt-2">
         <h5>
-          <span>&copy; 2024 Portfolio Designers. All Rights Reserved.</span>
+          <span>&copy; 2025 Folio Designers. All Rights Reserved.</span>
         </h5>
       </div>
     </footer>
