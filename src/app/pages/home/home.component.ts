@@ -1,9 +1,9 @@
-import { RouterLink, RouterModule } from '@angular/router';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
     RouterModule,
   ],
   template: `
-    <!-- Hero Section (Untouched) -->
+    <!-- Hero Section -->
     <section class="hero-section">
       <div class="hero-content">
         <h1>Build a Portfolio That Reflects Your Excellence</h1>
@@ -29,7 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
         <div class="hero-buttons">
           <a
             mat-raised-button
-            color="primary"
+            style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
             class="get-started-button"
             [routerLink]="'/create-portfolio'"
           >
@@ -37,7 +37,7 @@ import { MatIconModule } from '@angular/material/icon';
           </a>
           <a
             mat-stroked-button
-            color="accent"
+            style="border-width: 2px; padding: 12px 24px; font-size: 12px; text-transform: uppercase; color: linear-gradient(135deg, #16a085, #732d91);"
             class="learn-more-button"
             [routerLink]="'/about'"
           >
@@ -47,83 +47,140 @@ import { MatIconModule } from '@angular/material/icon';
       </div>
     </section>
 
-    <!-- Testimonial Section - Redesigned -->
-    <h2 class="section-title">What Our Users Say</h2>
-    <section class="testimonials-section">
-      <div class="testimonial-cards">
-        <mat-card
-          *ngFor="let testimonial of testimonials"
-          class="testimonial-card"
-        >
-          <mat-card-header>
-            <div class="testimonial-header">
-              <img
-                mat-card-avatar
-                *ngIf="testimonial.avatar"
-                [src]="testimonial.avatar"
-                alt="User Avatar"
-                class="testimonial-avatar"
-              />
-              <div class="testimonial-info">
-                <h3>{{ testimonial.author }}</h3>
-                <p>{{ testimonial.role }}</p>
-              </div>
-            </div>
-          </mat-card-header>
-          <mat-card-content>
-            <p class="quote">
-              <i class="fa fa-quote-left"></i>
-              {{ testimonial.message }}
-              <i class="fa fa-quote-right"></i>
-            </p>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </section>
-
-    <!-- Interactive Poll Section -->
-    <h2 class="section-title mb-5">Emphasizing User Feedback?</h2>
-    <section class="poll-section">
-      <div class="poll-container">
-        <button mat-raised-button class="poll-option" (click)="vote('option1')">
-          Custom Themes
-        </button>
-        <button mat-raised-button class="poll-option" (click)="vote('option2')">
-          Portfolio Analytics
-        </button>
-        <button mat-raised-button class="poll-option" (click)="vote('option3')">
-          Client Integration
-        </button>
-      </div>
-      <p class="poll-thanks" *ngIf="voted">Thank you for voting!</p>
-    </section>
-
-    <!-- FAQ Section - More Interactive -->
-    <h2 class="section-title">Frequently Asked Questions</h2>
-
-    <section class="faq-section">
-      <div class="faq-cards">
-        <div *ngFor="let faq of faqs" class="faq-card">
-          <!-- FAQ Question Section -->
-          <div class="faq-question" (click)="toggleAnswer(faq)">
-            <h3>{{ faq.question }}</h3>
-            <mat-icon>{{ faq.open ? 'expand_less' : 'expand_more' }}</mat-icon>
-          </div>
-
-          <!-- FAQ Answer Section -->
-          <div
-            class="faq-answer"
-            *ngIf="faq.open"
-            [@expand]="faq.open ? 'open' : 'closed'"
-          >
-            <p>{{ faq.answer }}</p>
-          </div>
+    <!-- Value Proposition -->
+    <section class="value-proposition">
+      <h2 class="section-title">Why Choose Us?</h2>
+      <div class="value-items">
+        <div class="value-item">
+          <mat-icon>speed</mat-icon>
+          <h4>Fast Setup</h4>
+          <p>
+            Get your portfolio up and running in minutes with our intuitive
+            platform.
+          </p>
+        </div>
+        <div class="value-item">
+          <mat-icon>brush</mat-icon>
+          <h4>Custom Designs</h4>
+          <p>
+            Choose from a variety of templates that reflect your unique style
+            and personality.
+          </p>
+        </div>
+        <div class="value-item">
+          <mat-icon>group</mat-icon>
+          <h4>Built for Collaboration</h4>
+          <p>
+            Share your work with clients, teams, and collaborators with ease.
+          </p>
         </div>
       </div>
     </section>
 
+    <!-- Product Features -->
+    <!-- <section class="features-section">
+      <h2 class="section-title">Features You’ll Love</h2>
+      <div class="features-list">
+        <mat-card class="feature-card">
+          <mat-card-title>Easy-to-Use Interface</mat-card-title>
+          <mat-card-content>
+            A sleek, user-friendly interface that makes portfolio creation a
+            breeze.
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="feature-card">
+          <mat-card-title>Real-Time Preview</mat-card-title>
+          <mat-card-content>
+            See exactly how your portfolio will look with instant previews.
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="feature-card">
+          <mat-card-title>Mobile-Responsive</mat-card-title>
+          <mat-card-content>
+            Your portfolio will look great on any device, from desktop to
+            mobile.
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </section> -->
+
+    <!-- Our Services Section -->
+    <section class="services-section">
+      <h2 class="section-title">Our Services</h2>
+      <div class="services-list">
+        <div class="service-card">
+          <mat-icon>laptop_mac</mat-icon>
+          <h3>Portfolio Design</h3>
+          <p>
+            Responsive, visually appealing websites tailored to showcase your
+            work.
+          </p>
+        </div>
+        <div class="service-card">
+          <mat-icon>design_services</mat-icon>
+          <h3>Graphic Design</h3>
+          <p>Custom logos and branding to help your business stand out.</p>
+        </div>
+        <div class="service-card">
+          <mat-icon>camera_alt</mat-icon>
+          <h3>Web Design</h3>
+          <p>
+            Professional photography services for events, portraits, and more.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+      <h2 class="section-title">What Our Users Say</h2>
+      <div class="testimonials">
+        <div class="testimonial">
+          <h4>"A game-changer for my freelance business!"</h4>
+          <p>- Sarah L., Web Designer</p>
+        </div>
+        <div class="testimonial">
+          <h4>
+            "I created my portfolio in under an hour. Simple and effective!"
+          </h4>
+          <p>- James K., Photographer</p>
+        </div>
+        <div class="testimonial">
+          <h4>"Highly recommend for any creative professional!"</h4>
+          <p>- Emma T., Graphic Designer</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+      <h2 class="section-title">How It Works</h2>
+      <div class="steps">
+        <div class="step">
+          <mat-icon>account_circle</mat-icon>
+          <h4>Sign Up</h4>
+          <p>Create an account and start building your portfolio right away.</p>
+        </div>
+        <div class="step">
+          <mat-icon>design_services</mat-icon>
+          <h4>Customize</h4>
+          <p>
+            Choose your favorite template and personalize it to fit your style.
+          </p>
+        </div>
+        <div class="step">
+          <mat-icon>launch</mat-icon>
+          <h4>Publish</h4>
+          <p>
+            Once your portfolio is ready, hit publish and share it with the
+            world!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <h2 class="section-title mt-5">You're Almost There!</h2>
     <!-- Call to Action Section -->
-    <h2 class="section-title">You're Almost There!</h2>
     <section class="cta-section">
       <p>Create a professional portfolio in minutes.</p>
       <a
@@ -131,14 +188,21 @@ import { MatIconModule } from '@angular/material/icon';
         color="accent"
         class="cta-button"
         [routerLink]="'/create-portfolio'"
+        >Let's Start</a
       >
-        Let's Start
-      </a>
     </section>
   `,
   styles: [
     `
-      /* Hero Section (Untouched) */
+      /* Global Styles */
+      .section-title {
+        font-size: 1.5rem;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      /* Hero Section */
       .hero-section {
         position: relative;
         background: url('src/assets/hero-bg-4.jpg') no-repeat center center /
@@ -154,7 +218,6 @@ import { MatIconModule } from '@angular/material/icon';
 
       .hero-content h1 {
         font-size: 2.5rem;
-        font-weight: 700;
         margin-bottom: 1.5rem;
       }
 
@@ -170,180 +233,126 @@ import { MatIconModule } from '@angular/material/icon';
         margin-top: 20px;
       }
 
-      /* Get Started Button */
-      .get-started-button {
-        background-color: #8e44ad; /* Rich purple */
-        color: #ffffff; /* White text */
-        font-size: 1.2rem;
-        font-weight: 500;
-        padding: 10px 30px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
-      }
-
-      .get-started-button:hover {
-        background-color: #732d91; /* Darker purple on hover */
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-      }
-
-      /* Learn More Button */
-      .learn-more-button {
-        font-size: 1.2rem;
-        font-weight: 500;
-        padding: 10px 30px;
-        color: #16a085; /* Teal */
-        border: 2px solid #16a085;
-        background-color: transparent;
-        transition: all 0.3s ease;
-      }
-
-      .learn-more-button:hover {
-        background-color: #16a085; /* Teal background */
-        color: #ffffff; /* White text on hover */
-      }
-
-      /* Testimonial Section */
-      .testimonials-section {
-        background-color: #f9f9f9;
-        padding: 30px 20px;
+      /* Value Proposition Section */
+      .value-proposition {
+        background-color: #f4f6f9;
+        padding: 40px 20px;
         text-align: center;
       }
 
-      /* General Section Styling */
-      .section-title {
-        font-size: 1.2rem;
-        text-align: center;
-        margin-top: 40px;
-        margin-bottom: 20px;
-      }
-      .testimonial-cards {
+      .value-items {
         display: flex;
-        flex-wrap: wrap;
         justify-content: center;
         gap: 30px;
       }
 
-      .testimonial-card {
-        width: 300px;
+      .value-item {
+        flex: 1;
         padding: 20px;
-        background-color: #fff;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
       }
 
-      .testimonial-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      .value-item mat-icon {
+        font-size: 3rem;
+        color: #ff6f61;
       }
 
-      .testimonial-header {
+      /* Features Section */
+      .features-section {
+        background-color: #fafafa;
+        padding: 40px 20px;
+      }
+
+      .features-list {
         display: flex;
-        align-items: center;
-        gap: 10px;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
       }
 
-      .testimonial-avatar {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
+      .feature-card {
+        width: 280px;
       }
 
-      .testimonial-info {
-        text-align: left;
-      }
-
-      .quote {
-        font-style: italic;
-        color: #555;
-        margin-top: 15px;
-      }
-
-      /* FAQ Section */
-      .faq-section {
+      /* Our Services Section */
+      .services-section {
         padding: 40px 20px;
         background-color: #f9f9f9;
       }
 
-      .faq-cards {
+      .services-list {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
       }
 
-      .faq-card {
-        width: 100%;
-        max-width: 600px;
-        background-color: #fff;
+      .service-card {
+        text-align: center;
         padding: 20px;
+        background-color: #fff;
         border-radius: 8px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 350px;
       }
 
-      .faq-question {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-weight: bold;
-        cursor: pointer;
+      .service-card mat-icon {
+        font-size: 3rem;
+        color: #16a085;
       }
 
-      .faq-answer {
-        font-size: 1rem;
+      .service-card h3 {
         margin-top: 10px;
-        color: #333;
-        display: none; /* Initially hide the answer */
-        opacity: 0;
-        height: 0; /* Set height to 0 when the answer is closed */
-        overflow: hidden;
-        transition: opacity 0.3s ease, height 0.3s ease;
+        font-size: 1.5rem;
       }
 
-      /* Styles for when the answer is open */
-      .faq-answer.open {
-        display: block; /* Ensure the answer is shown */
-        opacity: 1;
-        height: auto; /* Allow the content to expand fully */
+      .service-card p {
+        font-size: 1rem;
+        color: #666;
       }
 
-      /* Optional: Style for answers that are opened (Active state) */
-      .faq-answer.open {
-        background-color: #f0f8ff; /* Light background for open answers */
-        color: #333; /* Text color */
-      }
-
-      /* Poll Section */
-      .poll-section {
+      /* Testimonials Section */
+      .testimonials-section {
         background-color: #e3f2fd;
         padding: 50px 20px;
         text-align: center;
       }
 
-      .poll-container {
+      .testimonials {
         display: flex;
         justify-content: center;
-        gap: 20px;
+        gap: 30px;
+        flex-wrap: wrap;
       }
 
-      .poll-option {
-        background-color: #2196f3;
-        color: white;
-        font-size: 1.1rem;
-        padding: 15px 30px;
-        border-radius: 30px;
-        transition: background-color 0.3s;
+      .testimonial {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 350px;
       }
 
-      .poll-option:hover {
-        background-color: #1976d2;
+      /* How It Works Section */
+      .how-it-works {
+        padding: 50px 20px;
+        background-color: #f4f6f9;
+        text-align: center;
       }
 
-      .poll-thanks {
-        margin-top: 20px;
-        font-size: 1.2rem;
-        color: #4caf50;
+      .steps {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+      }
+
+      .step {
+        text-align: center;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 350px;
       }
 
       /* Call to Action Section */
@@ -352,7 +361,6 @@ import { MatIconModule } from '@angular/material/icon';
         color: #fff;
         text-align: center;
         padding: 40px 20px;
-        margin-top: 40px;
         border-radius: 10px;
       }
 
@@ -371,16 +379,20 @@ import { MatIconModule } from '@angular/material/icon';
 
       /* Responsive Styles */
       @media (max-width: 768px) {
-        .testimonial-card {
-          width: 100%;
-        }
-
-        .poll-container {
+        .value-items,
+        .features-list,
+        .services-list,
+        .steps {
           flex-direction: column;
+          align-items: center;
         }
 
-        .cta-button {
-          font-size: 1rem;
+        .value-item,
+        .feature-card,
+        .service-card,
+        .step,
+        .testimonial {
+          width: 100%;
         }
       }
     `,
@@ -388,50 +400,28 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class HomeComponent {
   voted = false;
-  testimonials = [
+
+  // Service info
+  services = [
     {
-      message: 'This platform made it incredibly easy to create my portfolio.',
-      author: 'Anjali Joshi',
-      role: 'Graphic Designer',
-      avatar: 'https://via.placeholder.com/150',
+      icon: 'laptop_mac',
+      title: 'Web Design',
+      description:
+        'We create visually appealing, responsive websites tailored to your needs.',
     },
     {
-      message: 'The customization options are fantastic! I love the result.',
-      author: 'Kush kumar',
-      role: 'Web Developer',
-      avatar: 'https://via.placeholder.com/150',
+      icon: 'design_services',
+      title: 'Graphic Design',
+      description:
+        'Custom logos, branding, and creative designs to make your brand stand out.',
     },
     {
-      message: 'This platform made it incredibly easy to create my portfolio.',
-      author: 'Sahil Gupta',
-      role: 'Graphic Designer',
-      avatar: 'https://via.placeholder.com/150',
+      icon: 'camera_alt',
+      title: 'Photography',
+      description:
+        'Capturing your moments with professional photography services for events, portraits, and more.',
     },
   ];
-
-  faqs = [
-    {
-      question: 'How do I create a portfolio?',
-      answer:
-        'Simply sign up, choose a template, and customize it with your content.',
-      open: false,
-    },
-    {
-      question: 'Can I customize the design?',
-      answer:
-        'Yes, we offer multiple templates and design customization options.',
-      open: false,
-    },
-    {
-      question: 'Is the portfolio mobile-friendly?',
-      answer: 'Absolutely, all our templates are responsive.',
-      open: false,
-    },
-  ];
-
-  toggleAnswer(faq: any) {
-    faq.open = !faq.open;
-  }
 
   vote(option: string) {
     this.voted = true;

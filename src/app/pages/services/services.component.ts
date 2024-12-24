@@ -25,152 +25,173 @@ import { FormsModule } from '@angular/forms';
       >
         Our Premium Services
       </h2>
-      <h5 class="text-center text-muted mb-4">
+      <h5 class="text-center text-muted mb-5">
         Select a service and let us handle the rest with professionalism and
         expertise.
       </h5>
 
-      <!-- Service Request Section -->
-      <div class="row justify-content-center align-items-stretch">
-        <!-- Form Section -->
-        <div class="col-12 col-md-6">
-          <mat-card class="service-selection">
-            <mat-card-content>
-              <mat-form-field appearance="fill" class="w-100 mt-3">
-                <mat-label>Email or Phone</mat-label>
-                <input
-                  matInput
-                  [(ngModel)]="userEmail"
-                  type="email"
-                  placeholder="Enter your email or phone number"
-                />
-              </mat-form-field>
-              <mat-form-field appearance="fill" class="w-100 mt-3">
-                <mat-label>Select Service</mat-label>
-                <mat-select [(value)]="selectedService">
-                  <mat-option
-                    *ngFor="let service of services"
-                    [value]="service"
-                  >
-                    {{ service }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+      <div class="col-12 col-md-12">
+        <mat-card class="service-selection">
+          <mat-card-content>
+            <mat-form-field appearance="fill" class="w-100 mt-3">
+              <mat-label>Email or Phone</mat-label>
+              <input
+                matInput
+                [(ngModel)]="userEmail"
+                type="email"
+                placeholder="Enter your email or phone number"
+              />
+            </mat-form-field>
 
-              <mat-form-field appearance="fill" class="w-100 mt-3">
-                <mat-label>Describe your needs...</mat-label>
-                <textarea
-                  matInput
-                  [(ngModel)]="userMessage"
-                  rows="3"
-                  placeholder="Describe your needs..."
-                ></textarea>
-              </mat-form-field>
+            <mat-form-field appearance="fill" class="w-100 mt-3">
+              <mat-label>Select Service</mat-label>
+              <mat-select [(value)]="selectedService">
+                <mat-option *ngFor="let service of services" [value]="service">
+                  {{ service }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
-              <div class="text-center">
-                <button
-                  mat-raised-button
-                  class="get-started-button mt-3"
-                  (click)="sendRequest()"
-                  style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
-                >
-                  Request Service
-                </button>
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
+            <mat-form-field appearance="fill" class="w-100 mt-3">
+              <mat-label>Your Message</mat-label>
+              <textarea
+                matInput
+                [(ngModel)]="userMessage"
+                rows="5"
+                placeholder="Describe your needs..."
+              ></textarea>
+            </mat-form-field>
+
+            <div class="text-center">
+              <button
+                mat-raised-button
+                class="get-started-button mt-3"
+                (click)="sendRequest()"
+                style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
+              >
+                Request Service
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
       </div>
+
+      <h2 class="text-center mat-h2 mb-5 mt-5" style="color: #2a3d7c;">
+        What Our Clients Say
+      </h2>
+
+      <!-- Testimonial Section -->
+      <mat-card class="testimonial-section mt-2">
+        <mat-card-content>
+          <div class="testimonial-container">
+            <mat-card
+              class="testimonial-card"
+              *ngFor="let testimonial of visibleTestimonials; let i = index"
+            >
+              <mat-card-content>
+                <div class="testimonial-image-container">
+                  <img
+                    [src]="testimonial.image"
+                    alt="{{ testimonial.name }}"
+                    class="testimonial-image"
+                  />
+                </div>
+                <div class="testimonial-text">
+                  <p class="testimonial-comment">{{ testimonial.comment }}</p>
+                  <p class="testimonial-name">{{ testimonial.name }}</p>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
   `,
   styles: [
     `
-      /* Global styling for Angular Material Raised Buttons */
-      .button.mat-raised-button {
-        color: white; /* White text on buttons */
-        border-radius: 30px; /* Rounded corners for a smooth button look */
-        padding: 12px 24px; /* Padding for the button */
-        font-size: 16px; /* Font size */
-        text-transform: uppercase; /* Uppercase text */
-        border: none; /* Remove default border */
-        transition: background-color 0.3s ease-in-out; /* Smooth transition for hover effect */
-      }
-
-      /* Apply the gradient to primary and secondary buttons globally */
-      button.mat-raised-button.mat-button-primary {
-        background: var(
-          --primary-gradient
-        ); /* Apply the gradient to primary button */
-      }
-
-      button.mat-raised-button.mat-button-secondary {
-        background: var(
-          --primary-gradient
-        ); /* Apply the gradient to secondary button */
-      }
-
-      /* Hover effect for primary and secondary buttons */
-      button.mat-raised-button.mat-button-primary:hover,
-      button.mat-raised-button.mat-button-secondary:hover {
-        background: linear-gradient(
-          135deg,
-          #732d91,
-          #16a085
-        ); /* Reverse the gradient on hover */
-      }
-
-      .main-card {
-        border-radius: 12px;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-
       .service-selection {
         margin-top: 10px;
         border-radius: 5px;
-        background-color: #ffffff;
-        border: 1px solid #e0e0e0;
         text-align: center;
         height: auto;
         padding: 20px;
       }
 
+      .testimonial-section {
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      .testimonial-container {
+        display: grid;
+        gap: 15px;
+        padding: 10px;
+        grid-template-columns: repeat(1, 1fr); /* Default to 1 card per row */
+      }
+
+      .testimonial-card {
+        background-color: #f5f5f5;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .testimonial-image-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+      }
+
+      .testimonial-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #ff6f00;
+      }
+
+      .testimonial-text {
+        padding: 10px;
+      }
+
+      .testimonial-comment {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 10px;
+      }
+
+      .testimonial-name {
+        font-weight: bold;
+        color: #2a3d7c;
+      }
+
+      /* Mobile Screens (1 testimonial per view) */
       @media (max-width: 767px) {
-        .testimonial-slider {
-          flex-direction: column;
-          align-items: center;
-        }
-
-        .testimonial-card {
-          width: 100%;
-          margin-bottom: 20px;
-        }
-
         .testimonial-container {
-          width: 100%;
+          grid-template-columns: repeat(1, 1fr); /* 1 card per row */
         }
       }
 
-      @media (min-width: 768px) {
-        .testimonial-slider {
-          flex-direction: row;
+      /* Tablet Screens (2 testimonials per row) */
+      @media (min-width: 768px) and (max-width: 1024px) {
+        .testimonial-container {
+          grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
         }
+      }
 
-        .testimonial-card {
-          width: 33.33%;
+      /* Large Screens (3 testimonials per row) */
+      @media (min-width: 1025px) {
+        .testimonial-container {
+          grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
         }
       }
     `,
   ],
 })
 export class ServicesComponent implements OnInit, OnDestroy {
-  services = [
-    'Portfolio Services',
-    'Resume Services',
-    'Web Services',
-    'SEO Services',
-  ];
+  services = ['Portfolio Services', 'Resume Services', 'Web Services'];
   selectedService: string | undefined;
   userMessage: string = '';
   userEmail: string = '';
@@ -209,7 +230,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
     },
   ];
 
-  visibleTestimonials = this.testimonials.slice(0, 3);
+  visibleTestimonials = this.testimonials.slice(0, 3); // Show the first 3 testimonials initially
   currentTestimonialIndex: number = 0;
   testimonialInterval: any;
 
