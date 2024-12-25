@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-sign-in',
@@ -23,6 +24,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     MatIconModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule, // Include MatProgressSpinnerModule here
+    MatSnackBarModule,
   ],
   template: `
     <section class="sign-in-section">
@@ -272,12 +274,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class SignInComponent implements OnInit {
   signInForm: FormGroup;
   isLoading: boolean = false; // Flag for loading state
+  logInWithGoogle = false;
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {
     this.signInForm = this.fb.group({
       username: ['', Validators.required],
@@ -311,51 +315,77 @@ export class SignInComponent implements OnInit {
             if (token) {
               // Store token in session storage
               sessionStorage.setItem('token', token);
+              this.snackBar.open('Request processed successfully', 'Close', {
+                duration: 3000,
+                verticalPosition: 'top',
+                horizontalPosition: 'right',
+              });
               this.router.navigate(['/home']);
-            } else {
-              console.error('Token not found in response.');
             }
-          } else {
-            console.log('Error:', response.message);
           }
         },
         (error) => {
           this.isLoading = false; // Stop spinner
-          console.error('API error:', error);
+
+          // Show error message in snackbar
+          const errorMessage =
+            error.error?.message ||
+            'An error occurred while processing your request.';
+          this.snackBar.open(errorMessage, 'Close', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right',
+          });
         }
       );
   }
 
   signInWithGoogle(): void {
+    this.logInWithGoogle = true; // Set the flag to true when Google login is clicked
     window.location.href =
       'http://localhost:8081/login/oauth2/authorization/google';
   }
 
   handleRedirect(): void {
     this.isLoading = true; // Show spinner
-
-    // Use a timeout to ensure the component is fully loaded before handling query parameters
-    setTimeout(() => {
-      this.route.queryParams.subscribe((params) => {
-        const token = params['token'];
-
-        if (token) {
-          // Store token in sessionStorage
-          sessionStorage.setItem('token', token);
-
-          // Clear the token from the URL
-          this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: {},
-            queryParamsHandling: 'merge', // Remove query parameters
+    // Subscribe to query parameters from the URL
+    this.route.queryParams.subscribe((params) => {
+      const token = params['token'];
+      const message = params['message']; // Get the message parameter
+      // If there's a token, the login was successful
+      if (token) {
+        // Store the token in sessionStorage
+        sessionStorage.setItem('token', token);
+        // After showing the message or storing the token, clear the query parameters from the URL
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: {}, // Clear query parameters (e.g., message, token)
+          replaceUrl: true, // Replace the current URL in the browser history
+        });
+        this.snackBar.open('Request processed successfully', 'Close', {
+          duration: 3000, // Snackbar duration
+          verticalPosition: 'top', // Snackbar position
+          horizontalPosition: 'right',
+        });
+        // Navigate to the home page
+        this.router.navigate(['/home']);
+      } else {
+        // If no token and a message exists, show the snackbar with the error message
+        if (message) {
+          this.snackBar.open(message, 'Close', {
+            duration: 3000, // Snackbar duration
+            verticalPosition: 'top', // Snackbar position
+            horizontalPosition: 'right',
           });
-
-          // Navigate to home or a specific page
-          this.router.navigate(['/home']);
         }
-
-        this.isLoading = false; // Stop spinner
-      });
-    }, 0); // Minimal delay to allow query parameters to be processed
+        // After showing the message or storing the token, clear the query parameters from the URL
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: {}, // Clear query parameters (e.g., message, token)
+          replaceUrl: true, // Replace the current URL in the browser history
+        });
+      }
+      this.isLoading = false; // Hide the loading spinner after processing
+    });
   }
 }

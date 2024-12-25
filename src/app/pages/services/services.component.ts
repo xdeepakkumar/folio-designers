@@ -1,9 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -15,6 +19,8 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     MatSelectModule,
     MatInputModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
     FormsModule,
   ],
   template: `
@@ -37,7 +43,7 @@ import { FormsModule } from '@angular/forms';
               <mat-label>Email or Phone</mat-label>
               <input
                 matInput
-                [(ngModel)]="userEmail"
+                [(ngModel)]="contact"
                 type="email"
                 placeholder="Enter your email or phone number"
               />
@@ -67,10 +73,15 @@ import { FormsModule } from '@angular/forms';
                 mat-raised-button
                 class="get-started-button mt-3"
                 (click)="sendRequest()"
-                style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
+                [disabled]="isLoading"
               >
                 Request Service
               </button>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div *ngIf="isLoading" class="text-center">
+              <mat-spinner diameter="40"></mat-spinner>
             </div>
           </mat-card-content>
         </mat-card>
@@ -86,7 +97,7 @@ import { FormsModule } from '@angular/forms';
           <div class="testimonial-container">
             <mat-card
               class="testimonial-card"
-              *ngFor="let testimonial of visibleTestimonials; let i = index"
+              *ngFor="let testimonial of visibleTestimonials"
             >
               <mat-card-content>
                 <div class="testimonial-image-container">
@@ -109,6 +120,7 @@ import { FormsModule } from '@angular/forms';
   `,
   styles: [
     `
+      /* Service Section */
       .service-selection {
         margin-top: 10px;
         border-radius: 5px;
@@ -117,6 +129,7 @@ import { FormsModule } from '@angular/forms';
         padding: 20px;
       }
 
+      /* Testimonial Section */
       .testimonial-section {
         padding: 20px;
         border-radius: 8px;
@@ -187,6 +200,22 @@ import { FormsModule } from '@angular/forms';
           grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
         }
       }
+
+      /* Spinner styling */
+      .mat-spinner {
+        margin-top: 20px;
+      }
+
+      /* Custom Button */
+      .get-started-button {
+        background: linear-gradient(135deg, #16a085, #732d91);
+        color: white;
+        padding: 12px 24px;
+        font-size: 12px;
+        text-transform: uppercase;
+        border: none;
+        transition: background-color 0.3s ease-in-out;
+      }
     `,
   ],
 })
@@ -194,8 +223,8 @@ export class ServicesComponent implements OnInit, OnDestroy {
   services = ['Portfolio Services', 'Resume Services', 'Web Services'];
   selectedService: string | undefined;
   userMessage: string = '';
-  userEmail: string = '';
-  userPhone: string = '';
+  contact: string = '';
+  isLoading = false;
 
   testimonials = [
     {
@@ -230,9 +259,11 @@ export class ServicesComponent implements OnInit, OnDestroy {
     },
   ];
 
-  visibleTestimonials = this.testimonials.slice(0, 3); // Show the first 3 testimonials initially
+  visibleTestimonials = this.testimonials.slice(0, 3);
   currentTestimonialIndex: number = 0;
   testimonialInterval: any;
+
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.startAutoSlide();
@@ -247,19 +278,16 @@ export class ServicesComponent implements OnInit, OnDestroy {
   startAutoSlide() {
     this.testimonialInterval = setInterval(() => {
       this.nextTestimonial();
-    }, 3000); // Auto slide every 3 seconds
+    }, 3000);
   }
 
   nextTestimonial() {
-    // Move to the next set of testimonials, wrap around if necessary
     this.currentTestimonialIndex =
       (this.currentTestimonialIndex + 1) % this.testimonials.length;
     this.visibleTestimonials = this.testimonials.slice(
       this.currentTestimonialIndex,
       this.currentTestimonialIndex + 3
     );
-
-    // Ensure that only 3 testimonials are displayed at a time
     if (this.visibleTestimonials.length < 3) {
       const remaining = 3 - this.visibleTestimonials.length;
       this.visibleTestimonials.push(...this.testimonials.slice(0, remaining));
@@ -267,22 +295,70 @@ export class ServicesComponent implements OnInit, OnDestroy {
   }
 
   sendRequest() {
-    if (
-      this.selectedService &&
-      this.userMessage &&
-      this.userEmail &&
-      this.userPhone
-    ) {
-      console.log(
-        `Service: ${this.selectedService}, Message: ${this.userMessage}, Email: ${this.userEmail}, Phone: ${this.userPhone}`
+    if (!this.selectedService || !this.userMessage || !this.contact) {
+      this.snackBar.open(
+        'Please fill in all the fields before submitting.',
+        'Close',
+        { duration: 3000 }
       );
-      alert('Your request has been sent!');
-      this.selectedService = undefined;
-      this.userMessage = '';
-      this.userEmail = '';
-      this.userPhone = '';
-    } else {
-      alert('Please fill in all the fields before submitting.');
+      return;
     }
+
+    this.isLoading = true;
+
+    const requestBody = {
+      contact: this.contact,
+      service: this.selectedService,
+      description: this.userMessage,
+    };
+
+    // Check for token in sessionStorage
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      this.snackBar.open(
+        'You are not authenticated. Please log in to continue.',
+        'Close',
+        {
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+        }
+      );
+      this.isLoading = false;
+      return;
+    }
+
+    // Add the token to the request headers
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    // Make the request with the Authorization header
+    this.http
+      .post('http://localhost:8080/api/v1/service/request', requestBody, {
+        headers,
+      })
+      .subscribe({
+        next: (response: any) => {
+          this.isLoading = false;
+          const successMessage =
+            response?.message || 'Your request has been processed successfully';
+          this.snackBar.open(successMessage, 'Close', { duration: 3000 });
+          this.resetForm();
+        },
+        error: (error: any) => {
+          this.isLoading = false;
+          const errorMessage =
+            error?.message || 'Error occurred. Please try again.';
+          this.snackBar.open(errorMessage, 'Close', { duration: 3000 });
+        },
+      });
+  }
+
+  resetForm() {
+    this.selectedService = undefined;
+    this.userMessage = '';
+    this.contact = '';
   }
 }
