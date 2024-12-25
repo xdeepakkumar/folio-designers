@@ -92,11 +92,12 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
           <button mat-menu-item (click)="navigateTo('user-profile')">
             <mat-icon>settings</mat-icon> Settings
           </button>
-          <a mat-menu-item (click)="logout()">
-            <mat-icon>logout</mat-icon>
-            Logout
+          <!-- Show the Sign Out button if the token exists -->
+          <a *ngIf="isLoggedIn" mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon> Logout
           </a>
-          <a mat-menu-item (click)="navigateTo('sign-in')">
+          <!-- Show the Sign In button if no token exists -->
+          <a *ngIf="!isLoggedIn" mat-menu-item (click)="navigateTo('sign-in')">
             <mat-icon>login</mat-icon> Sign In
           </a>
         </mat-menu>
@@ -179,6 +180,7 @@ export class AppComponent implements OnInit {
   collapsed = signal(false);
   showLayout = true;
   isLoading = false; // To control spinner visibility
+  token = '';
 
   constructor(
     private router: Router,
@@ -191,12 +193,22 @@ export class AppComponent implements OnInit {
         // Define routes that should not show the layout
         const excludedRoutes = ['/portfolio-details'];
         this.showLayout = !excludedRoutes.includes(event.urlAfterRedirects);
+        this.updateTokenStatus(); // Update token status on route change
       }
     });
   }
 
   ngOnInit() {
     this.updateSidebarState();
+    this.updateTokenStatus(); // Ensure token status is checked on init
+  }
+
+  updateTokenStatus() {
+    this.token = sessionStorage.getItem('token') ?? ''; // Use an empty string as a fallback
+  }
+
+  get isLoggedIn(): boolean {
+    return !!sessionStorage.getItem('token'); // True if token exists
   }
 
   toggleSidenav() {
@@ -272,6 +284,7 @@ export class AppComponent implements OnInit {
   private onSignOutSuccess(message: string) {
     // Clear localStorage or sessionStorage data after successful sign-out
     sessionStorage.removeItem('token'); // Remove the token
+    this.updateTokenStatus(); // Update the token status after sign-out
 
     // Show a success message using the snackbar
     this.showSnackBar(message || 'Sign-out successful', 'success');
