@@ -15,9 +15,14 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { CustomSidenavComponent } from './components/custom-sidenav/custom-sidenav.component';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpClientModule,
+  HttpHeaders,
+} from '@angular/common/http';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; // Import MatProgressSpinnerModule
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -35,6 +40,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; /
     HttpClientModule,
     FooterComponent,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
   ],
   template: `
     <ng-container *ngIf="showLayout">
@@ -86,7 +92,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; /
           <button mat-menu-item (click)="navigateTo('user-profile')">
             <mat-icon>settings</mat-icon> Settings
           </button>
-          <button mat-menu-item><mat-icon>logout</mat-icon> Logout</button>
+          <a mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            Logout
+          </a>
           <a mat-menu-item (click)="navigateTo('sign-in')">
             <mat-icon>login</mat-icon> Sign In
           </a>
@@ -169,8 +178,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; /
 export class AppComponent implements OnInit {
   collapsed = signal(false);
   showLayout = true;
+  isLoading = false; // To control spinner visibility
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private http: HttpClient
+  ) {
     // Listen to route changes
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -208,5 +222,61 @@ export class AppComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.updateSidebarState();
+  }
+
+  /* ----------------------------   **/
+  logout() {
+    const token = sessionStorage.getItem('token');
+
+    if (!token) {
+      this.showSnackBar('User is already logged-out', 'error');
+      return;
+    }
+
+    this.isLoading = true; // Show spinner
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    this.http
+      .post<any>('http://localhost:8080/api/v1/auth/sign-out', {}, { headers })
+      .subscribe({
+        next: (response) => {
+          console.log('Sign-out successful', response);
+          this.onSignOutSuccess(response.message);
+        },
+        error: (err) => {
+          console.error('Sign-out failed', err);
+          this.showSnackBar('Sign-out failed. Please try again.', 'error');
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
+      });
+  }
+
+  private showSnackBar(message: string, type: 'success' | 'error') {
+    // Define the style based on the type
+    const panelClass = type === 'success' ? 'snack-success' : 'snack-error';
+
+    // Show snackbar in top-right corner
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      panelClass: [panelClass],
+      horizontalPosition: 'end', // Right position
+      verticalPosition: 'top', // Top position
+    });
+  }
+
+  private onSignOutSuccess(message: string) {
+    // Clear localStorage or sessionStorage data after successful sign-out
+    sessionStorage.removeItem('token'); // Remove the token
+
+    // Show a success message using the snackbar
+    this.showSnackBar(message || 'Sign-out successful', 'success');
+
+    // Optionally: Redirect the user to a login or home page
+    this.router.navigate(['/sign-in']);
   }
 }
