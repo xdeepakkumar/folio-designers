@@ -77,40 +77,13 @@ import { RouterModule } from '@angular/router';
       </div>
     </section>
 
-    <!-- Product Features -->
-    <!-- <section class="features-section">
-      <h2 class="section-title">Features You’ll Love</h2>
-      <div class="features-list">
-        <mat-card class="feature-card">
-          <mat-card-title>Easy-to-Use Interface</mat-card-title>
-          <mat-card-content>
-            A sleek, user-friendly interface that makes portfolio creation a
-            breeze.
-          </mat-card-content>
-        </mat-card>
-        <mat-card class="feature-card">
-          <mat-card-title>Real-Time Preview</mat-card-title>
-          <mat-card-content>
-            See exactly how your portfolio will look with instant previews.
-          </mat-card-content>
-        </mat-card>
-        <mat-card class="feature-card">
-          <mat-card-title>Mobile-Responsive</mat-card-title>
-          <mat-card-content>
-            Your portfolio will look great on any device, from desktop to
-            mobile.
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </section> -->
-
     <!-- Our Services Section -->
     <section class="services-section">
       <h2 class="section-title">Our Services</h2>
       <div class="services-list">
         <div class="service-card">
           <mat-icon>laptop_mac</mat-icon>
-          <h3>Portfolio Design</h3>
+          <h4>Portfolio Design</h4>
           <p>
             Responsive, visually appealing websites tailored to showcase your
             work.
@@ -118,12 +91,12 @@ import { RouterModule } from '@angular/router';
         </div>
         <div class="service-card">
           <mat-icon>design_services</mat-icon>
-          <h3>Graphic Design</h3>
+          <h4>Graphic Design</h4>
           <p>Custom logos and branding to help your business stand out.</p>
         </div>
         <div class="service-card">
           <mat-icon>camera_alt</mat-icon>
-          <h3>Web Design</h3>
+          <h4>Web Design</h4>
           <p>
             Professional photography services for events, portraits, and more.
           </p>
@@ -133,21 +106,27 @@ import { RouterModule } from '@angular/router';
 
     <!-- Testimonials Section -->
     <section class="testimonials-section">
-      <h2 class="section-title">What Our Users Say</h2>
-      <div class="testimonials">
-        <div class="testimonial">
-          <h4>"A game-changer for my freelance business!"</h4>
-          <p>- Sarah L., Web Designer</p>
-        </div>
-        <div class="testimonial">
-          <h4>
-            "I created my portfolio in under an hour. Simple and effective!"
-          </h4>
-          <p>- James K., Photographer</p>
-        </div>
-        <div class="testimonial">
-          <h4>"Highly recommend for any creative professional!"</h4>
-          <p>- Emma T., Graphic Designer</p>
+      <h2 class="section-title text-center">Our Achievements</h2>
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-12 col-md-4">
+            <div class="count-item">
+              <h3>Portfolios Created</h3>
+              <p>{{ portfolioCount }}+</p>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="count-item">
+              <h3>Clients</h3>
+              <p>{{ clientsCount }}+</p>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="count-item">
+              <h3>Successful Projects</h3>
+              <p>{{ projectsCount }}+</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -395,6 +374,29 @@ import { RouterModule } from '@angular/router';
           width: 100%;
         }
       }
+
+      /* Live Counts Section */
+      .live-counts-section {
+        padding: 40px 20px;
+        text-align: center;
+      }
+
+      .counts {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+      }
+
+      .count-item {
+        font-size: 1.2rem;
+        text-align: center;
+      }
+
+      .count-item h3 {
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+      }
     `,
   ],
 })
@@ -426,5 +428,45 @@ export class HomeComponent {
   vote(option: string) {
     this.voted = true;
     console.log('User voted for:', option);
+  }
+
+  // Counts to be animated
+  portfolioCount = 0;
+  clientsCount = 0;
+  projectsCount = 0;
+
+  // Keys for dynamic properties
+  countKeys: ('portfolioCount' | 'clientsCount' | 'projectsCount')[] = [
+    'portfolioCount',
+    'clientsCount',
+    'projectsCount',
+  ];
+
+  ngOnInit(): void {
+    // Start the counting animation
+    this.animateCount('portfolioCount', 1500);
+    this.animateCount('clientsCount', 1000);
+    this.animateCount('projectsCount', 900);
+  }
+
+  // Animate the count from 0 to the target number
+  animateCount(
+    countName: 'portfolioCount' | 'clientsCount' | 'projectsCount',
+    target: number
+  ): void {
+    let currentCount = 0;
+    const increment = Math.ceil(target / 200); // Adjust this value for smoother increments
+
+    const interval = setInterval(() => {
+      if (currentCount < target) {
+        currentCount += increment; // Increment by a calculated amount
+        if (currentCount > target) {
+          currentCount = target; // Cap the value to target
+        }
+        this[countName] = currentCount;
+      } else {
+        clearInterval(interval);
+      }
+    }, 50); // Interval of 30ms for a smoother animation
   }
 }
