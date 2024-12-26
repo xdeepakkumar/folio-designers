@@ -10,9 +10,10 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-sign-in',
@@ -303,7 +304,7 @@ export class SignInComponent implements OnInit {
       password: formData.password,
     };
 
-    // API call to backend
+    // API call to backend for sign-in
     this.http
       .post<any>('http://localhost:8080/api/v1/auth/sign-in', body)
       .subscribe(
@@ -315,12 +316,9 @@ export class SignInComponent implements OnInit {
             if (token) {
               // Store token in session storage
               sessionStorage.setItem('token', token);
-              this.snackBar.open('Request processed successfully', 'Close', {
-                duration: 3000,
-                verticalPosition: 'top',
-                horizontalPosition: 'right',
-              });
-              this.router.navigate(['/home']);
+
+              // Call the Get API to fetch user info
+              this.getUserInfo(token);
             }
           }
         },
@@ -338,6 +336,83 @@ export class SignInComponent implements OnInit {
           });
         }
       );
+  }
+
+  // Method to fetch user details using the token
+  getUserInfo(token: string): void {
+    if (!token) {
+      this.handleError('No token provided');
+      return;
+    }
+
+    // Set the authorization header with the token
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    // Use POST request to send the token and get user info (with Authorization header)
+    this.http
+      .post<any>('http://localhost:8080/api/v1/auth/user-info', {}, { headers }) // POST request with headers
+      .subscribe(
+        (userInfo) => {
+          if (userInfo) {
+            // Store user details in sessionStorage (or localStorage for persistence across sessions)
+            sessionStorage.setItem('userinfo', JSON.stringify(userInfo));
+
+            // Notify the user that everything is okay
+            this.snackBar.open('Signed in successfully', 'Close', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right',
+            });
+
+            // Navigate to the home page after storing the user info
+            this.router.navigate(['/home']);
+          } else {
+            this.handleError('Invalid user info received');
+          }
+        },
+        (error) => {
+          // Call the handleError function in case of any errors
+          this.handleError(error);
+        }
+      );
+  }
+
+  // Error handling function
+  private handleError(error: any): void {
+    let errorMessage = 'An unexpected error occurred';
+
+    // If the error is an HTTP error, try to provide a more meaningful message
+    if (error?.status) {
+      switch (error.status) {
+        case 401:
+          errorMessage = 'Unauthorized: Please log in again.';
+          break;
+        case 500:
+          errorMessage = 'Server error: Please try again later.';
+          break;
+        case 0:
+          errorMessage = 'Network error: Unable to reach the server.';
+          break;
+        default:
+          errorMessage = `Error: ${
+            error.message || 'An unexpected error occurred'
+          }`;
+      }
+    } else if (typeof error === 'string') {
+      errorMessage = error; // If it's a simple string, use it directly
+    }
+
+    // Display an error message using a snackbar
+    this.snackBar.open(errorMessage, 'Close', {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'right',
+    });
+
+    // Log out the user (remove token) and navigate to the sign-in page
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('userinfo'); // Clear user info as well
+    this.router.navigate(['/sign-in']);
   }
 
   signInWithGoogle(): void {
@@ -365,8 +440,10 @@ export class SignInComponent implements OnInit {
         this.snackBar.open('Request processed successfully', 'Close', {
           duration: 3000, // Snackbar duration
           verticalPosition: 'top', // Snackbar position
-          horizontalPosition: 'right',
+          horizontalPosition: 'right', // Snackbar position
         });
+        const tokenNew = sessionStorage.getItem('token') || '';
+        this.getUserInfo(tokenNew);
         // Navigate to the home page
         this.router.navigate(['/home']);
       } else {
@@ -375,7 +452,7 @@ export class SignInComponent implements OnInit {
           this.snackBar.open(message, 'Close', {
             duration: 3000, // Snackbar duration
             verticalPosition: 'top', // Snackbar position
-            horizontalPosition: 'right',
+            horizontalPosition: 'right', // Snackbar position
           });
         }
         // After showing the message or storing the token, clear the query parameters from the URL

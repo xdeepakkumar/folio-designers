@@ -284,6 +284,7 @@ export class AppComponent implements OnInit {
   private onSignOutSuccess(message: string) {
     // Clear localStorage or sessionStorage data after successful sign-out
     sessionStorage.removeItem('token'); // Remove the token
+    sessionStorage.removeItem('userinfo'); // Remove the userinfo
     this.updateTokenStatus(); // Update the token status after sign-out
 
     // Show a success message using the snackbar
