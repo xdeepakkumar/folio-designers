@@ -89,9 +89,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
             mat-menu-item
             ><mat-icon>person</mat-icon> Profile</a
           >
-          <button mat-menu-item (click)="navigateTo('user-profile')">
-            <mat-icon>settings</mat-icon> Settings
-          </button>
           <!-- Show the Sign Out button if the token exists -->
           <a *ngIf="isLoggedIn" mat-menu-item (click)="logout()">
             <mat-icon>logout</mat-icon> Logout

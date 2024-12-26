@@ -8,6 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-user-profile',
@@ -22,6 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatIconModule,
     MatDialogModule,
+    FormsModule,
   ],
   template: `
     <div class="container my-5">
@@ -45,18 +49,16 @@ import { MatIconModule } from '@angular/material/icon';
             <mat-card-content class="text-center">
               <div class="position-relative">
                 <img
-                  src="../../../assets/me.png"
+                  [src]="profileImageUrl || '../../../assets/me.png'"
                   alt="Profile Image"
                   class="rounded-circle mb-3"
-                  style="cursor: pointer; width: 120px; height: 120px; object-fit: cover;cursor: pointer;"
+                  style="cursor: pointer; width: 120px; height: 120px; object-fit: cover; cursor: pointer;"
                   (click)="openImageDialog()"
                 />
               </div>
-              <h5 class="mb-1">Deepak Kumar</h5>
-              <p class="text-muted mb-2">+91-9939377229</p>
-              <p class="text-muted small">
-                {{ 'xdeepakkumar355@gmail.com' }}
-              </p>
+              <h5 class="mb-1">{{ name }}</h5>
+              <p class="text-muted mb-2">{{ phoneNumber }}</p>
+              <p class="text-muted small">{{ email }}</p>
 
               <hr class="w-100" />
               <div class="d-flex justify-content-between w-100">
@@ -78,11 +80,11 @@ import { MatIconModule } from '@angular/material/icon';
                   class="form-check-input"
                   type="checkbox"
                   id="emailNotifications"
-                  checked
+                  [(ngModel)]="emailNotifications"
                 />
-                <label class="form-check-label" for="emailNotifications">
-                  Email Notifications
-                </label>
+                <label class="form-check-label" for="emailNotifications"
+                  >Email Notifications</label
+                >
               </div>
 
               <div class="form-check border-bottom py-2">
@@ -90,10 +92,11 @@ import { MatIconModule } from '@angular/material/icon';
                   class="form-check-input"
                   type="checkbox"
                   id="smsNotifications"
+                  [(ngModel)]="smsNotifications"
                 />
-                <label class="form-check-label" for="smsNotifications">
-                  SMS Notifications
-                </label>
+                <label class="form-check-label" for="smsNotifications"
+                  >SMS Notifications</label
+                >
               </div>
 
               <div class="form-check border-bottom py-2">
@@ -101,10 +104,11 @@ import { MatIconModule } from '@angular/material/icon';
                   class="form-check-input"
                   type="checkbox"
                   id="pushNotifications"
+                  [(ngModel)]="pushNotifications"
                 />
-                <label class="form-check-label" for="pushNotifications">
-                  Push Notifications
-                </label>
+                <label class="form-check-label" for="pushNotifications"
+                  >Push Notifications</label
+                >
               </div>
 
               <div class="form-check border-bottom py-2">
@@ -112,10 +116,11 @@ import { MatIconModule } from '@angular/material/icon';
                   class="form-check-input"
                   type="checkbox"
                   id="appUpdates"
+                  [(ngModel)]="appUpdates"
                 />
-                <label class="form-check-label" for="appUpdates">
-                  App Updates
-                </label>
+                <label class="form-check-label" for="appUpdates"
+                  >App Updates</label
+                >
               </div>
 
               <div class="form-check border-bottom py-2">
@@ -123,10 +128,11 @@ import { MatIconModule } from '@angular/material/icon';
                   class="form-check-input"
                   type="checkbox"
                   id="marketingEmails"
+                  [(ngModel)]="marketingEmails"
                 />
-                <label class="form-check-label" for="marketingEmails">
-                  Marketing Emails
-                </label>
+                <label class="form-check-label" for="marketingEmails"
+                  >Marketing Emails</label
+                >
               </div>
 
               <div class="form-check py-1">
@@ -134,10 +140,11 @@ import { MatIconModule } from '@angular/material/icon';
                   class="form-check-input"
                   type="checkbox"
                   id="surveyNotifications"
+                  [(ngModel)]="surveyFeedbackRequests"
                 />
-                <label class="form-check-label" for="surveyNotifications">
-                  Survey and Feedback Requests
-                </label>
+                <label class="form-check-label" for="surveyNotifications"
+                  >Survey and Feedback Requests</label
+                >
               </div>
             </mat-card-content>
           </mat-card>
@@ -154,6 +161,7 @@ import { MatIconModule } from '@angular/material/icon';
                     type="checkbox"
                     id="twoFactor"
                     class="form-check-input me-2"
+                    [(ngModel)]="twoFactorAuthenticationEnabled"
                   />
                   <label for="twoFactor" class="form-check-label"
                     >Enable Two-Factor Authentication</label
@@ -164,6 +172,7 @@ import { MatIconModule } from '@angular/material/icon';
                     type="checkbox"
                     id="hideProfile"
                     class="form-check-input me-2"
+                    [(ngModel)]="hideProfileFromPublic"
                   />
                   <label for="hideProfile" class="form-check-label"
                     >Hide Profile from Public</label
@@ -179,7 +188,9 @@ import { MatIconModule } from '@angular/material/icon';
           <mat-card style="min-height: 140px;">
             <mat-card-content>
               <h6 class="card-title mb-3">Account Security</h6>
-              <p class="text-muted small">Last Password Change: 3 months ago</p>
+              <p class="text-muted small">
+                Last Password Change: {{ lastPasswordChangeDate }}
+              </p>
               <button
                 mat-raised-button
                 style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
@@ -197,8 +208,12 @@ import { MatIconModule } from '@angular/material/icon';
           <mat-card>
             <mat-card-content>
               <h6 class="card-title mb-3">Subscription Plan</h6>
-              <p class="mb-1">Current Plan: <strong>Premium</strong></p>
-              <p class="text-muted small">Next Billing Date: Jan 15, 2025</p>
+              <p class="mb-1">
+                Current Plan: <strong>{{ currentPlan }}</strong>
+              </p>
+              <p class="text-muted small">
+                Next Billing Date: {{ nextBillingDate }}
+              </p>
               <button
                 mat-raised-button
                 style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
@@ -216,9 +231,13 @@ import { MatIconModule } from '@angular/material/icon';
           <mat-card style="min-height: 158px;">
             <mat-card-content>
               <h6 class="card-title mb-3">Language Preferences</h6>
-              <select class="form-select">
-                <option selected>English</option>
-                <option>Hindi</option>
+              <select class="form-select" [(ngModel)]="language">
+                <option
+                  *ngFor="let lang of ['English', 'Hindi']"
+                  [value]="lang"
+                >
+                  {{ lang }}
+                </option>
               </select>
             </mat-card-content>
           </mat-card>
@@ -361,8 +380,22 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class UserProfileComponent {
   @ViewChild('imageDialog') imageDialog!: TemplateRef<any>;
+  profileStatus: any;
+  emailNotifications: any;
+  smsNotifications: any;
+  pushNotifications: any;
+  appUpdates: any;
+  surveyFeedbackRequests: any;
+  marketingEmails: any;
+  twoFactorAuthenticationEnabled: any;
+  hideProfileFromPublic: any;
+  lastPasswordChangeDate: any;
+  currentPlan: any;
+  nextBillingDate: any;
+  language: any;
+  profileImageUrl: any;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private http: HttpClient) {}
 
   openImageDialog(): void {
     const dialogRef = this.dialog.open(this.imageDialog, {
@@ -411,5 +444,69 @@ export class UserProfileComponent {
   resetFileSelection(): void {
     this.selectedImage = null; // Clear image preview
     this.selectedFile = null; // Clear selected file
+  }
+
+  // Profile details
+  name = '';
+  email = '';
+  phoneNumber = '';
+
+  ngOnInit(): void {
+    this.getUserDetails();
+  }
+
+  // Method to get user details from sessionStorage and call API
+  getUserDetails(): void {
+    const userInfo = sessionStorage.getItem('userinfo');
+    const token = sessionStorage.getItem('token');
+    if (userInfo) {
+      // Parse the stored JSON string into an object
+      const parsedUserInfo = JSON.parse(userInfo);
+      const userId = parsedUserInfo.response[0].userId;
+      this.name = parsedUserInfo.response[0].name;
+      this.email = parsedUserInfo.response[0].email;
+      const headers = token
+        ? new HttpHeaders({
+            Authorization: `Bearer ${token}`,
+          })
+        : new HttpHeaders();
+
+      // Call API to get profile details
+      this.fetchUserProfile(userId, headers).subscribe(
+        (data: { response: any[] }) => {
+          // Assuming the API response is in the format provided
+          const profileData = data.response[0];
+          this.phoneNumber = profileData.phoneNumber || '';
+          this.profileStatus = profileData.profileStatus || false;
+          this.emailNotifications = profileData.emailNotifications || false;
+          this.smsNotifications = profileData.smsNotifications || false;
+          this.pushNotifications = profileData.pushNotifications || false;
+          this.appUpdates = profileData.appUpdates || false;
+          this.marketingEmails = profileData.marketingEmails || false;
+          this.surveyFeedbackRequests =
+            profileData.surveyFeedbackRequests || false;
+          this.twoFactorAuthenticationEnabled =
+            profileData.twoFactorAuthenticationEnabled || false;
+          this.hideProfileFromPublic =
+            profileData.hideProfileFromPublic || false;
+          this.lastPasswordChangeDate =
+            profileData.lastPasswordChangeDate || '';
+          this.currentPlan = profileData.currentPlan || '';
+          this.nextBillingDate = profileData.nextBillingDate || '';
+          this.language = profileData.language || 'English'; // Default to English if not provided
+          this.profileImageUrl =
+            '../../../assets/profile/images/' + profileData.profileImageUrl ||
+            '';
+        }
+      );
+    } else {
+      console.log('No user info found in sessionStorage.');
+    }
+  }
+
+  // HTTP call to fetch user profile
+  fetchUserProfile(userId: string, headers: HttpHeaders): Observable<any> {
+    const apiUrl = `http://localhost:8080/api/v1/user/getProfile/${userId}`;
+    return this.http.get<any>(apiUrl, { headers });
   }
 }
