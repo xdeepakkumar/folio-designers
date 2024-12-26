@@ -3,7 +3,7 @@ import { Component, Input, signal, computed } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { RouterLink, RouterModule } from '@angular/router';
-import { MatDividerModule } from '@angular/material/divider'; // Import MatDividerModule
+import { MatDividerModule } from '@angular/material/divider';
 
 export type MenuItem = {
   icon: string;
@@ -21,40 +21,25 @@ export type MenuItem = {
     MatIconModule,
     RouterLink,
     RouterModule,
-    MatDividerModule, // Add MatDividerModule here
+    MatDividerModule,
   ],
   template: `
     <div class="sidenav-header">
       <img
         [width]="profilePicSize()"
         [height]="profilePicSize()"
-        src="/assets/me.png"
+        [src]="userProfilePic()"
         alt="profile pic"
       />
       <div class="header-text" [class.hide-header-text]="sideNavCollapsed()">
-        <h2
-          style="
-    background: linear-gradient(135deg, #16a085, #732d91);
-    -webkit-background-clip: text;
-    color: transparent;
-    font-size: 13px;
-    text-transform: uppercase;
-    border: none;
-    transition: background-color 0.3s ease-in-out;
-  "
-        >
-          Welcome
-        </h2>
-
-        <p>Deepak Kumar</p>
+        <h2 [class.hide-data]="!loggedIn">Welcome</h2>
+        <p>{{ userName }}</p>
+        <p [class.hide-data]="loggedIn">Please sign-in</p>
       </div>
     </div>
     <mat-nav-list>
-      <!-- Loop through menu items -->
       <ng-container *ngFor="let item of filteredMenuItems(); let i = index">
-        <!-- Add divider after "Daily Feed" -->
         <mat-divider *ngIf="item.label === 'Manage Portfolio'"></mat-divider>
-
         <a
           mat-list-item
           class="menu-item"
@@ -68,14 +53,13 @@ export type MenuItem = {
               rla.isActive ? 'material-icons' : 'material-icons-outlined'
             "
             matListItemIcon
-            >{{ item.icon }}</mat-icon
           >
-          <span *ngIf="!sideNavCollapsed()" matListItemTitle>{{
-            item.label
-          }}</span>
+            {{ item.icon }}
+          </mat-icon>
+          <span *ngIf="!sideNavCollapsed()" matListItemTitle>
+            {{ item.label }}
+          </span>
         </a>
-
-        <!-- Add divider before "Services" -->
         <mat-divider *ngIf="item.label === 'View Portfolio'"></mat-divider>
       </ng-container>
     </mat-nav-list>
@@ -118,53 +102,30 @@ export type MenuItem = {
         border-left-color: blue;
         background: rgba(0, 0, 0, 0.05);
       }
+      .hide-data {
+        opacity: 0;
+        height: 0 !important;
+      }
     `,
   ],
 })
 export class CustomSidenavComponent {
   sideNavCollapsed = signal(false);
+  loggedIn = false;
+  userName = 'Guest';
 
   @Input() set collapsed(val: boolean) {
     this.sideNavCollapsed.set(val);
   }
 
   menuItems = signal<MenuItem[]>([
-    {
-      icon: 'home',
-      label: 'Home',
-      route: 'home',
-    },
-    {
-      icon: 'feed',
-      label: 'Daily Feed',
-      route: 'feed',
-    },
-    {
-      icon: 'dashboard',
-      label: 'Manage Portfolio',
-      route: 'create-portfolio',
-    },
-    {
-      icon: 'visibility',
-      label: 'View Portfolio',
-      route: 'my-portfolio',
-    },
-    {
-      icon: 'handshake',
-      label: 'Services',
-      route: 'services',
-    },
-    {
-      icon: 'settings',
-      label: 'Settings',
-      route: 'settings',
-    },
-    {
-      icon: 'info',
-      label: 'About Us',
-      route: 'about',
-      smallScreenOnly: true,
-    },
+    { icon: 'home', label: 'Home', route: 'home' },
+    { icon: 'feed', label: 'Daily Feed', route: 'feed' },
+    { icon: 'dashboard', label: 'Manage Portfolio', route: 'create-portfolio' },
+    { icon: 'visibility', label: 'View Portfolio', route: 'my-portfolio' },
+    { icon: 'handshake', label: 'Services', route: 'services' },
+    { icon: 'settings', label: 'Settings', route: 'settings' },
+    { icon: 'info', label: 'About Us', route: 'about', smallScreenOnly: true },
     {
       icon: 'chat',
       label: 'Contact Us',
@@ -186,7 +147,46 @@ export class CustomSidenavComponent {
   }
 
   constructor() {
-    // Update filtered items whenever the screen is resized
+    this.initializeUserData();
     window.addEventListener('resize', () => this.filteredMenuItems());
+  }
+
+  initializeUserData() {
+    try {
+      const userInfo = sessionStorage.getItem('userinfo');
+      if (userInfo) {
+        const parsedUserInfo = JSON.parse(userInfo);
+        this.loggedIn = true;
+        this.userName = parsedUserInfo.response[0].name || 'Guest';
+      } else {
+        this.loggedIn = false;
+      }
+    } catch (error) {
+      console.error('Error parsing userinfo:', error);
+      this.loggedIn = false;
+    }
+  }
+
+  userProfilePic() {
+    try {
+      const userInfo = sessionStorage.getItem('userinfo');
+      if (userInfo) {
+        const parsedUserInfo = JSON.parse(userInfo);
+        const baseUrl = '../../../assets/profile/images/'; // Make sure this points to the correct server endpoint
+        let fileName = parsedUserInfo.response[0].profileImageUrl;
+
+        // If it contains a file path like 'file:///', extract just the filename
+        if (fileName.startsWith('file:///')) {
+          fileName = fileName.split('\\').pop(); // Extract file name from the path
+        }
+
+        return fileName
+          ? `${baseUrl}${fileName}`
+          : '../../../assets/dummy_user.png';
+      }
+    } catch (error) {
+      console.error('Error parsing userinfo:', error);
+    }
+    return '../../../assets/OIP.jpg'; // Default placeholder image
   }
 }
