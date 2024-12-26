@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSnackBar
-import { HttpClient } from '@angular/common/http'; // Import HttpClient
+import { HttpClient, HttpHeaders } from '@angular/common/http'; // Import HttpClient
 
 import {
   ReactiveFormsModule,
@@ -12,7 +12,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router'; // For navigation
+import { ActivatedRoute, Router } from '@angular/router'; // For navigation
 import {
   MatProgressSpinner,
   MatProgressSpinnerModule,
@@ -104,10 +104,15 @@ import {
             <span>OR</span>
           </div>
 
-          <div class="google-signup">
-            <a mat-stroked-button class="google-button" color="warn">
+          <div class="google-login">
+            <button
+              mat-flat-button
+              color="warn"
+              class="google-button"
+              (click)="signInWithGoogle()"
+            >
               <i class="fa fa-google"></i> Continue with Google
-            </a>
+            </button>
           </div>
 
           <div class="sign-in-link text-muted">
@@ -302,12 +307,14 @@ import {
 export class SignUpComponent {
   signUpForm: FormGroup;
   isLoading = false; // Track loading state
+  logInWithGoogle = false;
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient, // Inject HttpClient
     private snackBar: MatSnackBar, // Inject MatSnackBar
-    private router: Router // For navigation after successful sign-up
+    private router: Router, // For navigation after successful sign-up
+    private route: ActivatedRoute
   ) {
     this.signUpForm = this.fb.group({
       fullName: ['', Validators.required],
@@ -362,5 +369,133 @@ export class SignUpComponent {
           }
         );
     }
+  }
+
+  signInWithGoogle(): void {
+    this.logInWithGoogle = true; // Set the flag to true when Google login is clicked
+    window.location.href =
+      'http://localhost:8081/login/oauth2/authorization/google';
+  }
+
+  handleRedirect(): void {
+    this.isLoading = true; // Show spinner
+    // Subscribe to query parameters from the URL
+    this.route.queryParams.subscribe((params) => {
+      const token = params['token'];
+      const message = params['message']; // Get the message parameter
+      // If there's a token, the login was successful
+      if (token) {
+        // Store the token in sessionStorage
+        sessionStorage.setItem('token', token);
+        // After showing the message or storing the token, clear the query parameters from the URL
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: {}, // Clear query parameters (e.g., message, token)
+          replaceUrl: true, // Replace the current URL in the browser history
+        });
+        this.snackBar.open('Request processed successfully', 'Close', {
+          duration: 3000, // Snackbar duration
+          verticalPosition: 'top', // Snackbar position
+          horizontalPosition: 'right', // Snackbar position
+        });
+        const tokenNew = sessionStorage.getItem('token') || '';
+        this.getUserInfo(tokenNew);
+        // Navigate to the home page
+        this.router.navigate(['/home']);
+      } else {
+        // If no token and a message exists, show the snackbar with the error message
+        if (message) {
+          this.snackBar.open(message, 'Close', {
+            duration: 3000, // Snackbar duration
+            verticalPosition: 'top', // Snackbar position
+            horizontalPosition: 'right', // Snackbar position
+          });
+        }
+        // After showing the message or storing the token, clear the query parameters from the URL
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: {}, // Clear query parameters (e.g., message, token)
+          replaceUrl: true, // Replace the current URL in the browser history
+        });
+      }
+      this.isLoading = false; // Hide the loading spinner after processing
+    });
+  }
+
+  // Method to fetch user details using the token
+  getUserInfo(token: string): void {
+    if (!token) {
+      this.handleError('No token provided');
+      return;
+    }
+
+    // Set the authorization header with the token
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    // Use POST request to send the token and get user info (with Authorization header)
+    this.http
+      .post<any>('http://localhost:8080/api/v1/auth/user-info', {}, { headers }) // POST request with headers
+      .subscribe(
+        (userInfo) => {
+          if (userInfo) {
+            // Store user details in sessionStorage (or localStorage for persistence across sessions)
+            sessionStorage.setItem('userinfo', JSON.stringify(userInfo));
+
+            // Notify the user that everything is okay
+            this.snackBar.open('Signed in successfully', 'Close', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right',
+            });
+
+            // Navigate to the home page after storing the user info
+            this.router.navigate(['/home']);
+          } else {
+            this.handleError('Invalid user info received');
+          }
+        },
+        (error) => {
+          // Call the handleError function in case of any errors
+          this.handleError(error);
+        }
+      );
+  }
+
+  // Error handling function
+  private handleError(error: any): void {
+    let errorMessage = 'An unexpected error occurred';
+
+    // If the error is an HTTP error, try to provide a more meaningful message
+    if (error?.status) {
+      switch (error.status) {
+        case 401:
+          errorMessage = 'Unauthorized: Please log in again.';
+          break;
+        case 500:
+          errorMessage = 'Server error: Please try again later.';
+          break;
+        case 0:
+          errorMessage = 'Network error: Unable to reach the server.';
+          break;
+        default:
+          errorMessage = `Error: ${
+            error.message || 'An unexpected error occurred'
+          }`;
+      }
+    } else if (typeof error === 'string') {
+      errorMessage = error; // If it's a simple string, use it directly
+    }
+
+    // Display an error message using a snackbar
+    this.snackBar.open(errorMessage, 'Close', {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'right',
+    });
+
+    // Log out the user (remove token) and navigate to the sign-in page
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('userinfo'); // Clear user info as well
+    this.router.navigate(['/sign-in']);
   }
 }
