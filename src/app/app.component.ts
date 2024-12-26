@@ -261,6 +261,8 @@ export class AppComponent implements OnInit {
         error: (err) => {
           console.error('Sign-out failed', err);
           this.showSnackBar('Sign-out failed. Please try again.', 'error');
+          sessionStorage.removeItem('token');
+          sessionStorage.removeItem('userinfo');
         },
         complete: () => {
           this.isLoading = false;
