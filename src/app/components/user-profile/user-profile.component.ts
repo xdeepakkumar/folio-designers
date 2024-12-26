@@ -265,7 +265,7 @@ import { FormsModule } from '@angular/forms';
           />
           <img
             *ngIf="!selectedImage"
-            src="../../../assets/me.png"
+            [src]="profileImageUrl"
             alt="Profile Image"
             class="img-fluid mb-3"
             style="cursor: pointer; width: 200px; height: 220px; object-fit: cover;"
@@ -280,7 +280,7 @@ import { FormsModule } from '@angular/forms';
             class="upload-button"
             style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
           >
-            Upload
+            Choose from gallery
           </button>
 
           <!-- Hidden file input -->
@@ -431,13 +431,44 @@ export class UserProfileComponent {
     }
   }
 
-  // Function to upload the new image (you can replace with your upload logic)
+  // Function to upload the new image
   uploadNewImage(): void {
     if (this.selectedFile) {
-      // Your upload logic goes here (e.g., make an API call)
-      console.log('Uploading file:', this.selectedFile);
-      // After upload, you can reset the selected file and image if needed
-      this.resetFileSelection();
+      const userInfo = sessionStorage.getItem('userinfo');
+      const token = sessionStorage.getItem('token') || '';
+      if (userInfo) {
+        const parsedUserInfo = JSON.parse(userInfo);
+        const userId = parsedUserInfo.response[0].userId;
+        const headers = token
+          ? new HttpHeaders({
+              Authorization: `Bearer ${token}`,
+            })
+          : new HttpHeaders();
+
+        // Create FormData and append the selected file
+        const formData = new FormData();
+        formData.append('file', this.selectedFile, this.selectedFile.name);
+
+        // Call the API to upload the image
+        this.http
+          .post(
+            `http://localhost:8080/api/v1/user/${userId}/profile/image`,
+            formData,
+            { headers }
+          )
+          .subscribe(
+            (response: any) => {
+              console.log('Image uploaded successfully', response);
+              // Optionally reset the preview and selected file after upload
+              this.resetFileSelection();
+              sessionStorage.removeItem('userinfo');
+              this.getUserInfo(token);
+            },
+            (error: any) => {
+              console.error('Image upload failed', error);
+            }
+          );
+      }
     }
   }
   // Function to reset the file and image selection
@@ -508,5 +539,20 @@ export class UserProfileComponent {
   fetchUserProfile(userId: string, headers: HttpHeaders): Observable<any> {
     const apiUrl = `http://localhost:8080/api/v1/user/getProfile/${userId}`;
     return this.http.get<any>(apiUrl, { headers });
+  }
+
+  // Method to fetch user details using the token
+  getUserInfo(token: string): void {
+    // Set the authorization header with the token
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    // Use POST request to send the token and get user info (with Authorization header)
+    this.http
+      .post<any>('http://localhost:8080/api/v1/auth/user-info', {}, { headers }) // POST request with headers
+      .subscribe((userInfo) => {
+        if (userInfo) {
+          // Store user details in sessionStorage (or localStorage for persistence across sessions)
+          sessionStorage.setItem('userinfo', JSON.stringify(userInfo));
+        }
+      });
   }
 }
