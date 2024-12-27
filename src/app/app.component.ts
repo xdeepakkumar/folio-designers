@@ -252,7 +252,6 @@ export class AppComponent implements OnInit {
       .post<any>('http://localhost:8080/api/v1/auth/sign-out', {}, { headers })
       .subscribe({
         next: (response) => {
-          console.log('Sign-out successful', response);
           this.onSignOutSuccess(response.message);
         },
         error: (err) => {
@@ -288,7 +287,7 @@ export class AppComponent implements OnInit {
 
     // Show a success message using the snackbar
     this.showSnackBar(message || 'Sign-out successful', 'success');
-
+    window.location.reload();
     // Optionally: Redirect the user to a login or home page
     this.router.navigate(['/sign-in']);
   }

@@ -13,7 +13,6 @@ import {
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-sign-in',
@@ -363,7 +362,7 @@ export class SignInComponent implements OnInit {
               verticalPosition: 'top',
               horizontalPosition: 'right',
             });
-
+            window.location.reload();
             // Navigate to the home page after storing the user info
             this.router.navigate(['/home']);
           } else {

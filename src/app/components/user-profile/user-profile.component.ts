@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSnackBar
 
 @Component({
   selector: 'app-user-profile',
@@ -26,9 +27,10 @@ import { FormsModule } from '@angular/forms';
     MatIconModule,
     MatDialogModule,
     FormsModule,
+    MatSnackBarModule,
   ],
   template: `
-    <div class="container my-5">
+    <div class="container my-3">
       <h2
         class="text-center mat-h2 mb-1"
         style="color: #2a3d7c; font-size: 1.6rem;"
@@ -42,6 +44,25 @@ import { FormsModule } from '@angular/forms';
     </div>
 
     <div class="container">
+      <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4"></div>
+        <!-- Update Button -->
+        <div class="col-lg-4">
+          <button
+            mat-raised-button
+            color="accent"
+            class="float-end ml-2 mb-2 small-btn"
+            (click)="updateUserDetails()"
+            style="padding-top:1px 1px;"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
       <div class="row g-4">
         <!-- Profile Information -->
         <div class="col-lg-6">
@@ -49,7 +70,7 @@ import { FormsModule } from '@angular/forms';
             <mat-card-content class="text-center">
               <div class="position-relative">
                 <img
-                  [src]="profileImageUrl || '../../../assets/me.png'"
+                  [src]="profileImageUrl || '../../../assets/OIP.jpg'"
                   alt="Profile Image"
                   class="rounded-circle mb-3"
                   style="cursor: pointer; width: 120px; height: 120px; object-fit: cover; cursor: pointer;"
@@ -380,6 +401,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class UserProfileComponent {
   @ViewChild('imageDialog') imageDialog!: TemplateRef<any>;
+  id: any;
   profileStatus: any;
   emailNotifications: any;
   smsNotifications: any;
@@ -394,8 +416,13 @@ export class UserProfileComponent {
   nextBillingDate: any;
   language: any;
   profileImageUrl: any;
+  router: any;
 
-  constructor(private dialog: MatDialog, private http: HttpClient) {}
+  constructor(
+    private dialog: MatDialog,
+    private http: HttpClient,
+    private snackBar: MatSnackBar
+  ) {}
 
   openImageDialog(): void {
     const dialogRef = this.dialog.open(this.imageDialog, {
@@ -458,14 +485,33 @@ export class UserProfileComponent {
           )
           .subscribe(
             (response: any) => {
-              console.log('Image uploaded successfully', response);
-              // Optionally reset the preview and selected file after upload
               this.resetFileSelection();
               sessionStorage.removeItem('userinfo');
               this.getUserInfo(token);
+              window.location.reload();
+              // Display success snackbar
+              this.snackBar.open(
+                'Profile image updated successfully!',
+                'Close',
+                {
+                  duration: 3000,
+                  panelClass: ['success-snackbar'],
+                  verticalPosition: 'top',
+                  horizontalPosition: 'right',
+                }
+              );
             },
             (error: any) => {
-              console.error('Image upload failed', error);
+              this.snackBar.open(
+                'Error occurred while uploading image!',
+                'Close',
+                {
+                  duration: 3000,
+                  panelClass: ['success-snackbar'],
+                  verticalPosition: 'top',
+                  horizontalPosition: 'right',
+                }
+              );
             }
           );
       }
@@ -507,6 +553,7 @@ export class UserProfileComponent {
         (data: { response: any[] }) => {
           // Assuming the API response is in the format provided
           const profileData = data.response[0];
+          this.id = profileData.id;
           this.phoneNumber = profileData.phoneNumber || '';
           this.profileStatus = profileData.profileStatus || false;
           this.emailNotifications = profileData.emailNotifications || false;
@@ -554,5 +601,83 @@ export class UserProfileComponent {
           sessionStorage.setItem('userinfo', JSON.stringify(userInfo));
         }
       });
+  }
+
+  /** update the data */
+  // Method to update user details via API
+  updateUserDetails(): void {
+    const userInfo = sessionStorage.getItem('userinfo');
+    const token = sessionStorage.getItem('token');
+    const userId = userInfo ? JSON.parse(userInfo).response[0].userId : '';
+
+    const headers = token
+      ? new HttpHeaders({
+          Authorization: `Bearer ${token}`,
+        })
+      : new HttpHeaders();
+
+    const requestBody = {
+      id: this.id,
+      profileStatus: this.profileStatus,
+      phoneNumber: this.phoneNumber,
+      emailNotifications: this.emailNotifications,
+      smsNotifications: this.smsNotifications,
+      pushNotifications: this.pushNotifications,
+      appUpdates: this.appUpdates,
+      marketingEmails: this.marketingEmails,
+      surveyFeedbackRequests: this.surveyFeedbackRequests,
+      twoFactorAuthenticationEnabled: this.twoFactorAuthenticationEnabled,
+      hideProfileFromPublic: this.hideProfileFromPublic,
+      lastPasswordChangeDate: this.lastPasswordChangeDate,
+      currentPlan: this.currentPlan,
+      nextBillingDate: this.nextBillingDate,
+      language: this.language,
+      userId: userId,
+    };
+
+    this.updateUserProfile(requestBody, headers).subscribe(
+      (response) => {
+        // Display success snackbar
+        this.snackBar.open('Profile updated successfully!', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar'],
+          verticalPosition: 'top',
+          horizontalPosition: 'right',
+        });
+      },
+      (error) => {
+        if (error.status === 401) {
+          // Clear session storage on 401 Unauthorized error
+          sessionStorage.clear();
+          window.location.reload();
+          this.snackBar.open('Session expired. Please log in again.', 'Close', {
+            duration: 3000,
+            panelClass: ['error-snackbar'],
+            verticalPosition: 'top',
+            horizontalPosition: 'right',
+          });
+          console.error('Unauthorized access. Session cleared:', error);
+          // Optionally, redirect to login page
+          this.router.navigate(['/login']);
+        } else {
+          // Display general error snackbar
+          this.snackBar.open(
+            'Error updating profile. Please try again.',
+            'Close',
+            {
+              duration: 3000,
+              panelClass: ['error-snackbar'],
+            }
+          );
+          console.error('Error updating profile:', error);
+        }
+      }
+    );
+  }
+
+  // HTTP call to update the user profile
+  updateUserProfile(requestBody: any, headers: HttpHeaders): Observable<any> {
+    const apiUrl = `http://localhost:8080/api/v1/user/profile`;
+    return this.http.post<any>(apiUrl, requestBody, { headers });
   }
 }
