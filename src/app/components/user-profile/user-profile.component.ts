@@ -529,6 +529,7 @@ export class UserProfileComponent {
   phoneNumber = '';
 
   ngOnInit(): void {
+    this.checkLoginStatus();
     this.getUserDetails();
   }
 
@@ -679,5 +680,19 @@ export class UserProfileComponent {
   updateUserProfile(requestBody: any, headers: HttpHeaders): Observable<any> {
     const apiUrl = `http://localhost:8080/api/v1/user/profile`;
     return this.http.post<any>(apiUrl, requestBody, { headers });
+  }
+
+  // Method to check if the user is logged in
+  checkLoginStatus(): void {
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      // If no token is found, show alert and redirect to login page
+      const alertMessage =
+        'You are not logged in. Please log in to access this page.';
+      if (window.confirm(alertMessage)) {
+        // If user clicks "OK", redirect to login page
+        window.location.href = '/sign-in';
+      }
+    }
   }
 }
