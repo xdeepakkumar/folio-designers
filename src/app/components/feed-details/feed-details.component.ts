@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { Observable } from 'rxjs';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 // Interfaces for the data structures
 interface Comment {
@@ -41,6 +42,7 @@ interface News {
     MatIconModule,
     MatListModule,
     MatDividerModule,
+    MatSnackBarModule,
   ],
   template: `
     <div class="container my-3">
@@ -259,10 +261,12 @@ export class FeedDetailsComponent implements OnInit {
   newsItem: News | undefined;
   comments: Comment[] = [];
   likeCount: number = 0;
+  token: any;
 
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient // Inject HttpClient for API calls
+    private http: HttpClient,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -292,14 +296,73 @@ export class FeedDetailsComponent implements OnInit {
     }
   }
 
+  /**
+   * Add a comment only if the user is logged in.
+   * The comment will be sent to the backend API.
+   */
   addComment(comment: string): void {
-    if (comment.trim()) {
-      this.comments.push({
-        commentedBy: 'You',
-        commentText: comment.trim(),
-        profileImage: 'https://cdn-icons-png.flaticon.com/512/194/194938.png', // Placeholder image for user
+    // Check if the user is logged in
+    const userInfo = sessionStorage.getItem('userinfo') || '';
+    const token = sessionStorage.getItem('token');
+    this.token = token;
+    if (!this.token) {
+      this.snackBar.open('Log-in first to add comment.', 'Close', {
+        duration: 3000, // Snackbar duration
+        verticalPosition: 'top', // Snackbar position
+        horizontalPosition: 'right', // Snackbar position
       });
-      this.likeCount += 1; // Optionally, increment the like count for new comment
+      return;
     }
+    const parsedUserInfo = JSON.parse(userInfo);
+    const userId = parsedUserInfo.response[0].userId;
+    const profileImageUrl = parsedUserInfo.response[0].profileImageUrl;
+
+    // Check if the comment is not empty
+    if (comment.trim()) {
+      const feedId = this.route.snapshot.paramMap.get('id');
+      if (!feedId) {
+        alert('Feed ID not found.');
+        return;
+      }
+
+      const commentPayload = {
+        id: '',
+        comment: comment.trim(),
+        commentBy: userId,
+        feedId: feedId,
+      };
+      // Send the comment to the backend API
+      this.sendComment(commentPayload).subscribe(
+        (response) => {
+          // On success, push the new comment to the comments array
+          this.comments.push({
+            commentedBy: 'You',
+            commentText: comment.trim(),
+            profileImage: '../../../assets/profile/images/' + profileImageUrl,
+          });
+          this.likeCount += 1;
+        },
+        (error) => {
+          this.snackBar.open('Error occurred while adding comment.', 'Close', {
+            duration: 3000, // Snackbar duration
+            verticalPosition: 'top', // Snackbar position
+            horizontalPosition: 'right', // Snackbar position
+          });
+        }
+      );
+    }
+  }
+
+  /**
+   * Send the comment to the backend API with the provided headers and body.
+   */
+  sendComment(commentPayload: any): Observable<any> {
+    const apiUrl = 'http://localhost:8080/api/v1/feed/addUpdateComment';
+    // Set up the headers with the token for authorization
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${this.token}`)
+      .set('Content-Type', 'application/json');
+    // Make the POST request to the API
+    return this.http.post(apiUrl, commentPayload, { headers });
   }
 }
