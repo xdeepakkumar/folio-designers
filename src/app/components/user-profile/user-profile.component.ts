@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'; // Import MatSnackBar
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -416,12 +417,12 @@ export class UserProfileComponent {
   nextBillingDate: any;
   language: any;
   profileImageUrl: any;
-  router: any;
 
   constructor(
     private dialog: MatDialog,
     private http: HttpClient,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   openImageDialog(): void {
@@ -685,13 +686,12 @@ export class UserProfileComponent {
   // Method to check if the user is logged in
   checkLoginStatus(): void {
     const token = sessionStorage.getItem('token');
-    if (!token) {
-      // If no token is found, show alert and redirect to login page
+    if (!token || token === '') {
+      // If the user is not logged in, show an alert and redirect
       const alertMessage =
         'You are not logged in. Please log in to access this page.';
       if (window.confirm(alertMessage)) {
-        // If user clicks "OK", redirect to login page
-        window.location.href = '/sign-in';
+        this.router.navigate(['/sign-in']);
       }
     }
   }
