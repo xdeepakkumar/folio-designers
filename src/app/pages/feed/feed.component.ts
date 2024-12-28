@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { HttpClient } from '@angular/common/http';
 
 interface News {
   id: number;
   title: string;
   summary: string;
   image: string;
+  detailsId: String;
 }
 
 @Component({
@@ -35,7 +37,7 @@ interface News {
             </mat-card-header>
             <img
               mat-card-image
-              [src]="news.image"
+              [src]="'../../../assets/news/images/' + news.image"
               alt="News Image"
               class="news-image"
             />
@@ -46,7 +48,7 @@ interface News {
               <button
                 mat-raised-button
                 style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
-                (click)="viewDetails(news.id)"
+                (click)="viewDetails(news.detailsId)"
               >
                 Read More
               </button>
@@ -68,45 +70,40 @@ interface News {
     `
       .news-item {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        height: 380px; /* Fixed height for each card */
+        height: 380px;
         display: flex;
         flex-direction: column;
       }
-
       .news-item:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
       }
-
       .news-image {
         width: 100%;
-        height: 180px; /* Fixed height for the image */
+        height: 180px;
         object-fit: cover;
         border-bottom: 2px solid #eee;
       }
-
       mat-card-title {
         font-size: 1.2rem;
         font-weight: bold;
-        height: 60px; /* Fixed height for title */
-        overflow: hidden; /* Prevent long titles from breaking the layout */
+        height: 60px;
+        overflow: hidden;
       }
-
       mat-card-content {
-        flex-grow: 1; /* Makes content area take the remaining space */
+        flex-grow: 1;
         color: #555;
+        margin-top: 5px;
+        font-weight: 500;
       }
-
       mat-card-content p {
         font-size: 0.9rem;
-        height: 70px; /* Adjust the height to fit the text */
-        overflow: hidden; /* Ensure text is clipped if it's too long */
+        height: 70px;
+        overflow: hidden;
       }
-
       .mat-card-actions {
-        margin-top: auto; /* Pushes the actions to the bottom of the card */
+        margin-top: auto;
       }
-
       .small-raised-button {
         font-size: 0.8rem;
       }
@@ -114,81 +111,70 @@ interface News {
   ],
 })
 export class FeedComponent implements OnInit {
-  newsList: News[] = [
-    {
-      id: 1,
-      title: 'Red Monsters: Webb Space Telescope Discovers Early Galaxies',
-      summary:
-        'The Webb Space Telescope has uncovered ultra-massive early galaxies known as red monsters, challenging existing models of galaxy formation...',
-      image: 'https://www.spacex.com/static/images/share.jpg',
-    },
-    {
-      id: 2,
-      title: 'Apple’s iPhone 15 Launches with Revolutionary Features',
-      summary:
-        'Apple’s latest iPhone 15 features breakthrough technology, including enhanced AI capabilities and a stunning new design...',
-      image: 'https://www.spacex.com/static/images/share.jpg',
-    },
-    {
-      id: 3,
-      title: 'SpaceX Launches Mars Mission, Aims for First Human Landing',
-      summary:
-        'SpaceX has successfully launched its Mars mission, aiming to establish a permanent human presence on the Red Planet...',
-      image: 'https://www.spacex.com/static/images/share.jpg',
-    },
-    {
-      id: 4,
-      title: 'Electric Aircraft: A New Era in Aviation Takes Flight',
-      summary:
-        'Electric aircraft are changing the future of air travel, reducing carbon emissions and paving the way for a greener aviation industry...',
-      image: 'https://www.spacex.com/static/images/share.jpg',
-    },
-    {
-      id: 5,
-      title: 'Breakthrough Cancer Treatment Shows Promise in Clinical Trials',
-      summary:
-        'New cancer treatments are showing unprecedented success in clinical trials, with hopes for wider applications in the near future...',
-      image: 'https://www.spacex.com/static/images/share.jpg',
-    },
-    {
-      id: 6,
-      title: 'World’s First Fully Autonomous Car Hits the Road',
-      summary:
-        'The first fully autonomous car has been approved for public roads, marking a major milestone in the future of transportation...',
-      image: 'https://www.spacex.com/static/images/share.jpg',
-    },
-    {
-      id: 7,
-      title: 'Breakthrough in Space Tourism with Suborbital Flights',
-      summary:
-        'New developments in space tourism are opening doors to suborbital flights, making space travel more accessible to the public...',
-      image: 'https://www.spacex.com/static/images/share.jpg',
-    },
-  ];
-
-  pageSize = 5;
+  newsList: News[] = [];
   pagedNewsList: News[] = [];
+  pageSize = 5;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private cdRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.updatePagedNewsList(0);
+    this.fetchNews();
   }
 
+  fetchNews(): void {
+    this.http
+      .get<{ message: string; response: News[] }>(
+        'http://localhost:8080/api/v1/feed/getAllFeed'
+      )
+      .subscribe({
+        next: (response) => {
+          console.log('API Response:', response); // Log to check the response
+          if (
+            response &&
+            response.response &&
+            Array.isArray(response.response)
+          ) {
+            this.newsList = response.response;
+            this.updatePagedNewsList(0); // Call to update paged list when data is fetched
+          } else {
+            console.error('Unexpected response structure:', response);
+            this.newsList = [];
+            this.updatePagedNewsList(0); // Update paged list in case of error
+          }
+          this.cdRef.detectChanges(); // Ensure Angular detects changes
+        },
+        error: (error) => {
+          console.error('Error fetching news:', error);
+          this.newsList = [];
+          this.updatePagedNewsList(0); // Update paged list in case of error
+          this.cdRef.detectChanges(); // Ensure Angular detects changes
+        },
+      });
+  }
+
+  // Handles page change events
   onPageChange(event: any) {
-    this.updatePagedNewsList(event.pageIndex);
+    console.log('Page Change Event:', event); // Log page change event
+    this.updatePagedNewsList(event.pageIndex); // Update paged list based on page index
   }
 
+  // Updates the paged news list based on the current page index
   updatePagedNewsList(pageIndex: number) {
+    console.log(`Updating page: ${pageIndex}`);
     const startIndex = pageIndex * this.pageSize;
     this.pagedNewsList = this.newsList.slice(
       startIndex,
       startIndex + this.pageSize
     );
+    console.log('Paged News List:', this.pagedNewsList); // Log paged news list for debugging
   }
 
   // Navigate to FeedDetailsComponent with the news ID
-  viewDetails(newsId: number): void {
+  viewDetails(newsId: String): void {
     this.router.navigate(['/feed-details', newsId]);
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,12 +9,24 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { Observable } from 'rxjs';
+
+// Interfaces for the data structures
+interface Comment {
+  commentedBy: string;
+  commentText: string;
+  profileImage: string;
+}
 
 interface News {
+  id: string;
   title: string;
   summary: string;
   image: string;
-  details: string;
+  postedBy: string;
+  postedOn: string;
+  comments: Comment[];
+  likeCount: number;
 }
 
 @Component({
@@ -30,7 +43,7 @@ interface News {
     MatDividerModule,
   ],
   template: `
-    <div class="container my-5">
+    <div class="container my-3">
       <h2
         class="text-center mat-h2 mb-1"
         style="color: #2a3d7c; font-size: 1.6rem;"
@@ -49,24 +62,26 @@ interface News {
             <mat-card class="feed-card">
               <mat-card-header>
                 <div mat-card-avatar class="user-avatar"></div>
-                <mat-card-title>Space Enthusiast</mat-card-title>
-                <mat-card-subtitle>2 hours ago</mat-card-subtitle>
+                <mat-card-title>{{ newsItem?.postedBy }}</mat-card-title>
+                <mat-card-subtitle>{{ newsItem?.postedOn }}</mat-card-subtitle>
               </mat-card-header>
 
               <img
                 mat-card-image
-                [src]="newsItem?.image"
+                [src]="'../../../assets/news/images/' + newsItem?.image"
                 alt="News Image"
                 class="news-image"
               />
 
               <mat-card-content>
                 <h2>{{ newsItem?.title }}</h2>
-                <p>{{ newsItem?.details }}</p>
+                <p>{{ newsItem?.summary }}</p>
               </mat-card-content>
 
               <mat-card-actions>
-                <button mat-button><mat-icon>thumb_up</mat-icon> Like</button>
+                <button mat-button>
+                  <mat-icon>thumb_up</mat-icon> Like ({{ likeCount }})
+                </button>
                 <button mat-button><mat-icon>share</mat-icon> Share</button>
                 <button mat-button><mat-icon>chat</mat-icon> Comment</button>
               </mat-card-actions>
@@ -80,12 +95,14 @@ interface News {
                   <div class="d-flex align-items-center mb-2">
                     <img
                       class="rounded-circle comment-avatar"
-                      src="https://cdn-icons-png.flaticon.com/512/147/147144.png"
+                      [src]="
+                        '../../../assets/profile/images/' + comment.profileImage
+                      "
                       alt="Commenter Avatar"
                     />
                     <div class="ms-2">
-                      <strong>{{ comment.name }}</strong>
-                      <p class="mb-0 text-muted">{{ comment.text }}</p>
+                      <strong>{{ comment.commentedBy }}</strong>
+                      <p class="mb-0 text-muted">{{ comment.commentText }}</p>
                     </div>
                   </div>
                 </div>
@@ -114,7 +131,6 @@ interface News {
               </mat-card-header>
 
               <mat-card-content>
-                <!-- Space-themed image from NASA -->
                 <img
                   src="https://images.pexels.com/photos/259282/pexels-photo-259282.jpeg"
                   alt="SpaceX News"
@@ -241,30 +257,49 @@ interface News {
 })
 export class FeedDetailsComponent implements OnInit {
   newsItem: News | undefined;
-  comments: { name: string; text: string }[] = [
-    { name: 'John Doe', text: 'Amazing article!' },
-    { name: 'Jane Smith', text: 'Very insightful.' },
-  ];
+  comments: Comment[] = [];
+  likeCount: number = 0;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient // Inject HttpClient for API calls
+  ) {}
 
   ngOnInit(): void {
     const newsId = this.route.snapshot.paramMap.get('id');
     if (newsId) {
-      this.newsItem = {
-        title: 'SpaceX Successfully Launches Mars Mission',
-        summary:
-          'SpaceX’s ambitious mission to Mars has successfully launched, bringing humanity one step closer to interplanetary travel...',
-        image: 'https://www.spacex.com/static/images/share.jpg',
-        details:
-          'SpaceX’s ambitious mission to Mars has successfully launched, bringing humanity one step closer to interplanetary travel. This historic mission is expected to pave the way for future manned missions to the Red Planet...',
-      };
+      // Call the API to fetch the news details
+      this.http
+        .get<any>(`http://localhost:8080/api/v1/feed/getDetails/${newsId}`)
+        .subscribe((response) => {
+          const newsData = response?.response?.[0]; // Assuming response is an array with one object
+          if (newsData) {
+            // Map the API response to the News object structure
+            this.newsItem = {
+              id: newsData.id, // Ensure the `id` field is included
+              title: newsData.title,
+              summary: newsData.summary,
+              image: newsData.image, // Adjust if your API provides a full URL or just a relative path
+              postedBy: newsData.postedBy,
+              postedOn: newsData.postedOn,
+              comments: newsData.comments || [], // Ensure comments are set
+              likeCount: newsData.likeCount || 0, // Ensure like count is set
+            };
+            this.comments = this.newsItem.comments || [];
+            this.likeCount = this.newsItem.likeCount;
+          }
+        });
     }
   }
 
-  addComment(comment: string) {
+  addComment(comment: string): void {
     if (comment.trim()) {
-      this.comments.push({ name: 'You', text: comment.trim() });
+      this.comments.push({
+        commentedBy: 'You',
+        commentText: comment.trim(),
+        profileImage: 'https://cdn-icons-png.flaticon.com/512/194/194938.png', // Placeholder image for user
+      });
+      this.likeCount += 1; // Optionally, increment the like count for new comment
     }
   }
 }
