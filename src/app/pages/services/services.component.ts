@@ -9,6 +9,17 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table'; // Import MatTableModule
+import { MatIconModule } from '@angular/material/icon';
+
+// Define an interface for the service object
+interface Service {
+  id: string;
+  service: string;
+  description: string;
+  statusMessage: string;
+  issueResolved: boolean;
+}
 
 @Component({
   selector: 'app-services',
@@ -22,6 +33,8 @@ import { FormsModule } from '@angular/forms';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     FormsModule,
+    MatTableModule,
+    MatIconModule,
   ],
   template: `
     <div class="container">
@@ -31,153 +44,343 @@ import { FormsModule } from '@angular/forms';
       >
         Our Premium Services
       </h2>
-      <h5 class="text-center text-muted mb-5">
+      <h5 class="text-center text-muted mb-4">
         Select a service and let us handle the rest with professionalism and
         expertise.
       </h5>
 
-      <div class="col-12 col-md-12">
-        <mat-card class="service-selection">
-          <mat-card-content>
-            <mat-form-field appearance="fill" class="w-100 mt-3">
-              <mat-label>Email or Phone</mat-label>
-              <input
-                matInput
-                [(ngModel)]="contact"
-                type="email"
-                placeholder="Enter your email or phone number"
-              />
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="w-100 mt-3">
-              <mat-label>Select Service</mat-label>
-              <mat-select [(value)]="selectedService">
-                <mat-option *ngFor="let service of services" [value]="service">
-                  {{ service }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="w-100 mt-3">
-              <mat-label>Your Message</mat-label>
-              <textarea
-                matInput
-                [(ngModel)]="userMessage"
-                rows="5"
-                placeholder="Describe your needs..."
-              ></textarea>
-            </mat-form-field>
-
-            <div class="text-center">
-              <button
-                mat-raised-button
-                class="get-started-button mt-3"
-                (click)="sendRequest()"
-                [disabled]="isLoading"
+      <div class="row">
+        <div class="col col-md-12 mb-2">
+          <mat-card class="service-card">
+            <mat-card-header>
+              <mat-card-title class="service-title"
+                >Our Services</mat-card-title
               >
-                Request Service
-              </button>
-            </div>
-
-            <!-- Loading Spinner -->
-            <div *ngIf="isLoading" class="text-center">
-              <mat-spinner diameter="40"></mat-spinner>
-            </div>
-          </mat-card-content>
-        </mat-card>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="service-description">
+                We offer a comprehensive range of services designed to help you
+                thrive. From personalized portfolios to innovative web
+                development, expert consulting, and ongoing support, our team is
+                dedicated to delivering high-quality solutions that meet your
+                needs.
+              </p>
+              <ul class="service-list">
+                <li>
+                  <strong>Portfolio Creation:</strong> Showcasing your
+                  achievements and skills.
+                </li>
+                <li>
+                  <strong>Web Development:</strong> Building responsive,
+                  user-friendly websites.
+                </li>
+                <li>
+                  <strong>Consulting:</strong> Tailored business solutions to
+                  optimize your processes.
+                </li>
+                <li>
+                  <strong>Ongoing Support:</strong> Continuous updates and
+                  maintenance to keep your systems running smoothly.
+                </li>
+              </ul>
+            </mat-card-content>
+          </mat-card>
+        </div>
       </div>
 
-      <h2 class="text-center mat-h2 mb-5 mt-5" style="color: #2a3d7c;">
-        What Our Clients Say
-      </h2>
+      <h2 class="section-title">Service Enrollment</h2>
 
-      <!-- Testimonial Section -->
-      <mat-card class="testimonial-section mt-2">
-        <mat-card-content>
-          <div class="testimonial-container">
-            <mat-card
-              class="testimonial-card"
-              *ngFor="let testimonial of visibleTestimonials"
-            >
-              <mat-card-content>
-                <div class="testimonial-image-container">
+      <div class="row">
+        <div class="col col-md-7">
+          <mat-card style="min-height: 450px;">
+            <p class="gradient-text">Your Requested services</p>
+
+            <mat-card-content>
+              <!-- Table Container with Bootstrap classes for styling -->
+              <div class="table-responsive" *ngIf="isLoggedIn">
+                <table
+                  class="table table-striped table-bordered"
+                  *ngIf="servicesList.length > 0; else noData"
+                >
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Service</th>
+                      <th>Description</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let service of servicesList; let i = index">
+                      <td>{{ i + 1 }}</td>
+                      <td>{{ service.service }}</td>
+                      <td>{{ service.description }}</td>
+                      <td>{{ service.statusMessage }}</td>
+                      <td>
+                        <button
+                          class="btn btn-primary btn-sm"
+                          (click)="updateService(service.id)"
+                          aria-label="Update Service"
+                        >
+                          <i class="fa fa-pencil"></i>
+                        </button>
+                        <button
+                          class="btn btn-danger btn-sm action-buttons"
+                          (click)="deleteService(service.id)"
+                          aria-label="Delete Service"
+                        >
+                          <i class="fa fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <!-- Template for "No data" message -->
+                <ng-template #noData>
+                  <div style="text-align: center; padding: 20px;">
+                    <p style="font-size: 18px; font-weight: 600;">
+                      No service requests found.
+                    </p>
+                  </div>
+                </ng-template>
+              </div>
+
+              <!-- Optional: Show a message if the user is not logged in -->
+              <div
+                *ngIf="!isLoggedIn"
+                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;"
+              >
+                <mat-icon style="font-size: 50px; color: #007bff;"
+                  >lock</mat-icon
+                >
+
+                <p style="margin-top: 20px; font-size: 18px; font-weight: 600;">
+                  Please log in to view your requested services.
+                </p>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <div class="col col-md-5">
+          <mat-card>
+            <p class="gradient-text">Request new service</p>
+
+            <mat-card-content>
+              <mat-form-field appearance="fill" class="w-100 mt-3">
+                <mat-label>Email or Phone</mat-label>
+                <input
+                  matInput
+                  [(ngModel)]="contact"
+                  type="email"
+                  placeholder="Enter your email or phone number"
+                />
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" class="w-100 mt-3">
+                <mat-label>Select Service</mat-label>
+                <mat-select [(value)]="selectedService">
+                  <mat-option
+                    *ngFor="let service of services"
+                    [value]="service"
+                  >
+                    {{ service }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" class="w-100 mt-3">
+                <mat-label>Your Message</mat-label>
+                <textarea
+                  matInput
+                  [(ngModel)]="userMessage"
+                  rows="3"
+                  placeholder="Describe your needs..."
+                ></textarea>
+              </mat-form-field>
+
+              <div class="text-center">
+                <button
+                  mat-raised-button
+                  class="get-started-button mt-3"
+                  (click)="sendRequest()"
+                  [disabled]="isLoading"
+                >
+                  Request Service
+                </button>
+              </div>
+
+              <!-- Loading Spinner -->
+              <div *ngIf="isLoading" class="text-center">
+                <mat-spinner diameter="40"></mat-spinner>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <div class="row">
+        <h2 class="section-title">What Our Clients Say</h2>
+        <div class="col-md-6">
+          <mat-card class="testimonial-card">
+            <mat-card-content>
+              <div class="testimonial">
+                <div class="testimonial-avatar">
                   <img
-                    [src]="testimonial.image"
-                    alt="{{ testimonial.name }}"
-                    class="testimonial-image"
+                    src="../../../assets/me.png"
+                    alt="Client 1"
+                    class="avatar"
                   />
                 </div>
                 <div class="testimonial-text">
-                  <p class="testimonial-comment">{{ testimonial.comment }}</p>
-                  <p class="testimonial-name">{{ testimonial.name }}</p>
+                  <p class="testimonial-quote">
+                    "This company exceeded my expectations. Their services
+                    helped me take my business to the next level. recommend!"
+                  </p>
+                  <p class="testimonial-name">John Doe</p>
+                  <p class="testimonial-role">CEO, Company ABC</p>
                 </div>
-              </mat-card-content>
-            </mat-card>
-          </div>
-        </mat-card-content>
-      </mat-card>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <div class="col-md-6">
+          <mat-card class="testimonial-card">
+            <mat-card-content>
+              <div class="testimonial">
+                <div class="testimonial-avatar">
+                  <img
+                    src="../.././../assets/assets/images/av.png"
+                    alt="Client 2"
+                    class="avatar"
+                  />
+                </div>
+                <div class="testimonial-text">
+                  <p class="testimonial-quote">
+                    "The team was fantastic to work with. They understood our
+                    needs and delivered exceptional results!"
+                  </p>
+                  <p class="testimonial-name">Jane Smith</p>
+                  <p class="testimonial-role">Marketing Director, XYZ Corp</p>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
     </div>
   `,
   styles: [
     `
-      /* Service Section */
-      .service-selection {
-        margin-top: 10px;
-        border-radius: 5px;
+      .action-buttons {
+        margin-left: 10px; /* Adjust this value as needed */
+      }
+
+      .section-title {
         text-align: center;
-        height: auto;
-        padding: 20px;
-      }
-
-      /* Testimonial Section */
-      .testimonial-section {
-        padding: 20px;
-        border-radius: 8px;
-      }
-
-      .testimonial-container {
-        display: grid;
-        gap: 15px;
-        padding: 10px;
-        grid-template-columns: repeat(1, 1fr); /* Default to 1 card per row */
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 30px;
       }
 
       .testimonial-card {
-        background-color: #f5f5f5;
-        border-radius: 12px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 15px;
-        text-align: center;
-        transition: transform 0.3s ease;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        padding: 20px;
       }
 
-      .testimonial-image-container {
+      .testimonial {
         display: flex;
-        justify-content: center;
-        margin-bottom: 15px;
+        align-items: center;
+        justify-content: flex-start;
       }
 
-      .testimonial-image {
-        width: 80px;
-        height: 80px;
+      .testimonial-avatar {
+        margin-right: 20px;
+      }
+
+      .avatar {
         border-radius: 50%;
+        width: 60px;
+        height: 60px;
         object-fit: cover;
-        border: 3px solid #ff6f00;
       }
 
       .testimonial-text {
-        padding: 10px;
+        max-width: 80%;
       }
 
-      .testimonial-comment {
-        font-size: 1rem;
+      .testimonial-quote {
+        font-style: italic;
         color: #555;
         margin-bottom: 10px;
       }
 
       .testimonial-name {
         font-weight: bold;
-        color: #2a3d7c;
+        color: #333;
+      }
+
+      .testimonial-role {
+        color: #777;
+        font-size: 0.9rem;
+      }
+
+      .gradient-text {
+        text-align: center;
+        padding: 10px;
+        text-transform: uppercase;
+        font-weight: bold; /* Optional, to make the text bolder */
+
+        /* Apply the gradient to the text */
+        background: linear-gradient(135deg, #16a085, #732d91);
+        -webkit-background-clip: text; /* Ensures the gradient is clipped to the text */
+        color: transparent; /* Makes the text color transparent to show the background gradient */
+      }
+
+      /* Global Styles */
+      .section-title {
+        font-size: 1.3rem;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+        margin: 20px;
+      }
+      .service-card {
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .service-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #4a90e2;
+        text-align: center;
+      }
+
+      .service-description {
+        font-size: 0.8rem;
+        color: #333;
+        line-height: 1.7;
+        margin-bottom: 15px;
+      }
+
+      .service-list {
+        font-size: 0.7rem;
+        color: #555;
+        line-height: 1.5;
+        margin-left: 20px;
+      }
+
+      .service-list li {
+        margin-bottom: 10px;
+      }
+
+      .service-list strong {
+        color: #16a085;
       }
 
       /* Mobile Screens (1 testimonial per view) */
@@ -219,79 +422,22 @@ import { FormsModule } from '@angular/forms';
     `,
   ],
 })
-export class ServicesComponent implements OnInit, OnDestroy {
+export class ServicesComponent implements OnInit {
   services = ['Portfolio Services', 'Resume Services', 'Web Services'];
   selectedService: string | undefined;
   userMessage: string = '';
   contact: string = '';
+  userId: string = '';
   isLoading = false;
-
-  testimonials = [
-    {
-      name: 'John Doe',
-      comment:
-        'Fantastic service! My portfolio looks amazing, thank you for the support!',
-      image: 'https://randomuser.me/api/portraits/men/1.jpg',
-    },
-    {
-      name: 'Jane Smith',
-      comment:
-        'The resume services were top-notch. Highly recommend to anyone looking for professional help.',
-      image: 'https://randomuser.me/api/portraits/women/1.jpg',
-    },
-    {
-      name: 'David Wilson',
-      comment:
-        'The web development team delivered exactly what I needed. Great experience overall.',
-      image: 'https://randomuser.me/api/portraits/men/2.jpg',
-    },
-    {
-      name: 'Sarah Lee',
-      comment:
-        'SEO services helped us boost our traffic in no time. Great results!',
-      image: 'https://randomuser.me/api/portraits/women/2.jpg',
-    },
-    {
-      name: 'Michael Brown',
-      comment:
-        'Excellent resume! My job search has never been easier. Thank you so much!',
-      image: 'https://randomuser.me/api/portraits/men/3.jpg',
-    },
-  ];
-
-  visibleTestimonials = this.testimonials.slice(0, 3);
-  currentTestimonialIndex: number = 0;
-  testimonialInterval: any;
+  isLoggedIn: boolean = false;
+  // Step 3: Initialize an array to store services
+  servicesList: Service[] = [];
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
-    this.startAutoSlide();
-  }
-
-  ngOnDestroy() {
-    if (this.testimonialInterval) {
-      clearInterval(this.testimonialInterval);
-    }
-  }
-
-  startAutoSlide() {
-    this.testimonialInterval = setInterval(() => {
-      this.nextTestimonial();
-    }, 3000);
-  }
-
-  nextTestimonial() {
-    this.currentTestimonialIndex =
-      (this.currentTestimonialIndex + 1) % this.testimonials.length;
-    this.visibleTestimonials = this.testimonials.slice(
-      this.currentTestimonialIndex,
-      this.currentTestimonialIndex + 3
-    );
-    if (this.visibleTestimonials.length < 3) {
-      const remaining = 3 - this.visibleTestimonials.length;
-      this.visibleTestimonials.push(...this.testimonials.slice(0, remaining));
-    }
+    this.isLoggedIn = sessionStorage.getItem('token') !== null;
+    this.getUserServiceList();
   }
 
   sendRequest() {
@@ -299,35 +445,35 @@ export class ServicesComponent implements OnInit, OnDestroy {
       this.snackBar.open(
         'Please fill in all the fields before submitting.',
         'Close',
-        { duration: 3000 }
+        { duration: 3000, verticalPosition: 'top', horizontalPosition: 'right' }
       );
       return;
     }
 
     this.isLoading = true;
 
+    // Check for token in sessionStorage
+    const token = sessionStorage.getItem('token');
+    const userInfo = sessionStorage.getItem('userinfo') || '';
+    if (!token) {
+      this.snackBar.open('Please log in to continue.', 'Close', {
+        duration: 3000, // Snackbar duration
+        verticalPosition: 'top', // Snackbar position
+        horizontalPosition: 'right', // Snackbar position
+      });
+      this.isLoading = false;
+      return;
+    }
+
+    const parsedUserInfo = JSON.parse(userInfo);
+    const userId = parsedUserInfo.response[0].userId;
+
     const requestBody = {
+      userId: userId,
       contact: this.contact,
       service: this.selectedService,
       description: this.userMessage,
     };
-
-    // Check for token in sessionStorage
-    const token = sessionStorage.getItem('token');
-    if (!token) {
-      this.snackBar.open(
-        'You are not authenticated. Please log in to continue.',
-        'Close',
-        {
-          duration: 3000,
-          panelClass: ['error-snackbar'],
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-        }
-      );
-      this.isLoading = false;
-      return;
-    }
 
     // Add the token to the request headers
     const headers = {
@@ -344,21 +490,151 @@ export class ServicesComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           const successMessage =
             response?.message || 'Your request has been processed successfully';
-          this.snackBar.open(successMessage, 'Close', { duration: 3000 });
+          this.snackBar.open(successMessage, 'Close', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right',
+          });
           this.resetForm();
         },
         error: (error: any) => {
           this.isLoading = false;
           const errorMessage =
             error?.message || 'Error occurred. Please try again.';
-          this.snackBar.open(errorMessage, 'Close', { duration: 3000 });
+          this.snackBar.open(errorMessage, 'Close', {
+            duration: 3000,
+            verticalPosition: 'top', // Snackbar position
+            horizontalPosition: 'right',
+          });
         },
       });
+    window.location.reload();
   }
 
   resetForm() {
     this.selectedService = undefined;
     this.userMessage = '';
     this.contact = '';
+  }
+
+  // Columns to display in the table
+  displayedColumns: string[] = [
+    'id',
+    'service',
+    'description',
+    'status',
+    'actions',
+  ];
+
+  // Update Service method (just an example)
+  updateService(serviceId: any): void {
+    console.log('Update service with ID:', serviceId);
+    // Implement the update logic here
+  }
+
+  // delete
+  deleteService(serviceId: any): void {
+    // Ask for confirmation using the browser's built-in confirm dialog
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this service?'
+    );
+
+    if (confirmed) {
+      // If the user confirmed, proceed with deletion
+      this.confirmDelete(serviceId);
+    }
+  }
+
+  /**
+   * delete Data
+   * @param serviceId
+   */
+  confirmDelete(serviceId: any): void {
+    const token = sessionStorage.getItem('token');
+
+    if (token) {
+      // Make the DELETE request to the API
+      this.http
+        .delete(`http://localhost:8080/api/v1/service/delete/${serviceId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Pass token for authentication
+            'Content-Type': 'application/json',
+          },
+        })
+        .subscribe(
+          (response: any) => {
+            // Handle successful deletion
+            if (
+              response &&
+              response.message === 'Request processed successfully.'
+            ) {
+              // Remove the deleted service from the services list
+              this.servicesList = this.servicesList.filter(
+                (service) => service.id !== serviceId
+              );
+              alert('Service deleted successfully'); // Alert the user that the service has been deleted
+            } else {
+              console.error('Failed to delete service:', response.message);
+              alert('Failed to delete service. Please try again.'); // Alert on failure
+            }
+          },
+          (error) => {
+            // Handle error in case of failure
+            console.error('Error deleting service:', error);
+            alert('Failed to delete service. Please try again.'); // Alert on error
+          }
+        );
+    } else {
+      // Handle missing token case
+      console.error('No token found in sessionStorage');
+      alert('User is not authenticated'); // Alert if the user is not authenticated
+    }
+  }
+
+  // Method to fetch services
+  getUserServiceList() {
+    if (this.isLoggedIn) {
+      const token = sessionStorage.getItem('token');
+      const userInfo = sessionStorage.getItem('userinfo') || '';
+      const parsedUserInfo = JSON.parse(userInfo);
+      const userId = parsedUserInfo.response[0].userId;
+
+      if (token && userId) {
+        fetch(`http://localhost:8080/api/v1/service/get/${userId}`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`, // Authorization header with token
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((response) => response.json()) // Parse the response as JSON
+          .then((data) => {
+            if (data && data.response) {
+              // Add each service object from the response to the services list
+              data.response.forEach((service: Service) => {
+                return this.servicesList.push({
+                  id: service.id,
+                  service: service.service,
+                  description: service.description,
+                  statusMessage: service.statusMessage,
+                  issueResolved: service.issueResolved,
+                });
+              });
+            } else {
+              console.error(
+                'No services found or error in response:',
+                data.message
+              );
+            }
+          })
+          .catch((error) => {
+            console.error('Error fetching services:', error);
+          });
+      } else {
+        console.error('Token or User ID is missing from session storage');
+      }
+    } else {
+      console.error('User is not logged in');
+    }
   }
 }
