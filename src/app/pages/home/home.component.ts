@@ -231,7 +231,7 @@ import { RouterModule } from '@angular/router';
       }
 
       .value-item mat-icon {
-        font-size: 3rem;
+        font-size: 1.6rem;
         color: #ff6f61;
       }
 

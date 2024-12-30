@@ -37,7 +37,7 @@ interface Service {
     MatIconModule,
   ],
   template: `
-    <div class="container">
+    <div class="container my-4">
       <h2
         class="text-center mat-h2 mb-1"
         style="color: #2a3d7c; font-size: 1.6rem;"
@@ -50,39 +50,77 @@ interface Service {
       </h5>
 
       <div class="row">
-        <div class="col col-md-12 mb-2">
-          <mat-card class="service-card">
-            <mat-card-header>
-              <mat-card-title class="service-title"
-                >Our Services</mat-card-title
-              >
-            </mat-card-header>
+        <div class="col-md-12">
+          <mat-card class="mat-elevation-z4">
             <mat-card-content>
-              <p class="service-description">
-                We offer a comprehensive range of services designed to help you
-                thrive. From personalized portfolios to innovative web
-                development, expert consulting, and ongoing support, our team is
-                dedicated to delivering high-quality solutions that meet your
-                needs.
-              </p>
-              <ul class="service-list">
-                <li>
-                  <strong>Portfolio Creation:</strong> Showcasing your
-                  achievements and skills.
-                </li>
-                <li>
-                  <strong>Web Development:</strong> Building responsive,
-                  user-friendly websites.
-                </li>
-                <li>
-                  <strong>Consulting:</strong> Tailored business solutions to
-                  optimize your processes.
-                </li>
-                <li>
-                  <strong>Ongoing Support:</strong> Continuous updates and
-                  maintenance to keep your systems running smoothly.
-                </li>
-              </ul>
+              <h5 class="text-justify mb-4" style="line-height: 1.8;">
+                <i>
+                  Discover a range of services crafted to empower you and your
+                  business. From professional portfolio creation to cutting-edge
+                  web development, insightful consulting, and dependable ongoing
+                  support, we ensure your success with tailored solutions.
+                </i>
+              </h5>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <div class="d-flex align-items-start">
+                    <div class="me-3">
+                      <mat-icon class="text-primary">work</mat-icon>
+                    </div>
+                    <div>
+                      <h5 class="mb-1"><b>PORTFOLIO CREATION</b></h5>
+                      <p class="text-justify mb-0" style="font-size: 0.9rem;">
+                        Showcase your achievements and skills with a
+                        custom-built, professional portfolio.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <div class="d-flex align-items-start">
+                    <div class="me-3">
+                      <mat-icon class="text-success">code</mat-icon>
+                    </div>
+                    <div>
+                      <h5 class="mb-1"><b>WEB DEVELOPMENT</b></h5>
+                      <p class="text-justify mb-0" style="font-size: 0.9rem;">
+                        Build responsive, user-friendly websites to create a
+                        lasting online presence.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <div class="d-flex align-items-start">
+                    <div class="me-3">
+                      <mat-icon class="text-warning"
+                        >lightbulb_outline</mat-icon
+                      >
+                    </div>
+                    <div>
+                      <h5 class="mb-1"><b>CONSULTING</b></h5>
+                      <p class="text-justify mb-0" style="font-size: 0.9rem;">
+                        Get expert advice and tailored business solutions to
+                        optimize your operations.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <div class="d-flex align-items-start">
+                    <div class="me-3">
+                      <mat-icon class="text-danger">build</mat-icon>
+                    </div>
+                    <div>
+                      <h5 class="mb-1"><b>ONGOING SUPPORT </b></h5>
+                      <p class="text-justify mb-0" style="font-size: 0.9rem;">
+                        Enjoy continuous updates and maintenance for
+                        uninterrupted system performance.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </mat-card-content>
           </mat-card>
         </div>
@@ -91,7 +129,7 @@ interface Service {
       <h2 class="section-title">Service Enrollment</h2>
 
       <div class="row">
-        <div class="col col-md-7">
+        <div class="col-md-7">
           <mat-card style="min-height: 450px;">
             <p class="gradient-text">Your Requested services</p>
 
@@ -139,9 +177,18 @@ interface Service {
 
                 <!-- Template for "No data" message -->
                 <ng-template #noData>
-                  <div style="text-align: center; padding: 20px;">
-                    <p style="font-size: 18px; font-weight: 600;">
-                      No service requests found.
+                  <div
+                    style="text-align: center; padding: 20px; margin-top:15%"
+                  >
+                    <span style="font-weight: 600;">
+                      <mat-icon style="color: #007bff; font-size: 32px"
+                        >search_off</mat-icon
+                      >
+                    </span>
+                    <p
+                      style="margin-top: 20px; font-size: 18px; font-weight: 600;"
+                    >
+                      No request found.
                     </p>
                   </div>
                 </ng-template>
@@ -152,9 +199,7 @@ interface Service {
                 *ngIf="!isLoggedIn"
                 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;"
               >
-                <mat-icon style="font-size: 50px; color: #007bff;"
-                  >lock</mat-icon
-                >
+                <mat-icon style="color: #007bff;">lock</mat-icon>
 
                 <p style="margin-top: 20px; font-size: 18px; font-weight: 600;">
                   Please log in to view your requested services.
@@ -164,7 +209,7 @@ interface Service {
           </mat-card>
         </div>
 
-        <div class="col col-md-5">
+        <div class="col-md-5">
           <mat-card>
             <p class="gradient-text">Request new service</p>
 

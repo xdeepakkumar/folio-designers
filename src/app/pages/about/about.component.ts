@@ -14,94 +14,135 @@ import {
   standalone: true,
   imports: [CommonModule, MatCardModule, MatButtonModule, ReactiveFormsModule],
   template: `
-    <div class="container">
+    <div class="container my-4">
       <h2
         class="text-center mat-h2 mb-1"
         style="color: #2a3d7c; font-size: 1.6rem;"
       >
         About Us
       </h2>
-      <h5 class="text-center text-muted mb-4">
+      <h5 class="text-center text-muted">
         We are committed to providing the best services for our clients.
       </h5>
       <div class="row">
-        <div class="col-md-6 mb-4">
+        <div class="container my-3">
           <mat-card>
-            <mat-card-header>
-              <mat-card-title>Our Mission</mat-card-title>
-            </mat-card-header>
             <mat-card-content>
-              <p class="text-muted">
-                Our mission is to deliver high-quality products and services
-                that meet the needs of our clients and contribute to their
-                success.
-              </p>
-            </mat-card-content>
-          </mat-card>
-        </div>
-        <div class="col-md-6">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title>Our Vision</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <p class="text-muted">
-                We envision a world where our innovative solutions empower
-                businesses to thrive and achieve their full potential.
-              </p>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </div>
+              <div class="row align-items-center">
+                <!-- Left Section: Text Content -->
+                <div class="col-md-6 mb-4">
+                  <h6 class="text-uppercase text-primary">How It Started</h6>
+                  <h1 class="fw-bold">
+                    Our Dream is Global Professional Users Transformation
+                  </h1>
+                  <p class="text-muted" style="line-height: 1.8;">
+                    Kawruh was founded by Robert Anderson, a passionate lifelong
+                    learner, and Maria Sanchez, an visionary educator. Their
+                    shared dream was to create a digital haven of knowledge
+                    accessible to all. United by their belief in the
+                    transformative power of education, they embarked on a
+                    journey to build Kawruh.
+                  </p>
+                </div>
 
-      <div class="row">
-        <div class="text-center">
+                <!-- Right Section: Image -->
+                <div class="col-md-6 text-center">
+                  <img
+                    src="../../../assets/grup_pic.jpg"
+                    alt="About Us"
+                    class="img-fluid rounded-3 shadow-sm"
+                  />
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <h2 class="section-title text-center mt-4 mb-4">Our Achievements</h2>
+
+          <!-- Statistics Section -->
+          <div class="row mt-3">
+            <div class="col-md-3 mb-3">
+              <mat-card>
+                <mat-card-content>
+                  <div class=" text-center p-1 rounded-3">
+                    <h3 class="fw-bold mb-1">3.5+</h3>
+                    <p class="text-muted mb-0">Years Experience</p>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+            <div class="col-md-3 mb-3">
+              <mat-card>
+                <mat-card-content>
+                  <div class="text-center p-1 rounded-3">
+                    <h3 class="fw-bold mb-1">23</h3>
+                    <p class="text-muted mb-0">Project Challenges</p>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+            <div class="col-md-3 mb-3">
+              <mat-card>
+                <mat-card-content>
+                  <div class="text-center p-1 rounded-3">
+                    <h3 class="fw-bold mb-1">830+</h3>
+                    <p class="text-muted mb-0">Positive Reviews</p>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+            <div class="col-md-3 mb-3">
+              <mat-card>
+                <mat-card-content>
+                  <div class="text-center p-1 rounded-3">
+                    <h3 class="fw-bold mb-1">100K</h3>
+                    <p class="text-muted mb-0">Trusted Students</p>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+
+          <h2 class="section-title text-center mt-4 mb-4">Meet Our CEO</h2>
+
           <mat-card>
-            <mat-card-header>
-              <mat-card-title class="mat-h2 mb-4">Contact Us</mat-card-title>
-            </mat-card-header>
             <mat-card-content>
-              <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-                <div class="form-group mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="name"
-                    placeholder="Enter your name"
-                    aria-label="Your Name"
-                    required
+              <!-- Meet Our CEO Section -->
+              <div class="row mt-5">
+                <div class="col-md-6 text-center">
+                  <img
+                    src="../../../assets/me.png"
+                    alt="CEO Image"
+                    class="img-fluid rounded-circle shadow-sm"
+                    style="max-width: 250px;"
                   />
                 </div>
-                <div class="form-group mb-3">
-                  <input
-                    type="email"
-                    class="form-control"
-                    formControlName="email"
-                    placeholder="Enter your email"
-                    aria-label="Your Email"
-                    required
-                  />
+                <div class="col-md-6">
+                  <h2 class="fw-bold">Deepak Kumar</h2>
+                  <p
+                    class="text-muted"
+                    style="line-height: 1.8; text-align: justify; "
+                  >
+                    <i>
+                      Deepak K is the visionary behind Kawruh's success. With
+                      over a decade of experience in the tech and education
+                      industries, he has transformed Kawruh into a leading
+                      platform for global learning. His innovative ideas and
+                      unwavering commitment to quality make him an inspiration
+                      for our entire team.
+                    </i>
+                  </p>
+                  <p>
+                    <button
+                      mat-raised-button
+                      style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
+                      type="submit"
+                    >
+                      Contact Deepak
+                    </button>
+                  </p>
                 </div>
-                <div class="form-group mb-3">
-                  <textarea
-                    class="form-control"
-                    formControlName="message"
-                    rows="4"
-                    placeholder="Write your message here"
-                    aria-label="Your Message"
-                    required
-                  ></textarea>
-                </div>
-                <button
-                  mat-raised-button
-                  color="primary"
-                  type="submit"
-                  [disabled]="contactForm.invalid"
-                  class="submit-button"
-                >
-                  Send Message
-                </button>
-              </form>
+              </div>
             </mat-card-content>
           </mat-card>
         </div>
@@ -110,59 +151,31 @@ import {
   `,
   styles: [
     `
+      /* Global Styles */
       .section-title {
-        color: #2a3d7c;
-        font-size: 1.6rem;
-      }
-
-      .section-subtitle {
-        font-size: 1.1rem;
-      }
-
-      .about-card {
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .about-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-      }
-
-      .contact-card {
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      }
-
-      .submit-button {
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        width: 100%;
-      }
-
-      .submit-button:hover {
-        background-color: #1e5ab6;
-        transform: translateY(-2px);
-      }
-
-      mat-card-title {
-        font-size: 1.25rem;
-      }
-
-      mat-card-content p {
+        font-size: 1.5rem;
+        text-align: center;
+        margin-bottom: 20px;
         color: #333;
       }
 
-      .form-control {
-        border-radius: 10px;
-        padding: 12px;
-        font-size: 1rem;
-        border: 1px solid #ddd;
+      h1,
+      h2 {
+        font-size: 2.5rem;
+        line-height: 1.4;
       }
 
-      @media (max-width: 768px) {
-        .section-title,
-        .section-subtitle {
-          text-align: left;
-        }
+      h3 {
+        color: #343a40;
+      }
+
+      .bg-light {
+        background-color: #f8f9fa !important;
+      }
+
+      p {
+        font-size: 1rem;
+        color: #6c757d;
       }
     `,
   ],
