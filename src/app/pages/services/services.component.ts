@@ -11,6 +11,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table'; // Import MatTableModule
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { PopupFormComponent } from 'src/app/components/popup-form/popup-form.component';
 
 // Define an interface for the service object
 interface Service {
@@ -35,6 +37,7 @@ interface Service {
     FormsModule,
     MatTableModule,
     MatIconModule,
+    MatDialogModule,
   ],
   template: `
     <div class="container my-4">
@@ -158,7 +161,7 @@ interface Service {
                       <td>
                         <button
                           class="btn btn-primary btn-sm"
-                          (click)="updateService(service.id)"
+                          (click)="openPopupForm(service.id)"
                           aria-label="Update Service"
                         >
                           <i class="fa fa-pencil"></i>
@@ -478,7 +481,11 @@ export class ServicesComponent implements OnInit {
   // Step 3: Initialize an array to store services
   servicesList: Service[] = [];
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
+  constructor(
+    private http: HttpClient,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.isLoggedIn = sessionStorage.getItem('token') !== null;
@@ -553,7 +560,9 @@ export class ServicesComponent implements OnInit {
           });
         },
       });
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   }
 
   resetForm() {
@@ -572,9 +581,11 @@ export class ServicesComponent implements OnInit {
   ];
 
   // Update Service method (just an example)
-  updateService(serviceId: any): void {
-    console.log('Update service with ID:', serviceId);
-    // Implement the update logic here
+  openPopupForm(serviceId: string): void {
+    const dialogRef = this.dialog.open(PopupFormComponent, {
+      width: '400px',
+      data: { serviceId }, // Pass the serviceId to the PopupFormComponent
+    });
   }
 
   // delete
@@ -617,7 +628,6 @@ export class ServicesComponent implements OnInit {
               this.servicesList = this.servicesList.filter(
                 (service) => service.id !== serviceId
               );
-              alert('Service deleted successfully'); // Alert the user that the service has been deleted
             } else {
               console.error('Failed to delete service:', response.message);
               alert('Failed to delete service. Please try again.'); // Alert on failure
@@ -645,7 +655,7 @@ export class ServicesComponent implements OnInit {
       const userId = parsedUserInfo.response[0].userId;
 
       if (token && userId) {
-        fetch(`http://localhost:8080/api/v1/service/get/${userId}`, {
+        fetch(`http://localhost:8080/api/v1/service/user/${userId}`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`, // Authorization header with token
