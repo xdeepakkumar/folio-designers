@@ -73,7 +73,7 @@ import {
                     required
                   />
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                   <label for="inputCity" class="form-label fw-semibold"
                     >City</label
                   >
@@ -97,7 +97,7 @@ import {
                     required
                   />
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                   <label for="inputZip" class="form-label fw-semibold"
                     >Zip</label
                   >
