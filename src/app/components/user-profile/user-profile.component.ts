@@ -71,7 +71,7 @@ import { Router } from '@angular/router';
             <mat-card-content class="text-center">
               <div class="position-relative">
                 <img
-                  [src]="profileImageUrl || '../../../assets/OIP.jpg'"
+                  [src]="profileImageUrl || '../../../assets/OIP-2.jpg'"
                   alt="Profile Image"
                   class="rounded-circle mb-3"
                   style="cursor: pointer; width: 120px; height: 120px; object-fit: cover; cursor: pointer;"

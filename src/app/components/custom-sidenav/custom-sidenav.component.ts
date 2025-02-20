@@ -187,6 +187,6 @@ export class CustomSidenavComponent {
     } catch (error) {
       console.error('Error parsing userinfo:', error);
     }
-    return '../../../assets/OIP.jpg'; // Default placeholder image
+    return '../../../assets/OIP-2.jpg'; // Default placeholder image
   }
 }

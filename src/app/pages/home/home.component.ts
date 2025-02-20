@@ -19,7 +19,16 @@ import { RouterModule } from '@angular/router';
     <!-- Hero Section -->
     <section class="hero-section">
       <div class="hero-content">
-        <h1>Build a Portfolio That Reflects Your Excellence</h1>
+        <h1
+          style="
+    background: linear-gradient(135deg, #16a085, #732d91);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+  "
+        >
+          Build a Portfolio That Reflects Your Excellence
+        </h1>
         <h4
           style="color:#333333; text-align: center; width: 80%; margin: 0 auto;"
         >
@@ -184,8 +193,8 @@ import { RouterModule } from '@angular/router';
       /* Hero Section */
       .hero-section {
         position: relative;
-        background: url('src/assets/hero-bg-4.jpg') no-repeat center center /
-          cover;
+        /**background: url('src/assets/hero-bg-4.jpg') no-repeat center center /
+          cover; **/
         color: #fff;
         height: 80vh;
         display: flex;

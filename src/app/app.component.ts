@@ -44,7 +44,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   ],
   template: `
     <ng-container *ngIf="showLayout">
-      <mat-toolbar class="mat-elevation-z3" color="primary">
+      <mat-toolbar class="mat-elevation-z4" color="primary">
         <button mat-icon-button (click)="toggleSidenav()">
           <mat-icon>menu</mat-icon>
         </button>
