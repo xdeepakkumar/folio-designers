@@ -17,7 +17,7 @@ import {
       <div class="row g-4">
         <!-- Skills Card -->
         <div class="col-lg-6 col-12">
-          <div class="card shadow-lg border-0" style="border-radius: 12px;">
+          <div class="card border-0" style="border-radius: 4px;">
             <div class="card-body p-4">
               <h4 class="card-title mb-4 text-center">
                 <b>ADD SKILLS</b>
@@ -117,7 +117,7 @@ import {
 
         <!-- Experience Card -->
         <div class="col-lg-6 col-12">
-          <div class="card shadow-lg border-0" style="border-radius: 12px;">
+          <div class="card border-0" style="border-radius: 4px;">
             <div class="card-body p-4">
               <h4 class="card-title mb-4 text-center">
                 <b>Add Your Experience</b>

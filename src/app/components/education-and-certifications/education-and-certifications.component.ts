@@ -17,10 +17,7 @@ import {
       <div class="row">
         <!-- Project Section -->
         <div class="col-lg-6 mb-4">
-          <div
-            class="card mx-auto shadow-lg border-0"
-            style="border-radius: 12px;"
-          >
+          <div class="card mx-auto border-0" style="border-radius: 4px;">
             <div class="card-body p-4">
               <h4 class="card-title mb-4 text-center">
                 <b>ADD PROJECT DETAILS</b>
@@ -133,10 +130,7 @@ import {
 
         <!-- Certifications Section -->
         <div class="col-lg-6 mb-4">
-          <div
-            class="card mx-auto shadow-lg border-0"
-            style="border-radius: 12px;"
-          >
+          <div class="card mx-auto border-0" style="border-radius: 4px;">
             <div class="card-body p-4">
               <h4 class="card-title mb-4 text-center">
                 <b>ADD YOUR CERTIFICATION DETAILS</b>

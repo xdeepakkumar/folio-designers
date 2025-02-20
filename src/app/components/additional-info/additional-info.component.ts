@@ -9,8 +9,8 @@ import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
   template: `
     <div class="container-lg py-4">
       <div
-        class="card shadow border-0 mx-auto"
-        style="border-radius: 12px; max-width: 700px;"
+        class="card border-0 mx-auto"
+        style="border-radius: 4px; max-width: 700px;"
       >
         <div class="card-body p-3">
           <h4 class="card-title mb-3 text-center">

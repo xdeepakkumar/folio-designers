@@ -16,10 +16,10 @@ import {
     <div class="container-lg py-5">
       <div class="row">
         <!-- Personal Information Section -->
-        <div class="col-lg-6 mb-4">
+        <div class="col-lg-6 mb-2">
           <div
-            class="card mx-auto shadow-lg border-0"
-            style="max-width: 650px; border-radius: 12px;"
+            class="card mx-auto border-0"
+            style="max-width: 650px; border-radius: 4px;"
           >
             <div class="card-body p-4">
               <h4 class="card-title mb-4 text-center">PERSONAL INFORMATION</h4>
@@ -140,10 +140,7 @@ import {
 
         <!-- Education Section -->
         <div class="col-lg-6 mb-2">
-          <div
-            class="card mx-auto shadow-lg border-0"
-            style="border-radius: 12px;"
-          >
+          <div class="card mx-auto border-0" style="border-radius: 4px;">
             <div class="card-body p-4">
               <h4 class="card-title mb-4 text-center">
                 <b>ADD EDUCATION DETAILS</b>

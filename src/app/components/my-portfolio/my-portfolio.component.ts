@@ -167,12 +167,11 @@ import { MatIconModule } from '@angular/material/icon';
         </mat-card>
       </div>
 
-      <div class="row mt-4">
-        <div class="col-md-12 text-center">
-          <h2 class="section-title">Any Doubt?</h2>
-
-          <mat-card>
-            <mat-card-content>
+      <div class="row">
+        <h2 class="section-title mt-4">Any Doubt?</h2>
+        <mat-card>
+          <mat-card-content>
+            <div class="col-md-12 text-center p-3">
               <h5>
                 Having discussions is something we truly appreciate. We believe
                 in the power of dialogue to foster understanding and spark
@@ -186,9 +185,9 @@ import { MatIconModule } from '@angular/material/icon';
               >
                 Contact Us
               </a>
-            </mat-card-content>
-          </mat-card>
-        </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
       </div>
     </div>
   `,

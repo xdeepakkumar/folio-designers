@@ -56,6 +56,33 @@ import { RouterModule } from '@angular/router';
       </div>
     </section>
 
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+      <h2 class="section-title">How It Works</h2>
+      <div class="steps">
+        <div class="step">
+          <mat-icon>account_circle</mat-icon>
+          <h4>Sign Up</h4>
+          <p>Create an account and start building your portfolio right away.</p>
+        </div>
+        <div class="step">
+          <mat-icon>design_services</mat-icon>
+          <h4>Customize</h4>
+          <p>
+            Choose your favorite template and personalize it to fit your style.
+          </p>
+        </div>
+        <div class="step">
+          <mat-icon>launch</mat-icon>
+          <h4>Publish</h4>
+          <p>
+            Once your portfolio is ready, hit publish and share it with the
+            world!
+          </p>
+        </div>
+      </div>
+    </section>
+
     <!-- Value Proposition -->
     <section class="value-proposition">
       <h2 class="section-title">Why Choose Us?</h2>
@@ -114,7 +141,7 @@ import { RouterModule } from '@angular/router';
     </section>
 
     <!-- Testimonials Section -->
-    <section class="testimonials-section">
+    <!-- <section class="testimonials-section">
       <h2 class="section-title text-center">Our Achievements</h2>
       <div class="container">
         <div class="row text-center">
@@ -138,34 +165,7 @@ import { RouterModule } from '@angular/router';
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section class="how-it-works">
-      <h2 class="section-title">How It Works</h2>
-      <div class="steps">
-        <div class="step">
-          <mat-icon>account_circle</mat-icon>
-          <h4>Sign Up</h4>
-          <p>Create an account and start building your portfolio right away.</p>
-        </div>
-        <div class="step">
-          <mat-icon>design_services</mat-icon>
-          <h4>Customize</h4>
-          <p>
-            Choose your favorite template and personalize it to fit your style.
-          </p>
-        </div>
-        <div class="step">
-          <mat-icon>launch</mat-icon>
-          <h4>Publish</h4>
-          <p>
-            Once your portfolio is ready, hit publish and share it with the
-            world!
-          </p>
-        </div>
-      </div>
-    </section>
+    </section> -->
 
     <h2 class="section-title mt-5">You're Almost There!</h2>
     <!-- Call to Action Section -->
@@ -186,7 +186,7 @@ import { RouterModule } from '@angular/router';
       .section-title {
         font-size: 1.5rem;
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         color: #333;
       }
 
@@ -264,7 +264,6 @@ import { RouterModule } from '@angular/router';
       /* Our Services Section */
       .services-section {
         padding: 40px 20px;
-        background-color: #f9f9f9;
       }
 
       .services-list {
@@ -323,7 +322,6 @@ import { RouterModule } from '@angular/router';
       /* How It Works Section */
       .how-it-works {
         padding: 50px 20px;
-        background-color: #f4f6f9;
         text-align: center;
       }
 
