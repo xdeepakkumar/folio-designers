@@ -17,6 +17,7 @@ import { SkillAndExperienceComponent } from '../../components/skill-and-experien
 import { EducationAndCertificationsComponent } from '../../components/education-and-certifications/education-and-certifications.component';
 import { AdditionalInfoComponent } from '../../components/additional-info/additional-info.component';
 import { PerviewComponent } from '../../components/perview/perview.component';
+import { FormSubmitService } from 'src/app/services/form-submit.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -67,6 +68,7 @@ import { PerviewComponent } from '../../components/perview/perview.component';
                   mat-raised-button
                   style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
                   matStepperNext
+                  (click)="onNextClick()"
                 >
                   Next
                 </button>
@@ -233,9 +235,11 @@ import { PerviewComponent } from '../../components/perview/perview.component';
   ],
 })
 export class DashboardComponent {
-  finish() {
-    console.log('Finished!');
+  // Trigger form submission when the Next button is clicked
+  onNextClick() {
+    this.formSubmitService.triggerFormSubmit();
   }
+
   skills: FormArray;
   experiences: FormArray;
   skillOptions: string[] = [
@@ -246,7 +250,10 @@ export class DashboardComponent {
     'Python',
   ];
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private formSubmitService: FormSubmitService
+  ) {
     this.skills = this.fb.array([this.createSkill()]);
     this.experiences = this.fb.array([this.createExperience()]);
   }

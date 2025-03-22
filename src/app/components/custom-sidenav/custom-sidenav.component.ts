@@ -157,7 +157,7 @@ export class CustomSidenavComponent {
       if (userInfo) {
         const parsedUserInfo = JSON.parse(userInfo);
         this.loggedIn = true;
-        this.userName = parsedUserInfo.response[0].name || 'Guest';
+        this.userName = parsedUserInfo.response[0].firstName || 'Guest';
       } else {
         this.loggedIn = false;
       }
