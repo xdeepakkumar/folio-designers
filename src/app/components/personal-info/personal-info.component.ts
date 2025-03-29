@@ -1,3 +1,4 @@
+import { CommonService } from './../../services/common.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -17,7 +18,7 @@ import { FormSubmitService } from 'src/app/services/form-submit.service';
   imports: [CommonModule, ReactiveFormsModule], // Make sure ReactiveFormsModule is imported
   template: `
     <div class="container-lg py-5">
-      <form [formGroup]="educationAndCertificationsForm">
+      <form [formGroup]="personalAndEducationalForm">
         <div class="row">
           <!-- Personal Information Section -->
           <div class="col-lg-6 mb-2">
@@ -297,16 +298,17 @@ import { FormSubmitService } from 'src/app/services/form-submit.service';
   ],
 })
 export class PersonalInfoComponent implements OnInit, OnDestroy {
-  educationAndCertificationsForm: FormGroup;
-  private formDataSubject = new BehaviorSubject<any>(null);
+  personalAndEducationalForm: FormGroup;
   private submitFormSubscription: Subscription | undefined;
+  private portfolioId = null;
 
   constructor(
     private fb: FormBuilder,
     private folioService: FolioService,
-    private formSubmitService: FormSubmitService
+    private formSubmitService: FormSubmitService,
+    private commonService: CommonService
   ) {
-    this.educationAndCertificationsForm = this.fb.group({
+    this.personalAndEducationalForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -325,12 +327,13 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
   // Getter to access the educations FormArray
   get educations(): FormArray {
-    return this.educationAndCertificationsForm.get('educations') as FormArray;
+    return this.personalAndEducationalForm.get('educations') as FormArray;
   }
 
   // Method to add a new education form group
   addEducation() {
     const educationGroup = this.fb.group({
+      id: [null],
       degree: ['', Validators.required],
       institution: ['', Validators.required],
       graduationYear: [
@@ -350,11 +353,17 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
   // Method to get the current form data and pass it to the service
   saveData() {
-    const formData = this.educationAndCertificationsForm.value;
+    const formData = this.personalAndEducationalForm.value;
+    // Ensure that each education entry has an 'id' field
+    formData.educations.forEach((education: any) => {
+      if (!education.id) {
+        education.id = null; // Set id as null for new education
+      }
+    });
+    if (this.portfolioId != null) formData.id = this.portfolioId;
     this.folioService.savePersonalDetails(formData).subscribe({
       next: (response) => {
         console.log('Data saved successfully', response);
-        // After saving the data, bind the response data to the form
         this.bindFormData(response);
       },
       error: (error) => {
@@ -365,21 +374,25 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
   // Fetch personal details when the component initializes
   ngOnInit() {
-    // Fetch personal details and bind them to the form
-    this.folioService.getPersonalDetails().subscribe({
-      next: (response: any) => {
-        // Check if the response contains the personal details object
-        if (response && response.response && response.response.length > 0) {
-          this.bindFormData(response.response[0]); // Bind the first entry from the response array
-        } else {
-          // If no data is found, you can reset the form with default values (optional)
-          this.educationAndCertificationsForm.reset();
-        }
-      },
-      error: (err) => {
-        console.error('Error fetching personal details', err);
-      },
-    });
+    if (this.commonService.getFolioId()) {
+      // Fetch personal details and bind them to the form
+      this.folioService.getPersonalDetails().subscribe({
+        next: (response: any) => {
+          // Check if the response contains the personal details object
+          if (response && response.response && response.response.length > 0) {
+            this.bindFormData(response.response[0]);
+            this.portfolioId = response.response[0].id;
+          } else {
+            // If no data is found, reset the form
+            this.personalAndEducationalForm.reset();
+            this.addEducation();
+          }
+        },
+        error: (err) => {
+          console.error('Error fetching personal details', err);
+        },
+      });
+    }
 
     // Subscribe to form submission trigger
     this.submitFormSubscription = this.formSubmitService.submitForm$.subscribe(
@@ -396,9 +409,10 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Bind form data to the form group
   bindFormData(personalDetails: any) {
     // Bind personal details to the form
-    this.educationAndCertificationsForm.patchValue({
+    this.personalAndEducationalForm.patchValue({
       firstName: personalDetails.firstName || '',
       lastName: personalDetails.lastName || '',
       email: personalDetails.email || '',
@@ -411,21 +425,22 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     });
 
     // Clear the existing educations form array before binding new data
-    this.educations.clear();
+    const educationFormArray = this.personalAndEducationalForm.get(
+      'educations'
+    ) as FormArray;
+    educationFormArray.clear();
 
-    // If there are educations in the response, populate the educations form array
-    debugger;
     if (
       personalDetails.educationDetailsList &&
       Array.isArray(personalDetails.educationDetailsList)
     ) {
-      debugger;
       personalDetails.educationDetailsList.forEach((education: any) => {
         this.addEducation(); // Add a new form group for each education entry
-        const educationFormGroup = this.educations.at(
-          this.educations.length - 1
+        const educationFormGroup = educationFormArray.at(
+          educationFormArray.length - 1
         ) as FormGroup; // Get the last form group added
         educationFormGroup.patchValue({
+          id: education.id ?? null, // Set id for existing education, or null for new entry
           degree: education.degree || '',
           institution: education.institution || '',
           graduationYear: education.graduationYear || '',
