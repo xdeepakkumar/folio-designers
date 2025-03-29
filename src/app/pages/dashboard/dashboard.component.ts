@@ -1,3 +1,4 @@
+import { FolioService } from 'src/app/services/folio.service';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -49,7 +50,7 @@ import { FormSubmitService } from 'src/app/services/form-submit.service';
           <h5 class="text-center text-muted mb-4">
             Our commitment is to deliver exceptional portfolio to our users
           </h5>
-          <mat-horizontal-stepper>
+          <mat-horizontal-stepper (selectionChange)="onStepperChange($event)">
             <mat-step>
               <ng-template matStepLabel>
                 <span>Personal & Educations</span>
@@ -252,7 +253,8 @@ export class DashboardComponent {
 
   constructor(
     private fb: FormBuilder,
-    private formSubmitService: FormSubmitService
+    private formSubmitService: FormSubmitService,
+    private folioService: FolioService
   ) {
     this.skills = this.fb.array([this.createSkill()]);
     this.experiences = this.fb.array([this.createExperience()]);
@@ -307,6 +309,14 @@ export class DashboardComponent {
   onSubmit(form: any) {
     if (form.valid) {
       console.log('Form Submitted!', form.value);
+    }
+  }
+
+  // Called when stepper changes step
+  onStepperChange(event: any) {
+    debugger;
+    if (event.selectedIndex === 0) {
+      window.location.reload();
     }
   }
 }
