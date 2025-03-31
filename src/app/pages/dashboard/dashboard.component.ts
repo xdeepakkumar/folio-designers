@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 import { PersonalInfoComponent } from '../../components/personal-info/personal-info.component';
 import { SkillAndExperienceComponent } from '../../components/skill-and-experience/skill-and-experience.component';
-import { EducationAndCertificationsComponent } from '../../components/education-and-certifications/education-and-certifications.component';
+import { EducationAndCertificationsComponent } from '../../components/projects-and-certifications/education-and-certifications.component';
 import { AdditionalInfoComponent } from '../../components/additional-info/additional-info.component';
 import { PerviewComponent } from '../../components/perview/perview.component';
 import { FormSubmitService } from 'src/app/services/subject/personal-and-educational-subject.service';
