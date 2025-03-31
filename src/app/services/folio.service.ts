@@ -49,4 +49,17 @@ export class FolioService {
       { headers }
     );
   }
+
+  saveProjectAndCertificatesDetails(data: any): Observable<any> {
+    // Set headers with the token
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+    });
+    data.userId = this.commonService.getLoggedInUserId();
+    return this.http.post(
+      `${this.apiBaseUrl}/folio/create?types=PROJECT_DETAILS,CERTIFICATION_DETAILS`,
+      data,
+      { headers }
+    );
+  }
 }

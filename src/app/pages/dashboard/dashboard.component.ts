@@ -1,3 +1,4 @@
+import { EducationAndCertificateService } from '../../services/subject/projects-and-certificate.service';
 import { FolioService } from 'src/app/services/folio.service';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -107,9 +108,10 @@ import { SkillsAndExperienceSubjectService } from 'src/app/services/subject/skil
                   Back
                 </button>
                 <button
+                  class="button-style"
                   mat-raised-button
-                  style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
                   matStepperNext
+                  (click)="onNextClick('certification')"
                 >
                   Next
                 </button>
@@ -254,6 +256,8 @@ export class DashboardComponent {
       this.formSubmitService.triggerFormSubmit();
     } else if (type === 'skill') {
       this.skillsAndExperienceSubjectService.triggerFormSubmit();
+    } else if (type === 'certification') {
+      this.educationAndCertificateService.triggerFormSubmit();
     }
   }
 
@@ -271,6 +275,7 @@ export class DashboardComponent {
     private fb: FormBuilder,
     private formSubmitService: FormSubmitService,
     private skillsAndExperienceSubjectService: SkillsAndExperienceSubjectService,
+    private educationAndCertificateService: EducationAndCertificateService,
     private folioService: FolioService
   ) {
     this.skills = this.fb.array([this.createSkill()]);
