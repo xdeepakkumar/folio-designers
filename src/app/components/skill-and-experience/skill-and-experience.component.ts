@@ -1,3 +1,5 @@
+import { FolioService } from 'src/app/services/folio.service';
+import { SkillsAndExperienceSubjectService } from 'src/app/services/subject/skills-and-experience-subject.service';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -7,6 +9,9 @@ import {
   FormArray,
   Validators,
 } from '@angular/forms';
+import { Subscription } from 'rxjs';
+
+import { OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-skill-and-experience',
@@ -14,16 +19,14 @@ import {
   imports: [CommonModule, ReactiveFormsModule],
   template: `
     <div class="container-lg py-5">
-      <div class="row g-4">
-        <!-- Skills Card -->
-        <div class="col-lg-6 col-12">
-          <div class="card border-0" style="border-radius: 4px;">
-            <div class="card-body p-4">
-              <h4 class="card-title mb-4 text-center">
-                <b>ADD SKILLS</b>
-              </h4>
-              <hr />
-              <form [formGroup]="skillsForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="skillAndexperienceForm">
+        <div class="row g-4">
+          <!-- Skills Card -->
+          <div class="col-lg-6 col-12">
+            <div class="card border-0" style="border-radius: 4px;">
+              <div class="card-body p-4">
+                <h4 class="card-title mb-4 text-center"><b>ADD SKILLS</b></h4>
+                <hr />
                 <div formArrayName="skills">
                   <div
                     *ngFor="let skill of skills.controls; let i = index"
@@ -100,7 +103,6 @@ import {
                     </div>
                   </div>
                 </div>
-
                 <div class="text-center">
                   <button
                     type="button"
@@ -110,20 +112,18 @@ import {
                     Add Another Skill
                   </button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Experience Card -->
-        <div class="col-lg-6 col-12">
-          <div class="card border-0" style="border-radius: 4px;">
-            <div class="card-body p-4">
-              <h4 class="card-title mb-4 text-center">
-                <b>Add Your Experience</b>
-              </h4>
-              <hr />
-              <form [formGroup]="experienceForm" (ngSubmit)="onSubmit()">
+          <!-- Experience Card -->
+          <div class="col-lg-6 col-12">
+            <div class="card border-0" style="border-radius: 4px;">
+              <div class="card-body p-4">
+                <h4 class="card-title mb-4 text-center">
+                  <b>Add Your Experience</b>
+                </h4>
+                <hr />
                 <div formArrayName="experiences">
                   <div
                     *ngFor="
@@ -197,7 +197,6 @@ import {
                     </div>
                   </div>
                 </div>
-
                 <div class="text-center">
                   <button
                     type="button"
@@ -207,11 +206,11 @@ import {
                     Add Another Experience
                   </button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   `,
   styles: [
@@ -230,39 +229,89 @@ import {
     `,
   ],
 })
-export class SkillAndExperienceComponent {
-  skillsForm: FormGroup;
-  experienceForm: FormGroup;
+export class SkillAndExperienceComponent implements OnInit, OnDestroy {
+  skillAndexperienceForm: FormGroup;
+  private submitFormSubscription: Subscription | undefined;
 
-  constructor(private fb: FormBuilder) {
-    this.skillsForm = this.fb.group({
+  constructor(
+    private fb: FormBuilder,
+    private formSubmitService: SkillsAndExperienceSubjectService,
+    private folioService: FolioService
+  ) {
+    this.skillAndexperienceForm = this.fb.group({
       skills: this.fb.array([]),
-    });
-
-    this.experienceForm = this.fb.group({
       experiences: this.fb.array([]),
     });
-
-    // Initialize with one skill and one experience
-    this.addSkill();
-    this.addExperience();
   }
 
   // Getter for skills
   get skills(): FormArray {
-    return this.skillsForm.get('skills') as FormArray;
+    return this.skillAndexperienceForm.get('skills') as FormArray;
   }
 
   // Getter for experiences
   get experiences(): FormArray {
-    return this.experienceForm.get('experiences') as FormArray;
+    return this.skillAndexperienceForm.get('experiences') as FormArray;
+  }
+
+  ngOnInit() {
+    // Fetch data from API and populate skills and experience
+    this.folioService.getPersonalDetails().subscribe((response: any) => {
+      const responseData = response?.response?.[0];
+
+      if (responseData?.skillsList?.length) {
+        responseData.skillsList.forEach((skill: any) => {
+          this.skills.push(this.createSkillFormGroup(skill));
+        });
+      } else {
+        // Add an empty skill form if no data exists
+        this.skills.push(this.createSkillFormGroup({}));
+      }
+
+      if (responseData?.experienceList?.length) {
+        responseData.experienceList.forEach((experience: any) => {
+          this.experiences.push(this.createExperienceFormGroup(experience));
+        });
+      } else {
+        // Add an empty experience form if no data exists
+        this.experiences.push(this.createExperienceFormGroup({}));
+      }
+    });
+
+    // Subscribe to form submission trigger
+    this.submitFormSubscription = this.formSubmitService.submitForm$.subscribe(
+      () => {
+        this.onSubmit();
+      }
+    );
+  }
+
+  createSkillFormGroup(skill: any) {
+    return this.fb.group({
+      id: [skill.id || null], // Handle existing skills with ID or new ones with null
+      skillName: [skill.skillName, Validators.required],
+      description: [skill.description, Validators.required],
+      yearsOfExperience: [skill.yearsOfExperience, Validators.required],
+      proficiency: [skill.proficiency, Validators.required],
+    });
+  }
+
+  createExperienceFormGroup(experience: any) {
+    return this.fb.group({
+      id: [experience.id || null], // Handle existing experiences with ID or new ones with null
+      role: [experience.role, Validators.required],
+      description: [experience.description, Validators.required],
+      organizationName: [experience.organizationName, Validators.required],
+      yearsOfExperience: [experience.yearsOfExperience, Validators.required],
+    });
   }
 
   addSkill() {
     this.skills.push(
       this.fb.group({
+        id: [null], // New skill with null ID
         skillName: ['', Validators.required],
-        description: ['', Validators.required], // New description field
+        description: ['', Validators.required],
         yearsOfExperience: ['', Validators.required],
         proficiency: ['', Validators.required],
       })
@@ -276,8 +325,9 @@ export class SkillAndExperienceComponent {
   addExperience() {
     this.experiences.push(
       this.fb.group({
-        role: ['', Validators.required], // New role field
-        description: ['', Validators.required], // New description field
+        id: [null], // New experience with null ID
+        role: ['', Validators.required],
+        description: ['', Validators.required],
         organizationName: ['', Validators.required],
         yearsOfExperience: ['', Validators.required],
       })
@@ -289,10 +339,22 @@ export class SkillAndExperienceComponent {
   }
 
   onSubmit() {
-    if (this.skillsForm.valid && this.experienceForm.valid) {
-      console.log('Skills:', this.skillsForm.value);
-      console.log('Experiences:', this.experienceForm.value);
-      // Handle submission logic
+    if (this.skillAndexperienceForm.valid) {
+      const payload = {
+        skills: this.skillAndexperienceForm.value.skills,
+        experiences: this.skillAndexperienceForm.value.experiences,
+      };
+      debugger
+      console.log('Final Payload:', payload);
+    } else {
+      console.log('Form is invalid');
+    }
+
+  }
+
+  ngOnDestroy() {
+    if (this.submitFormSubscription) {
+      this.submitFormSubscription.unsubscribe();
     }
   }
 }

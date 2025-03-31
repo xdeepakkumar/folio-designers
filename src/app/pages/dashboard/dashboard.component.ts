@@ -331,7 +331,6 @@ export class DashboardComponent {
 
   // Called when stepper changes step
   onStepperChange(event: any) {
-    debugger;
     if (event.selectedIndex === 0) {
       window.location.reload();
     }
