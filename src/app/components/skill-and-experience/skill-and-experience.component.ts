@@ -12,6 +12,7 @@ import {
 import { Subscription } from 'rxjs';
 
 import { OnInit, OnDestroy } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-skill-and-experience',
@@ -44,7 +45,7 @@ import { OnInit, OnDestroy } from '@angular/core';
                           >
                           <input
                             type="text"
-                            formControlName="skillName"
+                            formControlName="name"
                             class="form-control border-secondary-subtle"
                             placeholder="e.g., JavaScript, Python"
                             required
@@ -67,7 +68,7 @@ import { OnInit, OnDestroy } from '@angular/core';
                           >
                           <input
                             type="number"
-                            formControlName="yearsOfExperience"
+                            formControlName="experienceInYear"
                             class="form-control border-secondary-subtle"
                             placeholder="e.g., 3"
                             min="0"
@@ -79,7 +80,7 @@ import { OnInit, OnDestroy } from '@angular/core';
                             >Proficiency Level</label
                           >
                           <select
-                            formControlName="proficiency"
+                            formControlName="proficiencyLevel"
                             class="form-select border-secondary-subtle"
                             required
                           >
@@ -154,7 +155,7 @@ import { OnInit, OnDestroy } from '@angular/core';
                           >
                           <input
                             type="number"
-                            formControlName="yearsOfExperience"
+                            formControlName="yearOfExperience"
                             class="form-control border-secondary-subtle"
                             placeholder="e.g., 3"
                             min="0"
@@ -178,7 +179,7 @@ import { OnInit, OnDestroy } from '@angular/core';
                           >
                           <input
                             type="text"
-                            formControlName="organizationName"
+                            formControlName="organization"
                             class="form-control border-secondary-subtle"
                             placeholder="e.g., Google"
                             required
@@ -236,7 +237,8 @@ export class SkillAndExperienceComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private formSubmitService: SkillsAndExperienceSubjectService,
-    private folioService: FolioService
+    private folioService: FolioService,
+    private snackBar: MatSnackBar
   ) {
     this.skillAndexperienceForm = this.fb.group({
       skills: this.fb.array([]),
@@ -289,10 +291,10 @@ export class SkillAndExperienceComponent implements OnInit, OnDestroy {
   createSkillFormGroup(skill: any) {
     return this.fb.group({
       id: [skill.id || null], // Handle existing skills with ID or new ones with null
-      skillName: [skill.skillName, Validators.required],
+      name: [skill.name, Validators.required],
       description: [skill.description, Validators.required],
-      yearsOfExperience: [skill.yearsOfExperience, Validators.required],
-      proficiency: [skill.proficiency, Validators.required],
+      experienceInYear: [skill.experienceInYear, Validators.required],
+      proficiencyLevel: [skill.proficiencyLevel, Validators.required],
     });
   }
 
@@ -301,8 +303,8 @@ export class SkillAndExperienceComponent implements OnInit, OnDestroy {
       id: [experience.id || null], // Handle existing experiences with ID or new ones with null
       role: [experience.role, Validators.required],
       description: [experience.description, Validators.required],
-      organizationName: [experience.organizationName, Validators.required],
-      yearsOfExperience: [experience.yearsOfExperience, Validators.required],
+      organization: [experience.organization, Validators.required],
+      yearOfExperience: [experience.yearOfExperience, Validators.required],
     });
   }
 
@@ -310,10 +312,10 @@ export class SkillAndExperienceComponent implements OnInit, OnDestroy {
     this.skills.push(
       this.fb.group({
         id: [null], // New skill with null ID
-        skillName: ['', Validators.required],
+        name: ['', Validators.required],
         description: ['', Validators.required],
-        yearsOfExperience: ['', Validators.required],
-        proficiency: ['', Validators.required],
+        experienceInYear: ['', Validators.required],
+        proficiencyLevel: ['', Validators.required],
       })
     );
   }
@@ -328,8 +330,8 @@ export class SkillAndExperienceComponent implements OnInit, OnDestroy {
         id: [null], // New experience with null ID
         role: ['', Validators.required],
         description: ['', Validators.required],
-        organizationName: ['', Validators.required],
-        yearsOfExperience: ['', Validators.required],
+        organization: ['', Validators.required],
+        yearOfExperience: ['', Validators.required],
       })
     );
   }
@@ -338,18 +340,38 @@ export class SkillAndExperienceComponent implements OnInit, OnDestroy {
     this.experiences.removeAt(index);
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.skillAndexperienceForm.valid) {
       const payload = {
         skills: this.skillAndexperienceForm.value.skills,
         experiences: this.skillAndexperienceForm.value.experiences,
       };
-      debugger
-      console.log('Final Payload:', payload);
-    } else {
-      console.log('Form is invalid');
-    }
 
+      try {
+        // Wait for the API response
+        await this.folioService
+          .saveskillAndExperienceDetails(payload)
+          .toPromise();
+        // Show success message
+        this.snackBar.open('Data saved successfully!', 'Close', {
+          duration: 3000,
+          panelClass: 'snackbar-success',
+        });
+      } catch (error) {
+        // Show error message if API fails
+        this.snackBar.open('Failed to save data. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass: 'snackbar-error',
+        });
+        console.error('Error saving data:', error);
+      }
+    } else {
+      this.snackBar.open(
+        'Form is invalid. Please check your inputs.',
+        'Close',
+        { duration: 3000, panelClass: 'snackbar-warning' }
+      );
+    }
   }
 
   ngOnDestroy() {

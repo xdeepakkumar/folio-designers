@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -5,6 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class CommonService {
   private userId = null;
+  token = sessionStorage.getItem('token');
 
   constructor() {}
 

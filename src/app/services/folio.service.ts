@@ -36,4 +36,17 @@ export class FolioService {
       headers,
     });
   }
+
+  saveskillAndExperienceDetails(data: any): Observable<any> {
+    // Set headers with the token
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+    });
+    data.userId = this.commonService.getLoggedInUserId();
+    return this.http.post(
+      `${this.apiBaseUrl}/folio/create?types=SKILL_DETAILS,EXPERIENCE_DETAILS`,
+      data,
+      { headers }
+    );
+  }
 }
