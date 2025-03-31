@@ -10,7 +10,7 @@ import {
 } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { FolioService } from 'src/app/services/folio.service';
-import { FormSubmitService } from 'src/app/services/form-submit.service';
+import { FormSubmitService } from 'src/app/services/subject/personal-and-educational-subject.service';
 
 @Component({
   selector: 'app-personal-info',

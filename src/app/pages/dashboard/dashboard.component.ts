@@ -18,7 +18,8 @@ import { SkillAndExperienceComponent } from '../../components/skill-and-experien
 import { EducationAndCertificationsComponent } from '../../components/education-and-certifications/education-and-certifications.component';
 import { AdditionalInfoComponent } from '../../components/additional-info/additional-info.component';
 import { PerviewComponent } from '../../components/perview/perview.component';
-import { FormSubmitService } from 'src/app/services/form-submit.service';
+import { FormSubmitService } from 'src/app/services/subject/personal-and-educational-subject.service';
+import { SkillsAndExperienceSubjectService } from 'src/app/services/subject/skills-and-experience-subject.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -67,9 +68,9 @@ import { FormSubmitService } from 'src/app/services/form-submit.service';
                 </button>
                 <button
                   mat-raised-button
-                  style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
+                  class="button-style"
                   matStepperNext
-                  (click)="onNextClick()"
+                  (click)="onNextClick('personal')"
                 >
                   Next
                 </button>
@@ -86,9 +87,10 @@ import { FormSubmitService } from 'src/app/services/form-submit.service';
                   Back
                 </button>
                 <button
+                  class="button-style"
                   mat-raised-button
-                  style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
                   matStepperNext
+                  (click)="onNextClick('skill')"
                 >
                   Next
                 </button>
@@ -176,6 +178,16 @@ import { FormSubmitService } from 'src/app/services/form-submit.service';
         margin-top: 16px;
       }
 
+      .button-style {
+        background: linear-gradient(135deg, #16a085, #732d91);
+        color: white;
+        padding: 12px 24px;
+        font-size: 12px;
+        text-transform: uppercase;
+        border: none;
+        transition: background-color 0.3s ease-in-out;
+      }
+
       /* Responsive adjustments */
       @media (max-width: 768px) {
         h2 {
@@ -237,8 +249,12 @@ import { FormSubmitService } from 'src/app/services/form-submit.service';
 })
 export class DashboardComponent {
   // Trigger form submission when the Next button is clicked
-  onNextClick() {
-    this.formSubmitService.triggerFormSubmit();
+  onNextClick(type: String) {
+    if (type === 'personal') {
+      this.formSubmitService.triggerFormSubmit();
+    } else if (type === 'skill') {
+      this.skillsAndExperienceSubjectService.triggerFormSubmit();
+    }
   }
 
   skills: FormArray;
@@ -254,6 +270,7 @@ export class DashboardComponent {
   constructor(
     private fb: FormBuilder,
     private formSubmitService: FormSubmitService,
+    private skillsAndExperienceSubjectService: SkillsAndExperienceSubjectService,
     private folioService: FolioService
   ) {
     this.skills = this.fb.array([this.createSkill()]);
