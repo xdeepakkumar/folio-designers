@@ -1,40 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
+import { FolioService } from 'src/app/services/folio.service';
 
 @Component({
   selector: 'app-perview',
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="container-lg py-5">
+    <div *ngIf="loading">Loading...</div>
+
+    <div *ngIf="!loading && user" class="container-lg py-5">
       <h2 class="text-center mb-4">Profile Preview</h2>
 
       <!-- Personal Info Card -->
       <div class="card mb-4 shadow-lg border-0" style="border-radius: 12px;">
         <div class="card-body">
           <h5 class="card-title text-secondary">Personal Info</h5>
-          <p><strong>Name:</strong> John Doe</p>
-          <p><strong>Email:</strong> john.doeexample.com</p>
-          <p><strong>Phone:</strong> +1 234 567 890</p>
-          <p><strong>Address:</strong> 1234 Main Street, Springfield, IL</p>
+          <p><strong>Name:</strong> {{ user.firstName }} {{ user.lastName }}</p>
+          <p><strong>Email:</strong> {{ user.email }}</p>
           <p>
-            <strong>LinkedIn:</strong>
-            <a href="https://linkedin.com/in/johndoe" target="_blank"
-              >linkedin.com/in/johndoe</a
-            >
+            <strong>Address:</strong> {{ user.address }}, {{ user.city }},
+            {{ user.state }} - {{ user.zip }}
           </p>
           <p>
-            <strong>Website:</strong>
-            <a href="https://johndoe.com" target="_blank">johndoe.com</a>
+            <strong>LinkedIn:</strong>
+            <a [href]="user.linkedIn" target="_blank">{{ user.linkedIn }}</a>
+          </p>
+          <p>
+            <strong>Facebook:</strong>
+            <a [href]="user.facebook" target="_blank">{{ user.facebook }}</a>
           </p>
         </div>
       </div>
 
-      <!-- Education and Certification Card -->
-      <div class="card mb-4 shadow-lg border-0" style="border-radius: 12px;">
+      <!-- Education Card -->
+      <div
+        *ngIf="user.educationDetailsList.length > 0"
+        class="card mb-4 shadow-lg border-0"
+        style="border-radius: 12px;"
+      >
         <div class="card-body">
-          <h5 class="card-title text-secondary">Education & Certifications</h5>
-          <div *ngFor="let education of educations; let i = index">
+          <h5 class="card-title text-secondary">Education</h5>
+          <div
+            *ngFor="let education of user.educationDetailsList; let i = index"
+          >
             <p>
               <strong>Degree {{ i + 1 }}:</strong> {{ education.degree }}
             </p>
@@ -43,57 +53,77 @@ import { CommonModule } from '@angular/common';
               <strong>Graduation Year:</strong> {{ education.graduationYear }}
             </p>
             <p><strong>Grade:</strong> {{ education.grade }}</p>
-          </div>
-          <div *ngFor="let certification of certifications; let i = index">
-            <p>
-              <strong>Certification {{ i + 1 }}:</strong>
-              {{ certification.certificationName }}
-            </p>
-            <p>
-              <strong>Issued By:</strong>
-              {{ certification.issuingOrganization }}
-            </p>
-            <p><strong>Date Issued:</strong> {{ certification.dateIssued }}</p>
-            <p>
-              <strong>Expiration Date:</strong>
-              {{ certification.expirationDate || 'N/A' }}
-            </p>
-            <p>
-              <strong>Description:</strong>
-              {{ certification.certificationDescription }}
-            </p>
+            <hr *ngIf="i < user.educationDetailsList.length - 1" />
           </div>
         </div>
       </div>
 
-      <!-- Skills and Experience Card -->
-      <div class="card mb-4 shadow-lg border-0" style="border-radius: 12px;">
+      <!-- Skills Card -->
+      <div
+        *ngIf="user.skillsList.length > 0"
+        class="card mb-4 shadow-lg border-0"
+        style="border-radius: 12px;"
+      >
         <div class="card-body">
-          <h5 class="card-title text-secondary">Skills & Experience</h5>
-          <p><strong>Role:</strong> Frontend Developer</p>
-          <p><strong>Years of Experience:</strong> 3 years</p>
-          <p><strong>Skills:</strong> Angular, React, JavaScript</p>
+          <h5 class="card-title text-secondary">Skills</h5>
+          <div *ngFor="let skill of user.skillsList; let i = index">
+            <p>
+              <strong>Skill {{ i + 1 }}:</strong> {{ skill.name }}
+            </p>
+            <p><strong>Description:</strong> {{ skill.description }}</p>
+            <p>
+              <strong>Experience:</strong> {{ skill.experienceInYear }} years
+            </p>
+            <p>
+              <strong>Proficiency Level:</strong> {{ skill.proficiencyLevel }}
+            </p>
+            <hr *ngIf="i < user.skillsList.length - 1" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Experience Card -->
+      <div
+        *ngIf="user.experienceList.length > 0"
+        class="card mb-4 shadow-lg border-0"
+        style="border-radius: 12px;"
+      >
+        <div class="card-body">
+          <h5 class="card-title text-secondary">Experience</h5>
+          <div *ngFor="let experience of user.experienceList; let i = index">
+            <p><strong>Role:</strong> {{ experience.role }}</p>
+            <p><strong>Organization:</strong> {{ experience.organization }}</p>
+            <p>
+              <strong>Years of Experience:</strong>
+              {{ experience.yearOfExperience }} years
+            </p>
+            <p><strong>Description:</strong> {{ experience.description }}</p>
+            <hr *ngIf="i < user.experienceList.length - 1" />
+          </div>
         </div>
       </div>
 
       <!-- Projects Card -->
-      <div class="card mb-4 shadow-lg border-0" style="border-radius: 12px;">
+      <div
+        *ngIf="user.projectsList.length > 0"
+        class="card mb-4 shadow-lg border-0"
+        style="border-radius: 12px;"
+      >
         <div class="card-body">
           <h5 class="card-title text-secondary">Projects</h5>
-          <div *ngFor="let project of projects; let i = index">
+          <div *ngFor="let project of user.projectsList; let i = index">
             <p>
-              <strong>Project {{ i + 1 }} Name:</strong>
-              {{ project.projectName }}
+              <strong>Project {{ i + 1 }} Name:</strong> {{ project.name }}
             </p>
             <p><strong>Description:</strong> {{ project.description }}</p>
             <p>
-              <strong>Technologies Used:</strong> {{ project.technologiesUsed }}
+              <strong>Technology Used:</strong> {{ project.technologyUsed }}
             </p>
             <p><strong>Role:</strong> {{ project.role }}</p>
             <p>
-              <strong>GitHub Repo:</strong>
-              <a [href]="project.githubRepo" target="_blank">{{
-                project.githubRepo
+              <strong>GitHub Link:</strong>
+              <a [href]="project.githubLink" target="_blank">{{
+                project.githubLink
               }}</a>
             </p>
             <p>
@@ -102,6 +132,37 @@ import { CommonModule } from '@angular/common';
                 project.liveUrl
               }}</a>
             </p>
+            <hr *ngIf="i < user.projectsList.length - 1" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Certifications Card -->
+      <div
+        *ngIf="user.certificationsList.length > 0"
+        class="card mb-4 shadow-lg border-0"
+        style="border-radius: 12px;"
+      >
+        <div class="card-body">
+          <h5 class="card-title text-secondary">Certifications</h5>
+          <div
+            *ngFor="let certification of user.certificationsList; let i = index"
+          >
+            <p>
+              <strong>Certification {{ i + 1 }}:</strong>
+              {{ certification.name }}
+            </p>
+            <p>
+              <strong>Issuing Organization:</strong>
+              {{ certification.issuingOrganization }}
+            </p>
+            <p><strong>Date Issued:</strong> {{ certification.dateIssued }}</p>
+            <p>
+              <strong>Expiration Date:</strong>
+              {{ certification.dateOfExpiration || 'N/A' }}
+            </p>
+            <p><strong>Description:</strong> {{ certification.description }}</p>
+            <hr *ngIf="i < user.certificationsList.length - 1" />
           </div>
         </div>
       </div>
@@ -110,10 +171,23 @@ import { CommonModule } from '@angular/common';
       <div class="card mb-4 shadow-lg border-0" style="border-radius: 12px;">
         <div class="card-body">
           <h5 class="card-title text-secondary">Additional Information</h5>
-          <p><strong>Selected Template:</strong> Template 1</p>
-          <p><strong>Slider Enabled:</strong> Yes</p>
-          <p><strong>Resume Uploaded:</strong> Yes</p>
-          <p><strong>Profile Live:</strong> No</p>
+          <p>
+            <strong>Template:</strong> {{ user.additionalDetails.templateName }}
+          </p>
+          <p>
+            <strong>Live Profile:</strong>
+            {{ user.additionalDetails.liveProfile ? 'Yes' : 'No' }}
+          </p>
+          <p>
+            <strong>Slider Enabled:</strong>
+            {{ user.additionalDetails.enableSlider ? 'Yes' : 'No' }}
+          </p>
+          <p>
+            <strong>Folio URL:</strong>
+            <a [href]="user.additionalDetails.folioUrl" target="_blank">{{
+              user.additionalDetails.folioUrl
+            }}</a>
+          </p>
         </div>
       </div>
     </div>
@@ -140,75 +214,35 @@ import { CommonModule } from '@angular/common';
     `,
   ],
 })
-export class PerviewComponent {
-  // Example data for preview (you can replace this with real data if needed)
-  educations = [
-    {
-      degree: 'B.Sc. in Computer Science',
-      institution: 'Harvard University',
-      graduationYear: 2020,
-      grade: 'A',
-    },
-    {
-      degree: 'M.Tech in Software Engineering',
-      institution: 'MIT',
-      graduationYear: 2022,
-      grade: 'A+',
-    },
-  ];
+export class PerviewComponent implements OnInit, OnDestroy {
+  user: any = null;
+  loading = true; // Flag for loading state
+  private subscription: Subscription = new Subscription();
 
-  certifications = [
-    {
-      certificationName: 'AWS Certified Solutions Architect',
-      issuingOrganization: 'Amazon Web Services',
-      dateIssued: '2021-05-12',
-      expirationDate: '2023-05-12',
-      certificationDescription: 'Certified Solutions Architect for AWS Cloud.',
-    },
-    {
-      certificationName: 'Google Analytics Certification',
-      issuingOrganization: 'Google',
-      dateIssued: '2022-03-20',
-      expirationDate: '',
-      certificationDescription: 'Certified in using Google Analytics tools.',
-    },
-  ];
+  constructor(private profileService: FolioService) {}
 
-  projects = [
-    {
-      projectName: 'Personal Portfolio Website',
-      description:
-        'A personal portfolio website showcasing my projects and skills.',
-      technologiesUsed: 'HTML, CSS, JavaScript, Angular',
-      role: 'Frontend Developer',
-      githubRepo: 'https://github.com/johndoe/portfolio',
-      liveUrl: 'https://johndoe.com/portfolio',
-    },
-    {
-      projectName: 'E-Commerce Website',
-      description: 'An e-commerce platform built using Angular and Firebase.',
-      technologiesUsed: 'Angular, Firebase, TypeScript',
-      role: 'Full Stack Developer',
-      githubRepo: 'https://github.com/johndoe/e-commerce',
-      liveUrl: 'https://ecommerce.com',
-    },
-  ];
+  ngOnInit() {
+    this.getProfileData();
+  }
 
-  // Personal Info - Example data
-  personalInfo = {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    phone: '+1 234 567 890',
-    address: '1234 Main Street, Springfield, IL',
-    linkedin: 'https://linkedin.com/in/johndoe',
-    website: 'https://johndoe.com',
-  };
+  getProfileData() {
+    this.subscription.add(
+      this.profileService.getPersonalDetails().subscribe(
+        (response: any) => {
+          this.user = response.response[0]; // Assuming the data is inside response.response[0]
+          this.loading = false; // Set loading to false when data is fetched
+        },
+        (error) => {
+          console.error('Error fetching profile data:', error);
+          this.loading = false; // Set loading to false even if there's an error
+        }
+      )
+    );
+  }
 
-  // Additional Info - Example data
-  additionalInfo = {
-    template: 'Template 1',
-    sliderEnabled: 'Yes',
-    resumeUploaded: 'Yes',
-    profileLive: 'No',
-  };
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }
