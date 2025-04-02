@@ -1,3 +1,4 @@
+import { AdditionalSubjectService } from './../../services/subject/additional-subject.service';
 import { EducationAndCertificateService } from '../../services/subject/projects-and-certificate.service';
 import { FolioService } from 'src/app/services/folio.service';
 import { Component } from '@angular/core';
@@ -128,9 +129,10 @@ import { SkillsAndExperienceSubjectService } from 'src/app/services/subject/skil
                   Back
                 </button>
                 <button
+                  class="button-style"
                   mat-raised-button
-                  style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
                   matStepperNext
+                  (click)="onNextClick('additionalInfo')"
                 >
                   Next
                 </button>
@@ -258,80 +260,21 @@ export class DashboardComponent {
       this.skillsAndExperienceSubjectService.triggerFormSubmit();
     } else if (type === 'certification') {
       this.educationAndCertificateService.triggerFormSubmit();
+    } else if (type === 'additionalInfo') {
+      this.additionalSubjectService.triggerFormSubmit();
     }
   }
-
-  skills: FormArray;
-  experiences: FormArray;
-  skillOptions: string[] = [
-    'JavaScript',
-    'Angular',
-    'React',
-    'Node.js',
-    'Python',
-  ];
 
   constructor(
     private fb: FormBuilder,
     private formSubmitService: FormSubmitService,
     private skillsAndExperienceSubjectService: SkillsAndExperienceSubjectService,
     private educationAndCertificateService: EducationAndCertificateService,
-    private folioService: FolioService
-  ) {
-    this.skills = this.fb.array([this.createSkill()]);
-    this.experiences = this.fb.array([this.createExperience()]);
-  }
+    private additionalSubjectService: AdditionalSubjectService
+  ) {}
 
   ngOnInit() {
     // Initialization logic if needed
-  }
-
-  createSkill(): FormGroup {
-    return this.fb.group({
-      skill: ['', Validators.required],
-    });
-  }
-
-  createExperience(): FormGroup {
-    return this.fb.group({
-      experience: ['', Validators.required],
-    });
-  }
-
-  addSkill(): void {
-    this.skills.push(this.createSkill());
-  }
-
-  removeSkill(index: number): void {
-    this.skills.removeAt(index);
-  }
-
-  addExperience(): void {
-    this.experiences.push(this.createExperience());
-  }
-
-  removeExperience(index: number): void {
-    this.experiences.removeAt(index);
-  }
-
-  isSkillInvalid(index: number): boolean {
-    return (
-      this.skills.at(index).invalid &&
-      (this.skills.at(index).dirty || this.skills.at(index).touched)
-    );
-  }
-
-  isExperienceInvalid(index: number): boolean {
-    return (
-      this.experiences.at(index).invalid &&
-      (this.experiences.at(index).dirty || this.experiences.at(index).touched)
-    );
-  }
-
-  onSubmit(form: any) {
-    if (form.valid) {
-      console.log('Form Submitted!', form.value);
-    }
   }
 
   // Called when stepper changes step

@@ -62,4 +62,17 @@ export class FolioService {
       { headers }
     );
   }
+
+  saveAdditionalDetails(data: any): Observable<any> {
+    // Set headers with the token
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+    });
+    data.userId = this.commonService.getLoggedInUserId();
+    return this.http.post(
+      `${this.apiBaseUrl}/folio/create?types=ADDITIONAL_DETAILS`,
+      data,
+      { headers }
+    );
+  }
 }
