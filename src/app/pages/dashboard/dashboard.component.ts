@@ -1,7 +1,7 @@
 import { AdditionalSubjectService } from './../../services/subject/additional-subject.service';
 import { EducationAndCertificateService } from '../../services/subject/projects-and-certificate.service';
 import { FolioService } from 'src/app/services/folio.service';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
@@ -22,6 +22,8 @@ import { AdditionalInfoComponent } from '../../components/additional-info/additi
 import { PerviewComponent } from '../../components/perview/perview.component';
 import { FormSubmitService } from 'src/app/services/subject/personal-and-educational-subject.service';
 import { SkillsAndExperienceSubjectService } from 'src/app/services/subject/skills-and-experience-subject.service';
+import { FinishConfirmationDialogComponent } from 'src/app/components/finish-confirmation-dialog/finish-confirmation-dialog.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dashboard',
@@ -39,6 +41,7 @@ import { SkillsAndExperienceSubjectService } from 'src/app/services/subject/skil
     EducationAndCertificationsComponent,
     AdditionalInfoComponent,
     PerviewComponent,
+    MatDialogModule,
   ],
   template: `
     <mat-card>
@@ -144,11 +147,16 @@ import { SkillsAndExperienceSubjectService } from 'src/app/services/subject/skil
                 <span>Preview</span>
               </ng-template>
               <app-perview></app-perview>
+
               <div class="button-container">
                 <button mat-raised-button color="secondary" matStepperPrevious>
                   Back
                 </button>
-                <button mat-raised-button color="primary" matStepperNext>
+                <button
+                  mat-raised-button
+                  color="accent"
+                  (click)="onNextClick('preview')"
+                >
                   Finish
                 </button>
               </div>
@@ -252,6 +260,8 @@ import { SkillsAndExperienceSubjectService } from 'src/app/services/subject/skil
   ],
 })
 export class DashboardComponent {
+  private dialog = inject(MatDialog);
+
   // Trigger form submission when the Next button is clicked
   onNextClick(type: String) {
     if (type === 'personal') {
@@ -262,6 +272,8 @@ export class DashboardComponent {
       this.educationAndCertificateService.triggerFormSubmit();
     } else if (type === 'additionalInfo') {
       this.additionalSubjectService.triggerFormSubmit();
+    } else if (type === 'preview') {
+      this.openConfirmationDialog();
     }
   }
 
@@ -282,5 +294,16 @@ export class DashboardComponent {
     if (event.selectedIndex === 0) {
       window.location.reload();
     }
+  }
+
+  openConfirmationDialog(): void {
+    const dialogRef = this.dialog.open(FinishConfirmationDialogComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'finish') {
+        console.log('Profile is completed!');
+      } else {
+        console.log('User canceled the profile completion.');
+      }
+    });
   }
 }

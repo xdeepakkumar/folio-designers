@@ -2,21 +2,24 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { FolioService } from 'src/app/services/folio.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDivider, MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-perview',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatDividerModule], // Ensure MatCardModule and MatButtonModule are imported
   template: `
     <div *ngIf="loading">Loading...</div>
 
     <div *ngIf="!loading && user" class="container-lg py-5">
-      <h2 class="text-center mb-4">Profile Preview</h2>
-
       <!-- Personal Info Card -->
-      <div class="card mb-4 shadow-lg border-0" style="border-radius: 12px;">
-        <div class="card-body">
-          <h5 class="card-title text-secondary">Personal Info</h5>
+      <mat-card class="mb-4">
+        <mat-card-header>
+          <mat-card-title class="text-secondary">Personal Info</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
           <p><strong>Name:</strong> {{ user.firstName }} {{ user.lastName }}</p>
           <p><strong>Email:</strong> {{ user.email }}</p>
           <p>
@@ -31,17 +34,15 @@ import { FolioService } from 'src/app/services/folio.service';
             <strong>Facebook:</strong>
             <a [href]="user.facebook" target="_blank">{{ user.facebook }}</a>
           </p>
-        </div>
-      </div>
+        </mat-card-content>
+      </mat-card>
 
       <!-- Education Card -->
-      <div
-        *ngIf="user.educationDetailsList.length > 0"
-        class="card mb-4 shadow-lg border-0"
-        style="border-radius: 12px;"
-      >
-        <div class="card-body">
-          <h5 class="card-title text-secondary">Education</h5>
+      <mat-card *ngIf="user.educationDetailsList.length > 0" class="mb-4">
+        <mat-card-header>
+          <mat-card-title class="text-secondary">Education</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
           <div
             *ngFor="let education of user.educationDetailsList; let i = index"
           >
@@ -53,19 +54,19 @@ import { FolioService } from 'src/app/services/folio.service';
               <strong>Graduation Year:</strong> {{ education.graduationYear }}
             </p>
             <p><strong>Grade:</strong> {{ education.grade }}</p>
-            <hr *ngIf="i < user.educationDetailsList.length - 1" />
+            <mat-divider
+              *ngIf="i < user.educationDetailsList.length - 1"
+            ></mat-divider>
           </div>
-        </div>
-      </div>
+        </mat-card-content>
+      </mat-card>
 
       <!-- Skills Card -->
-      <div
-        *ngIf="user.skillsList.length > 0"
-        class="card mb-4 shadow-lg border-0"
-        style="border-radius: 12px;"
-      >
-        <div class="card-body">
-          <h5 class="card-title text-secondary">Skills</h5>
+      <mat-card *ngIf="user.skillsList.length > 0" class="mb-4">
+        <mat-card-header>
+          <mat-card-title class="text-secondary">Skills</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
           <div *ngFor="let skill of user.skillsList; let i = index">
             <p>
               <strong>Skill {{ i + 1 }}:</strong> {{ skill.name }}
@@ -77,19 +78,17 @@ import { FolioService } from 'src/app/services/folio.service';
             <p>
               <strong>Proficiency Level:</strong> {{ skill.proficiencyLevel }}
             </p>
-            <hr *ngIf="i < user.skillsList.length - 1" />
+            <mat-divider *ngIf="i < user.skillsList.length - 1"></mat-divider>
           </div>
-        </div>
-      </div>
+        </mat-card-content>
+      </mat-card>
 
       <!-- Experience Card -->
-      <div
-        *ngIf="user.experienceList.length > 0"
-        class="card mb-4 shadow-lg border-0"
-        style="border-radius: 12px;"
-      >
-        <div class="card-body">
-          <h5 class="card-title text-secondary">Experience</h5>
+      <mat-card *ngIf="user.experienceList.length > 0" class="mb-4">
+        <mat-card-header>
+          <mat-card-title class="text-secondary">Experience</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
           <div *ngFor="let experience of user.experienceList; let i = index">
             <p><strong>Role:</strong> {{ experience.role }}</p>
             <p><strong>Organization:</strong> {{ experience.organization }}</p>
@@ -98,19 +97,19 @@ import { FolioService } from 'src/app/services/folio.service';
               {{ experience.yearOfExperience }} years
             </p>
             <p><strong>Description:</strong> {{ experience.description }}</p>
-            <hr *ngIf="i < user.experienceList.length - 1" />
+            <mat-divider
+              *ngIf="i < user.experienceList.length - 1"
+            ></mat-divider>
           </div>
-        </div>
-      </div>
+        </mat-card-content>
+      </mat-card>
 
       <!-- Projects Card -->
-      <div
-        *ngIf="user.projectsList.length > 0"
-        class="card mb-4 shadow-lg border-0"
-        style="border-radius: 12px;"
-      >
-        <div class="card-body">
-          <h5 class="card-title text-secondary">Projects</h5>
+      <mat-card *ngIf="user.projectsList.length > 0" class="mb-4">
+        <mat-card-header>
+          <mat-card-title class="text-secondary">Projects</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
           <div *ngFor="let project of user.projectsList; let i = index">
             <p>
               <strong>Project {{ i + 1 }} Name:</strong> {{ project.name }}
@@ -132,19 +131,20 @@ import { FolioService } from 'src/app/services/folio.service';
                 project.liveUrl
               }}</a>
             </p>
-            <hr *ngIf="i < user.projectsList.length - 1" />
+            <mat-divider
+              *ngIf="i < user.projectsList.length - 1"
+              class="p-2"
+            ></mat-divider>
           </div>
-        </div>
-      </div>
+        </mat-card-content>
+      </mat-card>
 
       <!-- Certifications Card -->
-      <div
-        *ngIf="user.certificationsList.length > 0"
-        class="card mb-4 shadow-lg border-0"
-        style="border-radius: 12px;"
-      >
-        <div class="card-body">
-          <h5 class="card-title text-secondary">Certifications</h5>
+      <mat-card *ngIf="user.certificationsList.length > 0" class="mb-4">
+        <mat-card-header>
+          <mat-card-title class="text-secondary">Certifications</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
           <div
             *ngFor="let certification of user.certificationsList; let i = index"
           >
@@ -162,15 +162,21 @@ import { FolioService } from 'src/app/services/folio.service';
               {{ certification.dateOfExpiration || 'N/A' }}
             </p>
             <p><strong>Description:</strong> {{ certification.description }}</p>
-            <hr *ngIf="i < user.certificationsList.length - 1" />
+            <mat-divider
+              *ngIf="i < user.certificationsList.length - 1"
+            ></mat-divider>
           </div>
-        </div>
-      </div>
+        </mat-card-content>
+      </mat-card>
 
       <!-- Additional Info Card -->
-      <div class="card mb-4 shadow-lg border-0" style="border-radius: 12px;">
-        <div class="card-body">
-          <h5 class="card-title text-secondary">Additional Information</h5>
+      <mat-card class="mb-4">
+        <mat-card-header>
+          <mat-card-title class="text-secondary"
+            >Additional Information</mat-card-title
+          >
+        </mat-card-header>
+        <mat-card-content>
           <p>
             <strong>Template:</strong> {{ user.additionalDetails.templateName }}
           </p>
@@ -188,8 +194,8 @@ import { FolioService } from 'src/app/services/folio.service';
               user.additionalDetails.folioUrl
             }}</a>
           </p>
-        </div>
-      </div>
+        </mat-card-content>
+      </mat-card>
     </div>
   `,
   styles: [
@@ -197,19 +203,27 @@ import { FolioService } from 'src/app/services/folio.service';
       .container-lg {
         max-width: 100%;
       }
-      .card {
-        border-radius: 12px;
+
+      mat-card {
+        border-radius: 0; /* No border radius */
       }
-      .card-title {
+
+      .mat-card-title {
         font-size: 1.25rem;
         font-weight: 600;
       }
+
       a {
         text-decoration: none;
         color: #007bff;
       }
+
       a:hover {
         text-decoration: underline;
+      }
+
+      mat-card-content {
+        padding: 1.25rem; /* Adds some padding to the card */
       }
     `,
   ],
