@@ -3,7 +3,12 @@ import { AdditionalSubjectService } from './../../services/subject/additional-su
 import { FolioService } from 'src/app/services/folio.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -287,13 +292,13 @@ export class AdditionalInfoComponent implements OnInit {
     private commonService: CommonService
   ) {
     this.additionalInfoForm = this.fb.group({
-      id: [''],
-      template: [''], // Matches payload key
+      template: ['', Validators.required],
+      folioUrl: ['', Validators.required],
       slider: [true],
-      resumeUrl: [null],
       imageUrl: [null],
+      resumeUrl: [null],
       liveProfile: [false],
-      folioUrl: [''],
+      id: [null],
     });
 
     this.updateFinalUrl();
@@ -303,15 +308,14 @@ export class AdditionalInfoComponent implements OnInit {
     this.additionalInfoForm.patchValue({ template: template.name });
   }
 
-  onFileSelect(event: any, type: 'image' | 'resume') {
+  onFileSelect(event: any, type: string): void {
     const file = event.target.files[0];
-    if (file) {
-      this.additionalInfoForm.patchValue({ [type]: file });
-      if (type === 'image') {
-        this.selectedImageName = file.name;
-      } else if (type === 'resume') {
-        this.selectedResumeName = file.name;
-      }
+    if (type === 'image') {
+      this.selectedImageName = file.name;
+      this.additionalInfoForm.patchValue({ imageUrl: file });
+    } else if (type === 'resume') {
+      this.selectedResumeName = file.name;
+      this.additionalInfoForm.patchValue({ resumeUrl: file });
     }
   }
 
@@ -404,29 +408,36 @@ export class AdditionalInfoComponent implements OnInit {
   }
 
   submitForm(): void {
-    // Add folioUrl (finalUrl) inside additionalDetails
-    const payload: any = {
-      additionalDetails: {
-        id: this.additionalInfoForm.get('id')?.value || null,
-        templateName: this.additionalInfoForm.get('template')?.value || '', // Fix key name
-        enableSlider: this.additionalInfoForm.get('slider')?.value || false,
-        resumeUrl: this.additionalInfoForm.get('resumeUrl')?.value || '',
-        imageUrl: this.additionalInfoForm.get('imageUrl')?.value || '',
-        liveProfile: this.additionalInfoForm.get('liveProfile')?.value || false,
-        folioUrl: this.finalUrl,
-      },
+    const formData = new FormData();
+
+    const imageFile = this.additionalInfoForm.get('imageUrl')?.value;
+    if (imageFile) {
+      formData.append('files', imageFile, imageFile.name);
+    }
+
+    const resumeFile = this.additionalInfoForm.get('resumeUrl')?.value;
+    if (resumeFile) {
+      formData.append('files', resumeFile, resumeFile.name); // same key = array
+    }
+
+    const additionalDetails = {
+      id: this.additionalInfoForm.get('id')?.value || null,
+      templateName: this.additionalInfoForm.get('template')?.value || '',
+      enableSlider: this.additionalInfoForm.get('slider')?.value || false,
+      liveProfile: this.additionalInfoForm.get('liveProfile')?.value || false,
+      folioUrl: this.finalUrl,
       userId: this.commonService.getLoggedInUserId(),
     };
 
-    // If the form has no `id`, set it to null
-    if (!payload.additionalDetails.id) {
-      payload.additionalDetails.id = null;
-    }
+    formData.append(
+      'additionalDetails',
+      new Blob([JSON.stringify(additionalDetails)], {
+        type: 'application/json',
+      })
+    );
 
-    // Save the form data using the folioService
-    this.folioService.saveAdditionalDetails(payload).subscribe(
+    this.folioService.saveAdditionalDetails(formData).subscribe(
       (response) => {
-        console.log('Additional details saved successfully:', response);
         this.snackBar.open('Profile updated successfully!', 'Close', {
           duration: 3000,
           panelClass: ['success-snackbar'],
