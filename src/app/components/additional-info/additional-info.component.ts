@@ -162,8 +162,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                   (change)="onFileSelect($event, 'image')"
                   class="d-none"
                 />
-                <small *ngIf="selectedImageName" class="text-muted"
-                  >Selected: {{ selectedImageName }}</small
+                <small *ngIf="selectedImageName" class="text-muted">
+                  {{ selectedImageName }}</small
                 >
               </mat-card-content>
             </mat-card>
@@ -199,9 +199,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
                   (change)="onFileSelect($event, 'resume')"
                   class="d-none"
                 />
-                <small *ngIf="selectedResumeName" class="text-muted"
-                  >Selected: {{ selectedResumeName }}</small
-                >
+                <small *ngIf="selectedResumeName" class="text-muted">{{
+                  selectedResumeName
+                }}</small>
               </mat-card-content>
             </mat-card>
 
@@ -409,15 +409,29 @@ export class AdditionalInfoComponent implements OnInit {
 
   submitForm(): void {
     const formData = new FormData();
+    // Metadata object to track uploaded files
+    const uploadedFilesMeta = [];
 
     const imageFile = this.additionalInfoForm.get('imageUrl')?.value;
     if (imageFile) {
       formData.append('files', imageFile, imageFile.name);
+      uploadedFilesMeta.push({
+        type: 'profile',
+        name: imageFile.name,
+        size: imageFile.size,
+        lastModified: imageFile.lastModified,
+      });
     }
 
     const resumeFile = this.additionalInfoForm.get('resumeUrl')?.value;
     if (resumeFile) {
-      formData.append('files', resumeFile, resumeFile.name); // same key = array
+      formData.append('files', resumeFile, resumeFile.name);
+      uploadedFilesMeta.push({
+        type: 'resume',
+        name: resumeFile.name,
+        size: resumeFile.size,
+        lastModified: resumeFile.lastModified,
+      });
     }
 
     const additionalDetails = {
@@ -426,6 +440,7 @@ export class AdditionalInfoComponent implements OnInit {
       enableSlider: this.additionalInfoForm.get('slider')?.value || false,
       liveProfile: this.additionalInfoForm.get('liveProfile')?.value || false,
       folioUrl: this.finalUrl,
+      fileMetaData: uploadedFilesMeta, // new
       userId: this.commonService.getLoggedInUserId(),
     };
 
@@ -437,14 +452,14 @@ export class AdditionalInfoComponent implements OnInit {
     );
 
     this.folioService.saveAdditionalDetails(formData).subscribe(
-      (response) => {
+      () => {
         this.snackBar.open('Profile updated successfully!', 'Close', {
           duration: 3000,
           panelClass: ['success-snackbar'],
         });
       },
       (error) => {
-        console.error('Error saving additional details:', error);
+        console.error('Error saving profile:', error);
         this.snackBar.open('Error saving profile!', 'Close', {
           duration: 3000,
           panelClass: ['error-snackbar'],
