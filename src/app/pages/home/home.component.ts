@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
   selector: 'app-home',
@@ -14,160 +15,205 @@ import { RouterModule } from '@angular/router';
     MatButtonModule,
     MatIconModule,
     RouterModule,
+    FooterComponent,
   ],
   template: `
-    <!-- Hero Section -->
-    <section class="hero-section">
-      <div class="hero-content">
-        <h1
-          style="
+    <mat-card>
+      <mat-card-content>
+        <!-- Hero Section -->
+        <section class="hero-section">
+          <div class="hero-content">
+            <h1
+              style="
     background: linear-gradient(135deg, #16a085, #732d91);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: bold;
   "
-        >
-          Build a Portfolio That Reflects Your Excellence
-        </h1>
-        <h4
-          style="color:#333333; text-align: center; width: 80%; margin: 0 auto;"
-        >
-          Present your skills and achievements in a way that resonates with
-          clients, employers, and collaborators....
-        </h4>
-        <div class="hero-buttons">
-          <a
-            mat-raised-button
-            style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
-            class="get-started-button"
-            [routerLink]="'/create-portfolio'"
-          >
-            Get Started
-          </a>
-          <a
-            mat-stroked-button
-            style="border-width: 2px; padding: 12px 24px; font-size: 12px; text-transform: uppercase; color: linear-gradient(135deg, #16a085, #732d91);"
-            class="learn-more-button"
-            [routerLink]="'/about'"
-          >
-            Learn More
-          </a>
+            >
+              Build a Portfolio That Reflects Your Excellence
+            </h1>
+            <h4
+              style="color:#333333; text-align: center; width: 80%; margin: 0 auto;"
+            >
+              Present your skills and achievements in a way that resonates with
+              clients, employers, and collaborators....
+            </h4>
+            <div class="hero-buttons">
+              <a
+                mat-raised-button
+                style="background: linear-gradient(135deg, #16a085, #732d91); color: white; padding: 12px 24px; font-size: 12px; text-transform: uppercase; border: none; transition: background-color 0.3s ease-in-out;"
+                class="get-started-button"
+                [routerLink]="'/create-portfolio'"
+              >
+                Get Started
+              </a>
+              <a
+                mat-stroked-button
+                style="border-width: 2px; padding: 12px 24px; font-size: 12px; text-transform: uppercase; color: linear-gradient(135deg, #16a085, #732d91);"
+                class="learn-more-button"
+                [routerLink]="'/about'"
+              >
+                Learn More
+              </a>
+            </div>
+          </div>
+        </section>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Value Proposition -->
+    <section class="mt-4">
+      <h2 class="section-title text-center mb-4">Why Choose Us?</h2>
+      <div class="row gy-4">
+        <div class="col-md-4">
+          <mat-card class="h-100 text-center py-4">
+            <div class="d-flex justify-content-center mb-2">
+              <mat-icon
+                fontIcon="speed"
+                class="mat-icon-lg text-danger"
+              ></mat-icon>
+            </div>
+            <h4>Fast Setup</h4>
+            <p>
+              Get your portfolio up and running in minutes with our intuitive
+              platform.
+            </p>
+          </mat-card>
+        </div>
+        <div class="col-md-4">
+          <mat-card class="h-100 text-center py-4">
+            <div class="d-flex justify-content-center mb-2">
+              <mat-icon
+                fontIcon="brush"
+                class="mat-icon-lg text-primary"
+              ></mat-icon>
+            </div>
+            <h4>Custom Designs</h4>
+            <p>
+              Choose from a variety of templates that reflect your unique style
+              and personality.
+            </p>
+          </mat-card>
+        </div>
+        <div class="col-md-4">
+          <mat-card class="h-100 text-center py-4">
+            <div class="d-flex justify-content-center mb-2">
+              <mat-icon
+                fontIcon="group"
+                class="mat-icon-lg text-success"
+              ></mat-icon>
+            </div>
+            <h4>Built for Collaboration</h4>
+            <p>
+              Share your work with clients, teams, and collaborators with ease.
+            </p>
+          </mat-card>
         </div>
       </div>
+    </section>
+
+    <section class="mt-4">
+      <h2 class="section-title text-center mb-4">Our Services</h2>
+      <mat-card class="p-4">
+        <div class="text-center mb-4">
+          <mat-icon
+            fontIcon="miscellaneous_services"
+            class="mat-icon-lg text-primary"
+          ></mat-icon>
+          <h2 class="mt-2 text-bold">We Offer</h2>
+          <p class="mb-4">
+            A complete package to elevate your personal brand and presence
+            online.
+          </p>
+        </div>
+
+        <div class="row gy-4">
+          <div class="col-md-4 text-center">
+            <mat-icon
+              fontIcon="laptop_mac"
+              class="mat-icon-lg text-info mb-2"
+            ></mat-icon>
+            <h5>Portfolio Design</h5>
+            <p>
+              Responsive, visually appealing websites tailored to showcase your
+              work.
+            </p>
+          </div>
+          <div class="col-md-4 text-center">
+            <mat-icon
+              fontIcon="design_services"
+              class="mat-icon-lg text-success mb-2"
+            ></mat-icon>
+            <h5>Graphic Design</h5>
+            <p>Custom logos and branding to help your business stand out.</p>
+          </div>
+          <div class="col-md-4 text-center">
+            <mat-icon
+              fontIcon="camera_alt"
+              class="mat-icon-lg text-warning mb-2"
+            ></mat-icon>
+            <h5>Web Design</h5>
+            <p>
+              Professional photography services for events, portraits, and more.
+            </p>
+          </div>
+        </div>
+      </mat-card>
     </section>
 
     <!-- How It Works Section -->
-    <section class="how-it-works">
-      <h2 class="section-title">How It Works</h2>
-      <div class="steps">
-        <div class="step">
-          <mat-icon>account_circle</mat-icon>
-          <h4>Sign Up</h4>
-          <p>Create an account and start building your portfolio right away.</p>
+    <section class="mt-4">
+      <h2 class="section-title text-center mb-4">How It Works</h2>
+      <div class="row gy-4">
+        <div class="col-md-4">
+          <mat-card class="h-100 text-center py-4 p-3">
+            <div class="d-flex justify-content-center mb-2">
+              <mat-icon
+                fontIcon="account_circle"
+                class="mat-icon-lg text-primary"
+              ></mat-icon>
+            </div>
+            <h4>Sign Up</h4>
+            <p>
+              Create an account and start building your portfolio right away.
+            </p>
+          </mat-card>
         </div>
-        <div class="step">
-          <mat-icon>design_services</mat-icon>
-          <h4>Customize</h4>
-          <p>
-            Choose your favorite template and personalize it to fit your style.
-          </p>
+        <div class="col-md-4">
+          <mat-card class="h-100 text-center py-4 p-3">
+            <div class="d-flex justify-content-center mb-2">
+              <mat-icon
+                fontIcon="design_services"
+                class="mat-icon-lg text-success"
+              ></mat-icon>
+            </div>
+            <h4>Customize</h4>
+            <p>
+              Choose your favorite template and personalize it to fit your
+              style.
+            </p>
+          </mat-card>
         </div>
-        <div class="step">
-          <mat-icon>launch</mat-icon>
-          <h4>Publish</h4>
-          <p>
-            Once your portfolio is ready, hit publish and share it with the
-            world!
-          </p>
+        <div class="col-md-4">
+          <mat-card class="h-100 text-center py-4 p-3">
+            <div class="d-flex justify-content-center mb-2">
+              <mat-icon
+                fontIcon="launch"
+                class="mat-icon-lg text-warning"
+              ></mat-icon>
+            </div>
+            <h4>Publish</h4>
+            <p>
+              Once your portfolio is ready, hit publish and share it with the
+              world!
+            </p>
+          </mat-card>
         </div>
       </div>
     </section>
 
-    <!-- Value Proposition -->
-    <section class="value-proposition">
-      <h2 class="section-title">Why Choose Us?</h2>
-      <div class="value-items">
-        <div class="value-item">
-          <mat-icon>speed</mat-icon>
-          <h4>Fast Setup</h4>
-          <p>
-            Get your portfolio up and running in minutes with our intuitive
-            platform.
-          </p>
-        </div>
-        <div class="value-item">
-          <mat-icon>brush</mat-icon>
-          <h4>Custom Designs</h4>
-          <p>
-            Choose from a variety of templates that reflect your unique style
-            and personality.
-          </p>
-        </div>
-        <div class="value-item">
-          <mat-icon>group</mat-icon>
-          <h4>Built for Collaboration</h4>
-          <p>
-            Share your work with clients, teams, and collaborators with ease.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Our Services Section -->
-    <section class="services-section">
-      <h2 class="section-title">Our Services</h2>
-      <div class="services-list">
-        <div class="service-card">
-          <mat-icon>laptop_mac</mat-icon>
-          <h4>Portfolio Design</h4>
-          <p>
-            Responsive, visually appealing websites tailored to showcase your
-            work.
-          </p>
-        </div>
-        <div class="service-card">
-          <mat-icon>design_services</mat-icon>
-          <h4>Graphic Design</h4>
-          <p>Custom logos and branding to help your business stand out.</p>
-        </div>
-        <div class="service-card">
-          <mat-icon>camera_alt</mat-icon>
-          <h4>Web Design</h4>
-          <p>
-            Professional photography services for events, portraits, and more.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <!-- <section class="testimonials-section">
-      <h2 class="section-title text-center">Our Achievements</h2>
-      <div class="container">
-        <div class="row text-center">
-          <div class="col-12 col-md-4">
-            <div class="count-item">
-              <h3>Portfolios Created</h3>
-              <p>{{ portfolioCount }}+</p>
-            </div>
-          </div>
-          <div class="col-12 col-md-4">
-            <div class="count-item">
-              <h3>Clients</h3>
-              <p>{{ clientsCount }}+</p>
-            </div>
-          </div>
-          <div class="col-12 col-md-4">
-            <div class="count-item">
-              <h3>Successful Projects</h3>
-              <p>{{ projectsCount }}+</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> -->
-
-    <h2 class="section-title mt-5">You're Almost There!</h2>
+    <h2 class="section-title mt-4">You're Almost There!</h2>
     <!-- Call to Action Section -->
     <section class="cta-section">
       <p>Create a professional portfolio in minutes.</p>
@@ -347,7 +393,8 @@ import { RouterModule } from '@angular/router';
         color: #fff;
         text-align: center;
         padding: 40px 20px;
-        border-radius: 10px;
+        border-radius: 5px;
+        margin-top: 25px;
       }
 
       .cta-button {

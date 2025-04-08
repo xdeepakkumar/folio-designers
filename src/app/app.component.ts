@@ -20,7 +20,6 @@ import {
   HttpClientModule,
   HttpHeaders,
 } from '@angular/common/http';
-import { FooterComponent } from './components/footer/footer.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; // Import MatProgressSpinnerModule
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -38,7 +37,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatBadgeModule,
     CustomSidenavComponent,
     HttpClientModule,
-    FooterComponent,
     MatProgressSpinnerModule,
     MatSnackBarModule,
   ],
@@ -48,7 +46,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
         <button mat-icon-button (click)="toggleSidenav()">
           <mat-icon>menu</mat-icon>
         </button>
-        <span class="company-name">Folio Designers</span>
+        <span class="company-name">Foliokart</span>
         <span class="spacer"></span>
         <button mat-button *ngIf="isLargeScreen" (click)="navigateTo('about')">
           About Us
@@ -127,7 +125,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
         </mat-sidenav-content>
       </mat-sidenav-container>
 
-      <app-footer></app-footer>
+      <!-- <app-footer></app-footer> -->
     </ng-container>
 
     <ng-container *ngIf="!showLayout">
